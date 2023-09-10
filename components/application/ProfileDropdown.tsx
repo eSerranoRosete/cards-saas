@@ -35,7 +35,7 @@ export default function UserDropdown() {
           if (key !== "sign-out") {
             router.push(`/${key}`);
           } else {
-            signOut();
+            signOut({ callbackUrl: "/" });
           }
         }}
       >

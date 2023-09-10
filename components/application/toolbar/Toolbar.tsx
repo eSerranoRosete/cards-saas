@@ -5,23 +5,19 @@ export type ToolbarItem<T> = {
   tab: T;
   icon: JSX.Element;
   tooltip?: string;
+  hasAlert?: boolean;
 };
 
 type Props<T> = {
   toolbarItems: ToolbarItem<T>[];
   activeTab: T;
   setActiveTab: (tab: T) => void;
-  alerts?: {
-    tab: T;
-    value: boolean;
-  }[];
 };
 
 export function Toolbar<T>({
   toolbarItems,
   activeTab,
   setActiveTab,
-  alerts,
 }: Props<T>) {
   return (
     <div className="h-full flex flex-col gap-4">
@@ -44,7 +40,7 @@ export function Toolbar<T>({
             >
               {item.icon}
             </Button>
-            {alerts?.find((alert) => alert.tab === item.tab && alert.value) && (
+            {item.hasAlert && (
               <div className="w-3 h-3 absolute -top-1 -right-1 rounded-full bg-danger" />
             )}
           </div>

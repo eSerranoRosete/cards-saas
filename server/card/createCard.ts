@@ -22,6 +22,9 @@ export const createCard = async (values: CardType): Promise<string | null> => {
   const avatar = processBase64(values.avatar?.base64Content);
   const cover = processBase64(values.cover?.base64Content);
 
+  delete values.avatar;
+  delete values.cover;
+
   const card = await xata.db.card.create({
     ...values,
 

@@ -10,9 +10,50 @@ import {
 } from "@nextui-org/modal";
 import { Button } from "@nextui-org/button";
 import { Trash } from "lucide-react";
+import { deleteCard } from "@/server/card/deleteCard";
+import { useToast } from "./useToast";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { AppButton } from "./AppButton";
 
-export default function DeleteCardDialog() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+type Props = {
+  cardID: string;
+};
+
+export default function DeleteCardDialog({ cardID }: Props) {
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const toast = useToast();
+
+  const onDelete = async () => {
+    setLoading(true);
+
+    try {
+      await deleteCard({ cardID });
+
+      toast.set({
+        title: "Card deleted",
+        message: "Your card has been deleted successfully",
+        variant: "success",
+      });
+
+      router.push("/dashboard");
+
+      setLoading(false);
+
+      onClose();
+    } catch (error) {
+      toast.set({
+        title: "Error",
+        message: "Your card could not be deleted",
+        variant: "error",
+      });
+
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -40,9 +81,13 @@ export default function DeleteCardDialog() {
                 <Button variant="light" onPress={onClose}>
                   Cancel
                 </Button>
-                <Button color="danger" onPress={onClose}>
+                <AppButton
+                  isLoading={loading}
+                  color="danger"
+                  onPress={onDelete}
+                >
                   Delete
-                </Button>
+                </AppButton>
               </ModalFooter>
             </>
           )}

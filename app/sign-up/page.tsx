@@ -4,10 +4,15 @@ import { Card, CardBody } from "@nextui-org/card";
 import { Input } from "@nextui-org/input";
 import { Link } from "@nextui-org/link";
 import { Button } from "@nextui-org/button";
-import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import NextLink from "next/link";
+import { createUser } from "@/server/createUser";
+import { useRouter } from "next/navigation";
+import { AppButton } from "@/components/application/AppButton";
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
+import { PasswordButton } from "@/components/application/PasswordButton";
 
 type SignupValues = {
   name: string;
@@ -16,9 +21,23 @@ type SignupValues = {
 };
 
 export default function SignUpPage() {
-  const singUpForm = useForm<SignupValues>();
+  const form = useForm<SignupValues>();
+  const router = useRouter();
 
-  const onSignUp: SubmitHandler<SignupValues> = (data) => console.log(data);
+  const [isVisible, setIsVisible] = useState(false);
+  const toggleVisibility = () => setIsVisible(!isVisible);
+
+  const onSignUp: SubmitHandler<SignupValues> = async (data) => {
+    const response = await createUser(data);
+
+    if (response.error) {
+      form.setError("email", {
+        message: "Email is already in use",
+      });
+    } else {
+      router.push("/sign-in");
+    }
+  };
 
   return (
     <main className="w-full min-h-screen flex items-center justify-center">
@@ -26,49 +45,46 @@ export default function SignUpPage() {
         <CardBody className="overflow-hidden">
           <form
             className="flex flex-col gap-4"
-            onSubmit={singUpForm.handleSubmit(onSignUp)}
+            onSubmit={form.handleSubmit(onSignUp)}
           >
             <Input
               label="Name"
               placeholder="Enter your name"
-              {...singUpForm.register("name", {
+              {...form.register("name", {
                 required: "Name is required",
               })}
-              errorMessage={singUpForm.formState.errors.name?.message}
+              errorMessage={form.formState.errors.name?.message}
             />
             <Input
               label="Email"
               placeholder="Enter your email"
-              {...singUpForm.register("email", {
+              {...form.register("email", {
                 required: "Email is required",
                 pattern: {
                   value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
                   message: "Enter a valid email",
                 },
-                validate: async (value) => {
-                  const isValid = false;
-
-                  if (!isValid) {
-                    return "Email already exists";
-                  } else {
-                    return;
-                  }
-                },
               })}
-              errorMessage={singUpForm.formState.errors.email?.message}
+              errorMessage={form.formState.errors.email?.message}
             />
             <Input
               label="Password"
               placeholder="Enter a password"
-              type="password"
-              {...singUpForm.register("password", {
+              type={isVisible ? "text" : "password"}
+              {...form.register("password", {
                 required: "Password is required",
                 minLength: {
                   value: 6,
                   message: "Password must be at least 6 characters",
                 },
               })}
-              errorMessage={singUpForm.formState.errors.password?.message}
+              errorMessage={form.formState.errors.password?.message}
+              endContent={
+                <PasswordButton
+                  isVisible={isVisible}
+                  toggleVisibility={toggleVisibility}
+                />
+              }
             />
             <p className="text-center text-small">
               Already have an account?{" "}
@@ -82,9 +98,14 @@ export default function SignUpPage() {
               </Link>
             </p>
             <div className="flex gap-2 justify-end">
-              <Button type="submit" fullWidth color="primary">
+              <AppButton
+                isLoading={form.formState.isSubmitting}
+                type="submit"
+                fullWidth
+                color="primary"
+              >
                 Sign up
-              </Button>
+              </AppButton>
             </div>
           </form>
         </CardBody>

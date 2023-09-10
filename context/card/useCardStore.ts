@@ -1,3 +1,5 @@
+"use client";
+
 import { createStore, useStore } from "zustand";
 import { createContext, useContext } from "react";
 import { CardType } from "@/server/card/CardTypes";
@@ -7,20 +9,6 @@ export interface CardStoreProps extends CardType {}
 export interface StoreState extends CardStoreProps {}
 
 export interface StoreActions {
-  // setID: (id: CardType["id"]) => void;
-
-  // setTitle: (title: CardType["title"]) => void;
-  // setDescription: (description: CardType["description"]) => void;
-  // setOrganization: (organization: CardType["organization"]) => void;
-  // setAvatar: (avatar: CardType["avatar"]) => void;
-  // setCover: (cover: CardType["cover"]) => void;
-
-  // setPhone: (phone: CardType["phone"]) => void;
-  // setEmail: (email: CardType["email"]) => void;
-
-  // setSettings: (settings: CardType["settings"]) => void;
-
-  // setSocial: (social: CardType["social"]) => void;
   setState: (state: Partial<StoreState>) => void;
 }
 
@@ -34,24 +22,24 @@ export const createCardStore = (initProps?: Partial<CardStoreProps>) => {
     ...DEFAULT_PROPS,
     ...initProps,
 
-    // setID: (id) => set({ id }),
-
-    // setTitle: (title) => set({ title }),
-    // setDescription: (description) => set({ description }),
-    // setOrganization: (organization) => set({ organization }),
-    // setAvatar: (avatar) => set({ avatar }),
-    // setCover: (cover) => set({ cover }),
-
-    // setPhone: (phone) => set({ phone }),
-    // setEmail: (email) => set({ email }),
-
-    // setSettings: (settings) => {
-    //   const { settings: currentSettings } = get();
-    //   return set({ settings: { ...currentSettings, ...settings } });
-    // },
-
-    // setSocial: (social) => set({ social }),
-    setState: (state) => set(state),
+    setState: (state) => {
+      const currentState = get();
+      return set({
+        ...state,
+        cover: {
+          ...currentState.cover,
+          ...state.cover,
+        },
+        avatar: {
+          ...currentState.avatar,
+          ...state.avatar,
+        },
+        settings: {
+          ...currentState.settings,
+          ...state.settings,
+        },
+      });
+    },
   }));
 };
 
@@ -77,16 +65,6 @@ export const useCardStore = () => {
   }));
 
   const actions: StoreActions = useStore(context, (s) => ({
-    // setID: s.setID,
-    // setTitle: s.setTitle,
-    // setDescription: s.setDescription,
-    // setOrganization: s.setOrganization,
-    // setAvatar: s.setAvatar,
-    // setCover: s.setCover,
-    // setPhone: s.setPhone,
-    // setEmail: s.setEmail,
-    // setSettings: s.setSettings,
-    // setSocial: s.setSocial,
     setState: s.setState,
   }));
 

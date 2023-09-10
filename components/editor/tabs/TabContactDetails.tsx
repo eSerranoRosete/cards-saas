@@ -2,11 +2,25 @@ import { Input } from "@nextui-org/input";
 import { PanelHeader } from "@/components/application/panel/PanelHeader";
 import { SwitchCard } from "@/components/application/SwitchCard";
 import { EditorTabProps } from "../EditorWorkspace";
-import { CardType } from "@/server/card/CardTypes";
+import { useWatchErrors } from "@/hooks/useWatchErrors";
+import { useCardStore } from "@/context/card/useCardStore";
 
-export const tabFields: (keyof CardType)[] = ["email", "phone", "settings"];
+const tabFields = ["email", "phone"];
 
-export const TabContactDetails = ({ isActive, form }: EditorTabProps) => {
+export const TabContactDetails = ({
+  isActive,
+  form,
+  setAlert,
+}: EditorTabProps) => {
+  const { actions } = useCardStore();
+
+  useWatchErrors({
+    form,
+    tabFields,
+    tab: "contact",
+    setAlert,
+  });
+
   return (
     <PanelHeader
       isActive={isActive}
@@ -26,6 +40,7 @@ export const TabContactDetails = ({ isActive, form }: EditorTabProps) => {
             },
           })}
           errorMessage={form.formState.errors.email?.message}
+          onValueChange={(value) => actions.setState({ email: value })}
         />
         <Input
           size="sm"
@@ -34,22 +49,25 @@ export const TabContactDetails = ({ isActive, form }: EditorTabProps) => {
           placeholder="Ex. +52 55 5555 5555"
           {...form.register("phone")}
           errorMessage={form.formState.errors.phone?.message}
+          onValueChange={(value) => actions.setState({ phone: value })}
         />
         <SwitchCard
           title="Contact Button"
           description="Show a button to allow users to contact you"
           defaultSelected={form.getValues("settings.showContactButton")}
-          onValueChange={(value) =>
-            form.setValue("settings.showContactButton", value)
-          }
+          onValueChange={(value) => {
+            form.setValue("settings.showContactButton", value);
+            actions.setState({ settings: { showContactButton: value } });
+          }}
         />
         <SwitchCard
           title="Share Button"
           description="Show a button to allow users to share your card"
           defaultSelected={form.getValues("settings.showShareButton")}
-          onValueChange={(value) =>
-            form.setValue("settings.showShareButton", value)
-          }
+          onValueChange={(value) => {
+            form.setValue("settings.showShareButton", value);
+            actions.setState({ settings: { showShareButton: value } });
+          }}
         />
       </form>
     </PanelHeader>

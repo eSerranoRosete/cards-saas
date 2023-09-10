@@ -21,15 +21,21 @@ import { useCardStore } from "@/context/card/useCardStore";
 
 import { UseFormReturn, useForm } from "react-hook-form";
 
-import { useEffect } from "react";
-import { createPortal } from "react-dom";
 import { useToast } from "../application/useToast";
-import { useToolbarAlerts } from "@/hooks/useToolbarAlerts";
+
+import { useWithAlerts } from "@/hooks/useWithAlerts";
+import { TabModules } from "./tabs/TabModules";
+import { TabSocial } from "./tabs/TabSocial";
+import { TabSettings } from "./tabs/TabSettings";
+import { CardTemplate } from "./CardTemplate";
+import { createCard } from "@/server/card/createCard";
+import { updateCard } from "@/server/card/updateCard";
+import { useRouter } from "next/navigation";
+import { ScrollShadow } from "@nextui-org/scroll-shadow";
 
 export type EditorTabProps = {
   isActive?: boolean;
   form: UseFormReturn<EditorFormValues, any, undefined>;
-  hasAlert?: boolean;
   setAlert?: (tab: EditorTabs, value: boolean) => void;
 };
 
@@ -67,9 +73,9 @@ export const EditorWorkspaceInner = () => {
   const { activeTab, setActiveTab } = useTabs({ items: toolbarItems });
   const { state, actions } = useCardStore();
 
-  const toast = useToast();
+  const router = useRouter();
 
-  const { setAlert, hasAlert, alerts } = useToolbarAlerts(toolbarItems);
+  const toast = useToast();
 
   const form = useForm<EditorFormValues>({
     defaultValues: {
@@ -77,25 +83,58 @@ export const EditorWorkspaceInner = () => {
     },
   });
 
-  const onSubmit = (values: EditorFormValues) => {
+  const { setAlert, items } = useWithAlerts(toolbarItems);
+
+  const onSubmit = async (values: EditorFormValues) => {
     actions.setState({
       ...values,
     });
 
-    toast.set({
-      title: "Success!",
-      message: "Changes to your card have been saved.",
-      variant: "success",
-    });
+    try {
+      if (!values.id) {
+        console.log("🔥", state);
+
+        const id = await createCard({ ...state });
+
+        router.push(`/editor/${id}`);
+      } else {
+        await updateCard({ ...state });
+      }
+
+      toast.set({
+        title: "Success!",
+        message: "Changes to your card have been saved.",
+        variant: "success",
+      });
+    } catch (error) {
+      toast.set({
+        title: "Error",
+        message: "Changes to your card could not be saved.",
+        variant: "error",
+      });
+    }
+  };
+
+  const onClick = async () => {
+    const isValid = await form.trigger();
+
+    if (isValid) {
+      form.handleSubmit(onSubmit)();
+    } else {
+      toast.set({
+        title: "Changes not saved",
+        message: "Check the form for errors.",
+        variant: "error",
+      });
+    }
   };
 
   return (
     <div className="w-full flex gap-5 h-[calc(100vh-25vh)]">
       <Toolbar
-        toolbarItems={toolbarItems}
+        toolbarItems={items}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        alerts={alerts}
       />
 
       <Divider orientation="vertical" />
@@ -104,33 +143,48 @@ export const EditorWorkspaceInner = () => {
         <TabBasicDetails
           form={form}
           isActive={activeTab === "basic"}
-          hasAlert={hasAlert("basic")}
           setAlert={setAlert}
         />
 
         <TabContactDetails
           form={form}
           isActive={activeTab === "contact"}
-          hasAlert={hasAlert("contact")}
           setAlert={setAlert}
         />
 
-        {/* <TabModules isActive={activeTab === "modules"} />
+        <TabModules
+          form={form}
+          isActive={activeTab === "modules"}
+          setAlert={setAlert}
+        />
 
-        <TabSocial isActive={activeTab === "social"} />
+        <TabSocial
+          form={form}
+          isActive={activeTab === "social"}
+          setAlert={setAlert}
+        />
 
-        <TabSettings isActive={activeTab === "settings"} /> */}
+        <TabSettings
+          form={form}
+          isActive={activeTab === "settings"}
+          setAlert={setAlert}
+        />
 
         <AppButton
           startContent={<Save className="w-4" />}
           className="bottom-0 right-0 absolute"
           color="primary"
-          onClick={form.handleSubmit(onSubmit)}
+          onClick={onClick}
+          isLoading={form.formState.isSubmitting}
         >
           Save
         </AppButton>
       </div>
-      <div className="w-full h-full bg-default-50 rounded-medium"></div>
+      <div className="w-full h-full bg-default-50 p-4 rounded-medium overflow-hidden">
+        <ScrollShadow size={5} className="h-full">
+          <CardTemplate view="edit" />
+        </ScrollShadow>
+      </div>
     </div>
   );
 };

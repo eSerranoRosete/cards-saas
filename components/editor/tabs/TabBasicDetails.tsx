@@ -3,25 +3,24 @@
 import { PanelHeader } from "@/components/application/panel/PanelHeader";
 import { Input } from "@nextui-org/input";
 import { EditorTabProps } from "../EditorWorkspace";
-import { useEffect } from "react";
+import { useWatchErrors } from "@/hooks/useWatchErrors";
+import { useCardStore } from "@/context/card/useCardStore";
+
+const tabFields = ["title", "description", "organization"];
 
 export const TabBasicDetails = ({
   isActive,
   form,
-  hasAlert,
   setAlert,
 }: EditorTabProps) => {
-  console.log("🔥", hasAlert);
+  const { actions } = useCardStore();
 
-  useEffect(() => {
-    const {
-      formState: { errors },
-    } = form;
-
-    if (errors.title || errors.description || errors.organization) {
-      setAlert && setAlert("basic", true);
-    }
-  }, [form.formState.errors]);
+  useWatchErrors({
+    form,
+    tabFields,
+    tab: "basic",
+    setAlert,
+  });
 
   return (
     <PanelHeader
@@ -32,13 +31,13 @@ export const TabBasicDetails = ({
       <form className="grid gap-4">
         <Input
           size="sm"
-          type="text"
           label="Display Title"
           placeholder="Ex. Jhon Doe"
           {...form.register("title", {
             required: "Title is required",
           })}
           errorMessage={form.formState.errors.title?.message}
+          onValueChange={(value) => actions.setState({ title: value })}
         />
         <Input
           size="sm"
@@ -46,6 +45,7 @@ export const TabBasicDetails = ({
           label="Display Description"
           placeholder="Ex. Software Engineer"
           {...form.register("description")}
+          onValueChange={(value) => actions.setState({ description: value })}
         />
         <Input
           size="sm"
@@ -53,6 +53,7 @@ export const TabBasicDetails = ({
           label="Organization"
           placeholder="Ex. Google"
           {...form.register("organization")}
+          onValueChange={(value) => actions.setState({ organization: value })}
         />
       </form>
     </PanelHeader>

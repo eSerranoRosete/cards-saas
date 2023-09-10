@@ -8,6 +8,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import NextLink from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { useState } from "react";
+import { PasswordButton } from "@/components/application/PasswordButton";
 
 type SignInValues = {
   email: string;
@@ -20,14 +22,15 @@ export default function SignInPage() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
 
+  const [isVisible, setIsVisible] = useState(false);
+  const toggleVisibility = () => setIsVisible(!isVisible);
+
   const onLogin: SubmitHandler<SignInValues> = async (data) => {
     const res = await signIn("credentials", {
       username: data.email,
       password: data.password,
       redirect: false,
     });
-
-    console.log("res", res);
 
     if (res?.error) {
       return signInForm.setError("password", {
@@ -61,11 +64,17 @@ export default function SignInPage() {
             <Input
               label="Password"
               placeholder="Enter your password"
-              type="password"
+              type={isVisible ? "text" : "password"}
               errorMessage={signInForm.formState.errors.password?.message}
               {...signInForm.register("password", {
                 required: "Password is required",
               })}
+              endContent={
+                <PasswordButton
+                  isVisible={isVisible}
+                  toggleVisibility={toggleVisibility}
+                />
+              }
             />
             <p className="text-center text-small">
               Need to create an account?{" "}

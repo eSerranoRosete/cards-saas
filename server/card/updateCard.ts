@@ -32,9 +32,6 @@ export const updateCard = async (values: CardType): Promise<string | null> => {
   const avatar = processBase64(values.avatar?.base64Content);
   const cover = processBase64(values.cover?.base64Content);
 
-  console.log("avatar", values.avatar);
-  console.log("cover", values.cover);
-
   const card = await xata.db.card.update(currentCard.id, {
     ...values,
 

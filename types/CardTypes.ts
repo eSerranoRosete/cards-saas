@@ -24,7 +24,7 @@ export type CardSettings = {
 };
 
 export type CardModules = {
-  blockquote?: string;
+  bio?: string;
 };
 
 export type SocialItem = {

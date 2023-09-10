@@ -1,4 +1,4 @@
-import { CardTemplateModern } from "@/components/editor/CardTemplateModern";
+import { CardTemplateModern } from "@/components/application/card/CardTemplateModern";
 import { CardProvider } from "@/context/card/CardProvider";
 import { getPublicCard } from "@/server/card/getPublicCard";
 import { notFound } from "next/navigation";

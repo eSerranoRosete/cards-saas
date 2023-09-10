@@ -4,14 +4,14 @@ import { useCardStore } from "@/context/card/useCardStore";
 import { Button } from "@nextui-org/button";
 
 import { Image } from "@nextui-org/image";
-import UploadAssetDialog from "../application/UploadAssetDialog";
+import UploadAssetDialog from "../UploadAssetDialog";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { XIcon } from "lucide-react";
 
 import QrCode from "qrcode";
-import { CardCarousel } from "../application/card/CardCarousel";
+import { CardCarousel } from "./CardCarousel";
 
 type Props = {
   view: "edit" | "preview";
@@ -118,9 +118,9 @@ export const CardTemplateModern = ({ view }: Props) => {
         )}
       </div>
 
-      {state.modules?.blockquote && (
+      {state.modules?.bio && (
         <div className="rounded-large bg-default-50 p-4 text-center text-sm">
-          {state.modules.blockquote}
+          {state.modules.bio}
         </div>
       )}
 

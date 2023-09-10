@@ -78,12 +78,12 @@ export const CardTemplate = ({ view }: Props) => {
         )}
       </div>
 
-      {state.modules?.blockquote && (
+      {state.modules?.bio && (
         <div className="w-full m-auto rounded-large max-w-sm bg-slate-200 shadow-md p-5 mt-5 text-black">
-          <blockquote
+          <bio
             className="text-center text-sm"
-            dangerouslySetInnerHTML={{ __html: state.modules.blockquote }}
-          ></blockquote>
+            dangerouslySetInnerHTML={{ __html: state.modules.bio }}
+          ></bio>
         </div>
       )}
     </div>

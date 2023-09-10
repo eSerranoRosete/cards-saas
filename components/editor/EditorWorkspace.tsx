@@ -34,7 +34,7 @@ import { updateCard } from "@/server/card/updateCard";
 import { useRouter } from "next/navigation";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import { Button } from "@nextui-org/button";
-import { CardTemplateModern } from "./CardTemplateModern";
+import { CardTemplateModern } from "../application/card/CardTemplateModern";
 
 export type EditorTabProps = {
   isActive?: boolean;

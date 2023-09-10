@@ -1,7 +1,6 @@
-import { CardTemplate } from "@/components/editor/CardTemplate";
 import { CardTemplateModern } from "@/components/editor/CardTemplateModern";
 import { CardProvider } from "@/context/card/CardProvider";
-import { getSingleCard } from "@/server/card/getSingleCard";
+import { getPublicCard } from "@/server/card/getPublicCard";
 import { notFound } from "next/navigation";
 
 type Props = {
@@ -11,7 +10,7 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
-  const card = await getSingleCard({ cardID: params.id });
+  const card = await getPublicCard({ cardID: params.id });
 
   if (!card) notFound();
 

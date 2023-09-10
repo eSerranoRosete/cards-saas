@@ -30,6 +30,7 @@ export const CardTemplateModern = ({ view }: Props) => {
           </div>
         )}
         <Image
+          alt={state.title}
           className="w-full"
           removeWrapper
           src={state.avatar?.base64Content || state.avatar?.url}

@@ -25,7 +25,7 @@ export const Toaster = () => {
       }, 3000);
       return () => clearTimeout(timeout);
     }
-  }, [store.toast]);
+  }, [store]);
 
   return (
     <AnimatePresence>

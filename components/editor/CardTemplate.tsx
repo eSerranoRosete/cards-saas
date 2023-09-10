@@ -17,6 +17,7 @@ export const CardTemplate = ({ view }: Props) => {
       <div className="w-full h-80 relative">
         <div className="w-full h-full bg-slate-300 shadow rounded-none group/cover object-center overflow-clip object-cover rounded-b-3xl">
           <img
+            alt={state.title}
             src={state.cover?.base64Content || state.cover?.url}
             className="w-full h-full rounded-none object-center object-cover"
           />
@@ -33,6 +34,7 @@ export const CardTemplate = ({ view }: Props) => {
 
         <div className="w-36 h-36 z-10 bg-slate-200 shadow group/avatar overflow-hidden rounded-3xl absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2">
           <img
+            alt={state.title}
             src={state.avatar?.base64Content || state.avatar?.url}
             className="w-full h-full aspect-square object-center object-cover"
           />

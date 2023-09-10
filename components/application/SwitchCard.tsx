@@ -24,3 +24,5 @@ export const SwitchCard = forwardRef(
     );
   }
 );
+
+SwitchCard.displayName = "SwitchCard";

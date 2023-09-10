@@ -6,11 +6,12 @@ import { Button } from "@nextui-org/button";
 import { Image } from "@nextui-org/image";
 import UploadAssetDialog from "../application/UploadAssetDialog";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { XIcon } from "lucide-react";
 
 import QrCode from "qrcode";
+import { CardCarousel } from "../application/card/CardCarousel";
 
 type Props = {
   view: "edit" | "preview";
@@ -20,6 +21,7 @@ export const CardTemplateModern = ({ view }: Props) => {
   const { state, actions } = useCardStore();
   const [shareOpen, setShareOpen] = useState(false);
   const [qrCode, setQrCode] = useState<string>();
+  const [scrollTop, setScrollTop] = useState(0);
 
   const generate = async () => {
     const url = `${window.location.origin}/card/${state.id}`;
@@ -47,8 +49,23 @@ export const CardTemplateModern = ({ view }: Props) => {
     exit: { bottom: "-100%" },
   };
 
+  useEffect(() => {
+    const handleScroll = (event: any) => {
+      setScrollTop(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="w-full max-w-sm grid gap-8 relative overflow-clip rounded-large p-3 m-auto bg-black">
+    <div
+      onScroll={() => console.log("Scrolling")}
+      className="w-full max-w-sm grid gap-8 relative rounded-large p-3 m-auto bg-black"
+    >
       <div className="relative rounded-large overflow-clip mb-3 bg-default-50 min-h-[300px]">
         {view === "edit" && (
           <div className="absolute top-2 right-2 z-20">
@@ -69,7 +86,12 @@ export const CardTemplateModern = ({ view }: Props) => {
           src={state.avatar?.base64Content || state.avatar?.url}
         />
         <div className="w-full h-1/2 bg-gradient-to-t from-black to-transparent absolute bottom-0 z-10" />
-        <div className="z-20 w-full bottom-0 absolute text-center">
+        <div
+          style={{
+            transform: `translateY(-${scrollTop / 8}px)`,
+          }}
+          className="z-20 w-full bottom-0 absolute text-center"
+        >
           <h1 className="text-3xl font-bold ">{state.title}</h1>
           <p className="text-sm max-w-[200px] m-auto mb-2">
             {state.description}
@@ -101,6 +123,8 @@ export const CardTemplateModern = ({ view }: Props) => {
           {state.modules.blockquote}
         </div>
       )}
+
+      <CardCarousel />
 
       <AnimatePresence>
         {shareOpen && (

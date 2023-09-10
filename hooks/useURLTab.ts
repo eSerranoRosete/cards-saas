@@ -1,11 +1,11 @@
 import { ToolbarItem } from "@/components/application/toolbar/Toolbar";
 import { useSearchParams } from "next/navigation";
 
-type Props<T> = {
+type Props<T extends string> = {
   items: ToolbarItem<T>[];
 };
 
-export function useURLTab<T>({ items }: Props<T>): T {
+export function useURLTab<T extends string>({ items }: Props<T>): T {
   const defaultTab = items[0].tab;
 
   const searchParams = useSearchParams();

@@ -2,11 +2,11 @@ import { ToolbarItem } from "@/components/application/toolbar/Toolbar";
 import { useEffect, useState } from "react";
 import { useURLTab } from "./useURLTab";
 
-type Props<T> = {
+type Props<T extends string> = {
   items: ToolbarItem<T>[];
 };
 
-export function useTabs<T>({ items }: Props<T>) {
+export function useTabs<T extends string>({ items }: Props<T>) {
   const tab = useURLTab({ items });
   const [currentTab, setCurrentTab] = useState(tab);
 

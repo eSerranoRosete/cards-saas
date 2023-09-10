@@ -41,6 +41,7 @@ export const CardCarousel = () => {
               removeWrapper
               className="w-full h-full object-cover"
               src={item.img}
+              alt={item.title || ""}
             />
           </div>
           {(item.title || item.description) && (

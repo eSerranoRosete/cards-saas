@@ -1,6 +1,6 @@
 "use client";
 import { CardContext, createCardStore } from "@/context/card/useCardStore";
-import { CardType } from "@/server/card/CardTypes";
+import { CardType } from "@/types/CardTypes";
 import { useRef } from "react";
 
 type CardPropviderProps = {

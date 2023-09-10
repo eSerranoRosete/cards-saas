@@ -3,7 +3,7 @@
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import { getXataClient } from "@/xata";
 import { getServerSession } from "next-auth";
-import { CardType } from "./CardTypes";
+import { CardType } from "../../types/CardTypes";
 
 export const getUserCards = async (): Promise<CardType[]> => {
   const session = await getServerSession(options);

@@ -2,7 +2,7 @@
 
 import { createStore, useStore } from "zustand";
 import { createContext, useContext } from "react";
-import { CardType } from "@/server/card/CardTypes";
+import { CardType } from "@/types/CardTypes";
 
 export interface CardStoreProps extends CardType {}
 
@@ -38,6 +38,10 @@ export const createCardStore = (initProps?: Partial<CardStoreProps>) => {
           ...currentState.settings,
           ...state.settings,
         },
+        modules: {
+          ...currentState.modules,
+          ...state.modules,
+        },
       });
     },
   }));
@@ -62,6 +66,7 @@ export const useCardStore = () => {
     email: s.email,
     settings: s.settings,
     social: s.social,
+    modules: s.modules,
   }));
 
   const actions: StoreActions = useStore(context, (s) => ({

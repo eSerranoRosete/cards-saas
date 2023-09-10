@@ -8,6 +8,9 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/modal";
+
+import ColorThief from "colorthief";
+
 import { Button } from "@nextui-org/button";
 import { UploadCloud } from "lucide-react";
 
@@ -16,25 +19,11 @@ import { useCallback } from "react";
 
 type Props = {
   onSuccess?: (imageString: string) => void;
+  onColor?: (color: string) => void;
 };
 
-export default function UploadAssetDialog({ onSuccess }: Props) {
+export default function UploadAssetDialog({ onSuccess, onColor }: Props) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-
-  const onDrop = (e: DropEvent) => {
-    const file = e; // Get the first selected file
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const imageString = event.target?.result; // This is the data URL representing the image
-
-        if (imageString) {
-          onSuccess?.(imageString as any); // Pass the data URL to onSuccess
-          onClose();
-        }
-      };
-    }
-  };
 
   return (
     <>
@@ -73,6 +62,19 @@ export default function UploadAssetDialog({ onSuccess }: Props) {
                         const reader = new FileReader();
                         reader.onload = (event) => {
                           const imageString = event.target?.result; // This is the data URL representing the image
+
+                          const img = new Image();
+
+                          img.onload = () => {
+                            const colorThief = new ColorThief();
+                            const c = colorThief.getColor(img);
+
+                            const rbgString = `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
+
+                            onColor && onColor(rbgString);
+                          };
+
+                          img.src = event.target?.result as string;
 
                           if (imageString) {
                             onSuccess && onSuccess(imageString as any); // Pass the data URL to onSuccess

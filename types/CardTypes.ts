@@ -13,11 +13,18 @@ export interface CardType {
   settings?: CardSettings;
 
   social: SocialItem[];
+
+  modules?: CardModules;
 }
 
 export type CardSettings = {
   showContactButton?: boolean;
   showShareButton?: boolean;
+  dominantColor?: string;
+};
+
+export type CardModules = {
+  blockquote?: string;
 };
 
 export type SocialItem = {

@@ -1,20 +1,20 @@
 import { Button } from "@nextui-org/button";
 import { Tooltip } from "@nextui-org/tooltip";
 
-export type ToolbarItem<T> = {
+export type ToolbarItem<T extends string> = {
   tab: T;
   icon: JSX.Element;
   tooltip?: string;
   hasAlert?: boolean;
 };
 
-type Props<T> = {
+type Props<T extends string> = {
   toolbarItems: ToolbarItem<T>[];
   activeTab: T;
   setActiveTab: (tab: T) => void;
 };
 
-export function Toolbar<T>({
+export function Toolbar<T extends string>({
   toolbarItems,
   activeTab,
   setActiveTab,

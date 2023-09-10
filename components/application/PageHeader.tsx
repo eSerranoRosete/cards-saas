@@ -12,7 +12,7 @@ export const PageHeader = ({ actions, title, backLink }: Props) => {
   return (
     <section className="flex my-7 items-center">
       <div className="grow flex space-x-2 items-baseline">
-        <h1 className="text-2xl flex gap-2 font-medium">
+        <h1 className="text-2xl flex gap-2 font-semibold">
           {backLink && (
             <Button
               href={backLink}

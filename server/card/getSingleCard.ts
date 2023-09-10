@@ -3,7 +3,7 @@
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import { getXataClient } from "@/xata";
 import { getServerSession } from "next-auth";
-import { CardType } from "./CardTypes";
+import { CardType } from "../../types/CardTypes";
 
 type Props = {
   cardID: string;

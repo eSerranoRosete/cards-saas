@@ -5,7 +5,7 @@ import { getXataClient } from "@/xata";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 
-import { CardType } from "./CardTypes";
+import { CardType } from "../../types/CardTypes";
 import { processBase64 } from "@/lib/processBase64";
 
 export const createCard = async (values: CardType): Promise<string | null> => {

@@ -1,4 +1,5 @@
 import { CardTemplate } from "@/components/editor/CardTemplate";
+import { CardTemplateModern } from "@/components/editor/CardTemplateModern";
 import { CardProvider } from "@/context/card/CardProvider";
 import { getSingleCard } from "@/server/card/getSingleCard";
 import { notFound } from "next/navigation";
@@ -16,7 +17,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <CardProvider state={card}>
-      <CardTemplate view="preview" />
+      <CardTemplateModern view="preview" />
     </CardProvider>
   );
 }

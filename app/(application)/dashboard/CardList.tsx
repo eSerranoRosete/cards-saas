@@ -1,6 +1,6 @@
 "use client";
 
-import { CardType } from "@/server/card/CardTypes";
+import { CardType } from "@/types/CardTypes";
 import { Card, CardFooter } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import { useRouter } from "next/navigation";
@@ -18,14 +18,15 @@ export const CardList = ({ cards }: Props) => {
         <Card
           key={card.id}
           radius="lg"
-          className="border-none h-40"
+          className="border-none h-72"
           isPressable
           onPress={() => router.push(`/editor/${card.id}`)}
         >
           <Image
             alt={card.title}
             className="object-cover w-full h-full"
-            src={card.cover?.url}
+            removeWrapper
+            src={card.avatar?.url}
           />
           <CardFooter className="p-2 bg-default-50 shadow-small px-4 absolute bottom-0 z-10">
             <div className="text-left">

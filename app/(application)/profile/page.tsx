@@ -4,10 +4,17 @@ import { PageHeader } from "@/components/application/PageHeader";
 import { Toolbar, ToolbarItem } from "@/components/application/toolbar/Toolbar";
 import { Divider } from "@nextui-org/divider";
 import { Lock, User, Wallet } from "lucide-react";
-import { ProfileTabs } from "./(tabs)/Tabs";
+
 import { useTabs } from "@/hooks/useTabs";
+import { TabAccountInfo } from "./(tabs)/TabAccountInfo";
+import { TabAccountSecurity } from "./(tabs)/TabAccountSecurity";
+import { TabBillingInfo } from "./(tabs)/TabBillingInfo";
 
 export type ProfileTab = "personal" | "billing" | "security";
+
+export type ProfileTabProps = {
+  isActive?: boolean;
+};
 
 const toolbarItems: ToolbarItem<ProfileTab>[] = [
   {
@@ -41,7 +48,11 @@ export default function ProfilePage() {
         />
         <Divider orientation="vertical" />
         <div className="w-full max-w-lg relative">
-          <ProfileTabs activeTab={activeTab} />
+          <TabAccountInfo isActive={activeTab === "personal"} />
+
+          <TabBillingInfo isActive={activeTab === "billing"} />
+
+          <TabAccountSecurity isActive={activeTab === "security"} />
         </div>
       </div>
     </>

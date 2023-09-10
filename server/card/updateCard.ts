@@ -5,7 +5,7 @@ import { getXataClient } from "@/xata";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 
-import { CardType } from "./CardTypes";
+import { CardType } from "../../types/CardTypes";
 import { processBase64 } from "@/lib/processBase64";
 
 export const updateCard = async (values: CardType): Promise<string | null> => {
@@ -29,14 +29,14 @@ export const updateCard = async (values: CardType): Promise<string | null> => {
     throw new Error("You don't have permission to update this card");
   }
 
-  const avatar = processBase64(values.avatar?.base64Content);
-  const cover = processBase64(values.cover?.base64Content);
+  values.avatar =
+    processBase64(values.avatar?.base64Content) ||
+    currentCard.avatar?.attributes;
+  values.cover =
+    processBase64(values.cover?.base64Content) || currentCard.cover?.attributes;
 
   const card = await xata.db.card.update(currentCard.id, {
     ...values,
-
-    ...(avatar && { avatar }),
-    ...(cover && { cover }),
 
     id: currentCard.id,
   });

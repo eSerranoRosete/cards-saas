@@ -5,6 +5,8 @@ import { PlusCircle } from "lucide-react";
 import NextLink from "next/link";
 import { CardList } from "./CardList";
 import { getUserCards } from "@/server/card/getUserCards";
+import PremiumProtected from "@/components/application/PremiumProtected";
+import { NoCardsBanner } from "@/components/NoCardsBanner";
 
 export default async function DashboardPage() {
   const cards = await getUserCards();
@@ -12,19 +14,22 @@ export default async function DashboardPage() {
   return (
     <div>
       <PageHeader
-        title="Dashboard"
+        title="Your Active Cards"
         actions={
-          <Button
-            as={NextLink}
-            href="/editor"
-            startContent={<PlusCircle className="w-4" />}
-            size="md"
-            color="primary"
-          >
-            Create Card
-          </Button>
+          <PremiumProtected>
+            <Button
+              as={NextLink}
+              href="/editor"
+              startContent={<PlusCircle className="w-4" />}
+              size="md"
+              color="primary"
+            >
+              Create Card
+            </Button>
+          </PremiumProtected>
         }
       />
+      {cards.length === 0 && <NoCardsBanner />}
       <CardList cards={cards} />
     </div>
   );

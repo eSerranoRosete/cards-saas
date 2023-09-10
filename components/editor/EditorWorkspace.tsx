@@ -1,5 +1,6 @@
 "use client";
 
+import NextLink from "next/link";
 import { EditorTabs } from "@/types/EditorTypes";
 import { Divider } from "@nextui-org/divider";
 import {
@@ -15,13 +16,13 @@ import { TabContactDetails } from "./tabs/TabContactDetails";
 import { Toolbar, ToolbarItem } from "../application/toolbar/Toolbar";
 import { useTabs } from "@/hooks/useTabs";
 import { CardProvider } from "@/context/card/CardProvider";
-import { CardType } from "@/server/card/CardTypes";
+import { CardType } from "@/types/CardTypes";
 import { AppButton } from "../application/AppButton";
 import { useCardStore } from "@/context/card/useCardStore";
 
 import { UseFormReturn, useForm } from "react-hook-form";
 
-import { useToast } from "../application/useToast";
+import { useToast } from "../application/toast/useToast";
 
 import { useWithAlerts } from "@/hooks/useWithAlerts";
 import { TabModules } from "./tabs/TabModules";
@@ -32,6 +33,8 @@ import { createCard } from "@/server/card/createCard";
 import { updateCard } from "@/server/card/updateCard";
 import { useRouter } from "next/navigation";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
+import { Button } from "@nextui-org/button";
+import { CardTemplateModern } from "./CardTemplateModern";
 
 export type EditorTabProps = {
   isActive?: boolean;
@@ -86,14 +89,14 @@ export const EditorWorkspaceInner = () => {
   const { setAlert, items } = useWithAlerts(toolbarItems);
 
   const onSubmit = async (values: EditorFormValues) => {
+    console.log(values.settings);
+
     actions.setState({
       ...values,
     });
 
     try {
       if (!values.id) {
-        console.log("🔥", state);
-
         const id = await createCard({ ...state });
 
         router.push(`/editor/${id}`);
@@ -170,19 +173,23 @@ export const EditorWorkspaceInner = () => {
           setAlert={setAlert}
         />
 
-        <AppButton
-          startContent={<Save className="w-4" />}
-          className="bottom-0 right-0 absolute"
-          color="primary"
-          onClick={onClick}
-          isLoading={form.formState.isSubmitting}
-        >
-          Save
-        </AppButton>
+        <div className="bottom-0 flex items-center gap-2 right-0 absolute">
+          <Button variant="flat" as={NextLink} href="/dashboard">
+            Cancel
+          </Button>
+          <AppButton
+            startContent={<Save className="w-4" />}
+            color="primary"
+            onClick={onClick}
+            isLoading={form.formState.isSubmitting}
+          >
+            Save
+          </AppButton>
+        </div>
       </div>
       <div className="w-full h-full bg-default-50 p-4 rounded-medium overflow-hidden">
-        <ScrollShadow size={5} className="h-full">
-          <CardTemplate view="edit" />
+        <ScrollShadow size={40} className="h-full">
+          <CardTemplateModern view="edit" />
         </ScrollShadow>
       </div>
     </div>

@@ -13,8 +13,8 @@ export const CardTemplate = ({ view }: Props) => {
   const { state, actions } = useCardStore();
 
   return (
-    <div className="w-full max-w-md m-auto bg-slate-200 overflow-clip pb-10 rounded-b-3xl relative h-auto min-h-[100%]">
-      <div className="w-full h-72 relative">
+    <div className="w-full max-w-md m-auto bg-slate-100 overflow-clip pb-10 rounded-3xl relative h-auto min-h-[100%]">
+      <div className="w-full h-80 relative">
         <div className="w-full h-full bg-slate-300 shadow rounded-none group/cover object-center overflow-clip object-cover rounded-b-3xl">
           <img
             src={state.cover?.base64Content || state.cover?.url}
@@ -49,16 +49,16 @@ export const CardTemplate = ({ view }: Props) => {
       </div>
       <div className="mt-24 text-black text-center mb-5">
         <h4 className="text-2xl font-bold">{state.title}</h4>
-        <p className="m-auto mb-1 max-w-xs text-sm">{state.description}</p>
+        <p className="m-auto mb-1 text-sm">{state.description}</p>
         <div className="flex items-center justify-center text-sm font-bold">
           {state.organization}
         </div>
       </div>
-      <div className="w-full flex flex-col items-center gap-2">
+      <div className="w-full flex flex-col max-w-sm m-auto items-center gap-2">
         {state.settings?.showContactButton && (
           <Button
             startContent={<Download className="w-4" />}
-            className="w-full max-w-xs"
+            className="w-full"
             color="primary"
           >
             Save to Contacts
@@ -68,13 +68,22 @@ export const CardTemplate = ({ view }: Props) => {
         {state.settings?.showShareButton && (
           <Button
             startContent={<Share2 className="w-4" />}
-            className="w-full max-w-xs"
+            className="w-full"
             color="primary"
           >
             Share Card
           </Button>
         )}
       </div>
+
+      {state.modules?.blockquote && (
+        <div className="w-full m-auto rounded-large max-w-sm bg-slate-200 shadow-md p-5 mt-5 text-black">
+          <blockquote
+            className="text-center text-sm"
+            dangerouslySetInnerHTML={{ __html: state.modules.blockquote }}
+          ></blockquote>
+        </div>
+      )}
     </div>
   );
 };

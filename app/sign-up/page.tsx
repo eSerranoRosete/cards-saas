@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardBody } from "@nextui-org/card";
+import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import { Input } from "@nextui-org/input";
 import { Link } from "@nextui-org/link";
 import { Button } from "@nextui-org/button";
@@ -13,6 +13,7 @@ import { AppButton } from "@/components/application/AppButton";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { PasswordButton } from "@/components/application/PasswordButton";
+import { AppLogo } from "@/components/application/AppLogo";
 
 type SignupValues = {
   name: string;
@@ -42,6 +43,10 @@ export default function SignUpPage() {
   return (
     <main className="w-full min-h-screen flex items-center justify-center">
       <Card className="w-full max-w-sm pb-4">
+        <CardHeader className="flex justify-center flex-col items-center gap-2 mt-5">
+          <h1 className="text-3xl mt-2 font-semibold">Welcome</h1>
+          <p className="text-sm text-default-500">Create an account</p>
+        </CardHeader>
         <CardBody className="overflow-hidden">
           <form
             className="flex flex-col gap-4"
@@ -86,6 +91,17 @@ export default function SignUpPage() {
                 />
               }
             />
+
+            <div className="flex gap-2 justify-end">
+              <AppButton
+                isLoading={form.formState.isSubmitting}
+                type="submit"
+                fullWidth
+                color="primary"
+              >
+                Sign up
+              </AppButton>
+            </div>
             <p className="text-center text-small">
               Already have an account?{" "}
               <Link
@@ -97,16 +113,6 @@ export default function SignUpPage() {
                 Login
               </Link>
             </p>
-            <div className="flex gap-2 justify-end">
-              <AppButton
-                isLoading={form.formState.isSubmitting}
-                type="submit"
-                fullWidth
-                color="primary"
-              >
-                Sign up
-              </AppButton>
-            </div>
           </form>
         </CardBody>
       </Card>

@@ -1,8 +1,9 @@
-import { useToastStore } from "./useToastStore";
+import { useToastStore } from "../useToastStore";
 import { cn } from "@/lib/utils";
 import { XIcon } from "lucide-react";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { useEffect } from "react";
 
 export const Toaster = () => {
   const store = useToastStore((s) => ({ ...s }));
@@ -15,6 +16,16 @@ export const Toaster = () => {
     },
     exit: { x: "100%", opacity: 0 },
   };
+
+  useEffect(() => {
+    //when toast is set, set a timeout to remove it
+    if (store.toast) {
+      const timeout = setTimeout(() => {
+        store.setToast(null);
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [store.toast]);
 
   return (
     <AnimatePresence>

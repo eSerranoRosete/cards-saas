@@ -52,12 +52,18 @@ export const options: AuthOptions = {
   },
   callbacks: {
     jwt: async ({ token, user }) => {
-      if (user) token.id = user.id;
+      if (user) {
+        token.id = user.id;
+        token.isPremium = user.isPremium;
+      }
 
       return token;
     },
     session: async ({ session, token }) => {
-      if (session.user) session.user.id = token.id;
+      if (session.user) {
+        session.user.id = token.id;
+        session.user.isPremium = token.isPremium;
+      }
       return session;
     },
   },

@@ -4,12 +4,14 @@ import { Divider } from "@nextui-org/divider";
 import NextLink from "next/link";
 import UserDropdown from "./ProfileDropdown";
 import { LockIcon } from "lucide-react";
+import { AppLogo } from "./AppLogo";
 
 export const AppBar = () => {
   return (
     <header className="w-full">
       <nav className="container flex items-center m-auto py-4">
-        <NextLink href="/dashboard" className="font-semibold mr-10">
+        <NextLink href="/dashboard" className="font-semibold mr-10 flex gap-2">
+          <AppLogo />
           Inteminer
         </NextLink>
         <div className="grow flex gap-4">

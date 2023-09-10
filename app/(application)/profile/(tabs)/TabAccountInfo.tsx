@@ -1,11 +1,14 @@
-import { PanelHeader } from "@/components/application/panel/PanelHeader";
-import React from "react";
+"use client";
 
-export const TabAccountInfo = () => {
+import { PanelHeader } from "@/components/application/panel/PanelHeader";
+import { ProfileTabProps } from "../page";
+
+export const TabAccountInfo = ({ isActive }: ProfileTabProps) => {
   return (
     <PanelHeader
+      isActive={isActive}
       title="Account Information"
       description="Update your account information"
-    />
+    ></PanelHeader>
   );
 };

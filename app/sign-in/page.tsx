@@ -1,15 +1,16 @@
 "use client";
 
-import { Card, CardBody } from "@nextui-org/card";
+import { AppLogo } from "@/components/application/AppLogo";
+import { PasswordButton } from "@/components/application/PasswordButton";
+import { Button } from "@nextui-org/button";
+import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import { Input } from "@nextui-org/input";
 import { Link } from "@nextui-org/link";
-import { Button } from "@nextui-org/button";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { signIn } from "next-auth/react";
 import NextLink from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { signIn } from "next-auth/react";
 import { useState } from "react";
-import { PasswordButton } from "@/components/application/PasswordButton";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 type SignInValues = {
   email: string;
@@ -42,8 +43,21 @@ export default function SignInPage() {
   };
 
   return (
-    <main className="w-full min-h-screen flex items-center justify-center">
+    <main className="w-full min-h-screen flex items-center relative justify-center">
+      <header className="w-full absolute top-0 left-0">
+        <nav className="container flex items-center m-auto py-4">
+          <NextLink href="/" className="font-semibold flex gap-2">
+            <AppLogo />
+            Inteminer
+          </NextLink>
+        </nav>
+      </header>
+
       <Card className="w-full max-w-sm pb-4">
+        <CardHeader className="flex justify-center flex-col items-center gap-2 mt-5">
+          <h1 className="text-3xl mt-2 font-semibold">Welcome</h1>
+          <p className="text-sm text-default-500">Login to your account</p>
+        </CardHeader>
         <CardBody>
           <form
             className="flex flex-col gap-4"
@@ -76,6 +90,17 @@ export default function SignInPage() {
                 />
               }
             />
+
+            <div className="flex gap-2 justify-end">
+              <Button
+                isLoading={signInForm.formState.isSubmitting}
+                type="submit"
+                fullWidth
+                color="primary"
+              >
+                Login
+              </Button>
+            </div>
             <p className="text-center text-small">
               Need to create an account?{" "}
               <Link
@@ -87,16 +112,6 @@ export default function SignInPage() {
                 Sign up
               </Link>
             </p>
-            <div className="flex gap-2 justify-end">
-              <Button
-                isLoading={signInForm.formState.isSubmitting}
-                type="submit"
-                fullWidth
-                color="primary"
-              >
-                Login
-              </Button>
-            </div>
           </form>
         </CardBody>
       </Card>

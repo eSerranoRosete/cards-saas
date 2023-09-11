@@ -1,8 +1,6 @@
 "use server";
 
-import { options } from "@/app/api/auth/[...nextauth]/options";
 import { getXataClient } from "@/xata";
-import { getServerSession } from "next-auth";
 import { CardType } from "../../types/CardTypes";
 
 type Props = {
@@ -12,8 +10,6 @@ type Props = {
 export const getPublicCard = async ({
   cardID,
 }: Props): Promise<CardType | null> => {
-  const session = await getServerSession(options);
-
   const xata = getXataClient();
 
   const card = await xata.db.card.filter("id", cardID).getFirst();

@@ -25,7 +25,7 @@ import { UseFormReturn, useForm } from "react-hook-form";
 import { useToast } from "../application/toast/useToast";
 
 import { useWithAlerts } from "@/hooks/useWithAlerts";
-import { TabModules } from "./tabs/TabModules";
+import { TabModules } from "./tabs/tab-modules/TabModules";
 import { TabSocial } from "./tabs/TabSocial";
 import { TabSettings } from "./tabs/TabSettings";
 import { CardTemplate } from "./CardTemplate";
@@ -89,8 +89,6 @@ export const EditorWorkspaceInner = () => {
   const { setAlert, items } = useWithAlerts(toolbarItems);
 
   const onSubmit = async (values: EditorFormValues) => {
-    console.log(values.settings);
-
     actions.setState({
       ...values,
     });

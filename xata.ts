@@ -31,6 +31,7 @@ const tables = [
       { name: "settings", type: "json" },
       { name: "social", type: "json" },
       { name: "modules", type: "json" },
+      { name: "carouselImages", type: "file[]" },
     ],
   },
 ] as const;

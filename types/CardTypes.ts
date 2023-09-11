@@ -1,3 +1,6 @@
+import { XataFile } from "@xata.io/client";
+import { CarouselItem } from "./EditorTypes";
+
 export interface CardType {
   id?: string;
   title?: string;
@@ -15,6 +18,8 @@ export interface CardType {
   social: SocialItem[];
 
   modules?: CardModules;
+
+  carouselImages?: MediaFile[];
 }
 
 export type CardSettings = {
@@ -25,6 +30,7 @@ export type CardSettings = {
 
 export type CardModules = {
   bio?: string;
+  carousel?: CarouselItem[];
 };
 
 export type SocialItem = {
@@ -32,10 +38,9 @@ export type SocialItem = {
   url: string;
 };
 
-export type MediaFile = {
-  id?: string;
-  name?: string;
+export interface MediaFile
+  extends Partial<
+    Pick<XataFile, "id" | "base64Content" | "mediaType" | "name" | "url">
+  > {
   url?: string;
-  fileType?: string;
-  base64Content?: string;
-};
+}

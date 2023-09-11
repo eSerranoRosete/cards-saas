@@ -12,6 +12,7 @@ import { XIcon } from "lucide-react";
 
 import QrCode from "qrcode";
 import { CardCarousel } from "./CardCarousel";
+import ShareCardDialog from "./ShareCardDialog";
 
 type Props = {
   view: "edit" | "preview";
@@ -19,35 +20,9 @@ type Props = {
 
 export const CardTemplateModern = ({ view }: Props) => {
   const { state, actions } = useCardStore();
-  const [shareOpen, setShareOpen] = useState(false);
-  const [qrCode, setQrCode] = useState<string>();
   const [scrollTop, setScrollTop] = useState(0);
 
-  const generate = async () => {
-    const url = `${window.location.origin}/card/${state.id}`;
-    const qrCode = await QrCode.toDataURL(url);
-    setQrCode(qrCode);
-  };
-
-  const openShareTray = () => {
-    generate();
-    setShareOpen(true);
-  };
-
   const colors = getColors(state.settings?.dominantColor);
-
-  const fromBottom = {
-    initial: { bottom: "-100%" },
-    animate: {
-      y: 0,
-      bottom: "-15%",
-      transition: {
-        type: "spring",
-        bounce: 0.3,
-      },
-    },
-    exit: { bottom: "-100%" },
-  };
 
   useEffect(() => {
     const handleScroll = (event: any) => {
@@ -62,10 +37,7 @@ export const CardTemplateModern = ({ view }: Props) => {
   }, []);
 
   return (
-    <div
-      onScroll={() => console.log("Scrolling")}
-      className="w-full max-w-sm grid gap-8 relative rounded-large p-3 m-auto bg-black"
-    >
+    <div className="w-full max-w-sm grid gap-8 relative rounded-large p-3 m-auto bg-black">
       <div className="relative rounded-large overflow-clip mb-3 bg-default-50 min-h-[300px]">
         {view === "edit" && (
           <div className="absolute top-2 right-2 z-20">
@@ -114,7 +86,12 @@ export const CardTemplateModern = ({ view }: Props) => {
           </Button>
         )}
         {state.settings?.showShareButton && (
-          <Button onClick={openShareTray}>Share this Card</Button>
+          <ShareCardDialog
+            id={state.id!}
+            imgSrc={state.avatar?.base64Content || state.avatar?.url || ""}
+            title={state.title}
+            disableModal={view === "edit"}
+          />
         )}
       </div>
 
@@ -124,9 +101,11 @@ export const CardTemplateModern = ({ view }: Props) => {
         </div>
       )}
 
-      <CardCarousel />
+      {state.modules?.carousel && (
+        <CardCarousel items={state.modules.carousel} />
+      )}
 
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {shareOpen && (
           <motion.div
             onDrag={(e, info) => {
@@ -173,7 +152,7 @@ export const CardTemplateModern = ({ view }: Props) => {
             </div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
     </div>
   );
 };

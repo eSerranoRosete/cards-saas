@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache";
 
 import { CardType } from "../../types/CardTypes";
 import { processBase64 } from "@/lib/processBase64";
+import { uploadCardMedia } from "./uploadCardMedia";
 
 export const createCard = async (values: CardType): Promise<string | null> => {
   const session = await getServerSession(options);
@@ -19,8 +20,8 @@ export const createCard = async (values: CardType): Promise<string | null> => {
 
   const xata = getXataClient();
 
-  const avatar = processBase64(values.avatar?.base64Content);
-  const cover = processBase64(values.cover?.base64Content);
+  const cachedAvatar = values.avatar;
+  const cachedCover = values.cover;
 
   delete values.avatar;
   delete values.cover;
@@ -28,11 +29,24 @@ export const createCard = async (values: CardType): Promise<string | null> => {
   const card = await xata.db.card.create({
     ...values,
 
-    ...(avatar && { avatar }),
-    ...(cover && { cover }),
-
     user: { id },
   });
+
+  if (cachedAvatar?.base64Content) {
+    await uploadCardMedia({
+      id: card.id,
+      file: cachedAvatar,
+      destination: "avatar",
+    });
+  }
+
+  if (cachedCover?.base64Content) {
+    await uploadCardMedia({
+      id: card.id,
+      file: cachedCover,
+      destination: "cover",
+    });
+  }
 
   revalidatePath("/*");
 

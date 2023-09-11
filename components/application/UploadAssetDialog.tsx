@@ -1,28 +1,22 @@
 "use client";
 
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-} from "@nextui-org/modal";
+import { Modal, ModalContent, useDisclosure } from "@nextui-org/modal";
 
 import ColorThief from "colorthief";
 
 import { Button } from "@nextui-org/button";
 import { UploadCloud } from "lucide-react";
 
-import Dropzone, { DropEvent } from "react-dropzone";
-import { useCallback } from "react";
-
 type Props = {
   onSuccess?: (imageString: string) => void;
   onColor?: (color: string) => void;
 };
 
-export default function UploadAssetDialog({ onSuccess, onColor }: Props) {
+export default function UploadAssetDialog({
+  onSuccess,
+  onColor,
+  ...rest
+}: Props) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   return (

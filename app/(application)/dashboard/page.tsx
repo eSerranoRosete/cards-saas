@@ -4,12 +4,14 @@ import { Button } from "@nextui-org/button";
 import { PlusCircle } from "lucide-react";
 import NextLink from "next/link";
 import { CardList } from "./CardList";
-import { getUserCards } from "@/server/card/getUserCards";
+
 import PremiumProtected from "@/components/application/PremiumProtected";
 import { NoCardsBanner } from "@/components/NoCardsBanner";
+import { getUserCards } from "@/server/firebase/card/getUserCards";
 
 export default async function DashboardPage() {
-  const cards = await getUserCards();
+  const { data } = await getUserCards();
+  const cards = data || [];
 
   return (
     <div>

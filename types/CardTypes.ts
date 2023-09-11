@@ -20,6 +20,8 @@ export interface CardType {
   modules?: CardModules;
 
   carouselImages?: MediaFile[];
+
+  owner: string;
 }
 
 export type CardSettings = {

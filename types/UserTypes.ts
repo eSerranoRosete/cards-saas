@@ -1,6 +1,6 @@
-export type UserTyoe = {
-  id?: string;
+export type UserType = {
+  id: string;
   name?: string;
-  email?: string;
-  isPremium?: boolean;
+  email: string;
+  password: string;
 };

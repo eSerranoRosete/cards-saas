@@ -1,11 +1,11 @@
 import { PageHeader } from "@/components/application/PageHeader";
 import { EditorWorkspace } from "@/components/editor/EditorWorkspace";
-import { getSingleCard } from "@/server/card/getSingleCard";
 import { Button } from "@nextui-org/button";
 import { ExternalLink } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import NextLink from "next/link";
+import { getCard } from "@/server/firebase/card/getCard";
 
 type Props = {
   params: {
@@ -14,7 +14,7 @@ type Props = {
 };
 
 export default async function EditorPage({ params: { id } }: Props) {
-  const card = await getSingleCard({ cardID: id });
+  const { data: card } = await getCard({ id });
 
   if (!card) notFound();
 

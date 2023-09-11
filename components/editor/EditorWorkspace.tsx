@@ -29,12 +29,13 @@ import { TabModules } from "./tabs/tab-modules/TabModules";
 import { TabSocial } from "./tabs/TabSocial";
 import { TabSettings } from "./tabs/TabSettings";
 import { CardTemplate } from "./CardTemplate";
-import { createCard } from "@/server/card/createCard";
-import { updateCard } from "@/server/card/updateCard";
+
 import { useRouter } from "next/navigation";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import { Button } from "@nextui-org/button";
 import { CardTemplateModern } from "../application/card/CardTemplateModern";
+import { createCard } from "@/server/firebase/card/createCard";
+import { updateCard } from "@/server/firebase/card/updateCard";
 
 export type EditorTabProps = {
   isActive?: boolean;
@@ -95,11 +96,11 @@ export const EditorWorkspaceInner = () => {
 
     try {
       if (!values.id) {
-        const id = await createCard({ ...state });
+        const { data: id } = await createCard({ data: state });
 
         router.push(`/editor/${id}`);
       } else {
-        await updateCard({ ...state });
+        const id = await updateCard({ id: values.id, data: state });
       }
 
       toast.set({

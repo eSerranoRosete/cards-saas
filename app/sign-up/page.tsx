@@ -7,13 +7,16 @@ import { Button } from "@nextui-org/button";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import NextLink from "next/link";
-import { createUser } from "@/server/createUser";
+
 import { useRouter } from "next/navigation";
 import { AppButton } from "@/components/application/AppButton";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { PasswordButton } from "@/components/application/PasswordButton";
 import { AppLogo } from "@/components/application/AppLogo";
+import { createUser } from "@/server/firebase/user/createUser";
+import { signIn } from "next-auth/react";
+import { useToast } from "@/components/application/toast/useToast";
 
 type SignupValues = {
   name: string;
@@ -28,15 +31,22 @@ export default function SignUpPage() {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  const onSignUp: SubmitHandler<SignupValues> = async (data) => {
-    const response = await createUser(data);
+  const toast = useToast();
+
+  const onSignUp = async (data: SignupValues) => {
+    const response = await createUser({ data });
 
     if (response.error) {
       form.setError("email", {
-        message: "Email is already in use",
+        message: response.error,
       });
     } else {
       router.push("/sign-in");
+      toast.set({
+        variant: "success",
+        title: "Account created",
+        message: "Now you can login to your account",
+      });
     }
   };
 

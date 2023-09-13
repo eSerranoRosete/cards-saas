@@ -16,7 +16,7 @@ export const CardCarousel = ({ items }: Props) => {
   if (items.length === 0) return <></>;
 
   return (
-    <div className="w-full h-80 relative gap-4 flex snap-x snap-mandatory overflow-auto">
+    <div className="w-full h-80 relative gap-4 flex snap-x snap-mandatory overflow-auto ">
       {items.map((item, i) => {
         const isImgOnly = !item.title && !item.description;
 
@@ -31,7 +31,7 @@ export const CardCarousel = ({ items }: Props) => {
             as="a"
             {...(item.url ? linkProps : {})}
             isPressable={!!item.url}
-            className="w-10/12 snap-always relative  max-w-xs h-full p-2 flex flex-col rounded-large snap-center shrink-0"
+            className="w-10/12 snap-always relative first:ml-10 last:mr-10  max-w-xs h-full p-2 flex flex-col rounded-large snap-center shrink-0"
           >
             {item.url && (
               <Button

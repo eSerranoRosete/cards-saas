@@ -14,26 +14,47 @@ import { Trash } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/components/application/toast/useToast";
 import { AppButton } from "@/components/application/AppButton";
+import { deleteCarouselItem } from "@/lib/array-mutations/carousel";
+import { useCardStore } from "@/context/card/CardStore";
+import { updateCardCarousel } from "@/firebase/card/carousel/updateCardCarousel";
+import { useIsLoading } from "@/hooks/useIsLoading";
 
 type Props = {
   itemID: string;
+  cardID: string;
 };
 
-export default function DeleteItemDialog({ itemID }: Props) {
+export default function DeleteItemDialog({ itemID, cardID }: Props) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-  const [loading, setLoading] = useState(false);
+  const loader = useIsLoading();
+
+  const store = useCardStore();
 
   const toast = useToast();
 
   const onDelete = async () => {
+    loader.start();
+
     try {
+      const newItems = deleteCarouselItem({
+        items: store.modules.carousel,
+        id: itemID,
+      });
+
+      await updateCardCarousel({
+        cardID,
+        carousel: newItems,
+      });
+
+      store.setCarousel(newItems);
+
       toast.set({
         title: "Item deleted",
         message: "The item has been deleted successfully",
         variant: "success",
       });
 
-      setLoading(false);
+      loader.stop();
       onClose();
     } catch (error) {
       toast.set({
@@ -41,8 +62,7 @@ export default function DeleteItemDialog({ itemID }: Props) {
         message: "The item could not be deleted",
         variant: "error",
       });
-
-      setLoading(false);
+      loader.stop();
     }
   };
 
@@ -74,7 +94,7 @@ export default function DeleteItemDialog({ itemID }: Props) {
                   Cancel
                 </Button>
                 <AppButton
-                  isLoading={loading}
+                  isLoading={loader.isLoading}
                   color="danger"
                   onPress={onDelete}
                 >

@@ -1,21 +1,21 @@
 "use server";
 
-import { CardType } from "@/types/CardTypes";
+import { EditableCard } from "@/types/CardTypes";
 import { getCardCollection } from "../helpers/getCardCollection";
 import { doc, setDoc } from "firebase/firestore";
-import { FirebaseResponse } from "../types";
 import { getServerSession } from "next-auth";
+import { options } from "@/app/api/auth/[...nextauth]/options";
 
 type Props = {
-  data: Omit<CardType, "owner">;
+  data: EditableCard;
 };
 
-export async function createCard({
-  data,
-}: Props): Promise<FirebaseResponse<string>> {
-  const session = await getServerSession();
+export async function createCard({ data }: Props): Promise<string> {
+  const session = await getServerSession(options);
 
-  if (!session) return { error: "No session found" };
+  if (!session) throw new Error("Unauthorized");
+
+  console.log(session.user);
 
   const cardCollection = await getCardCollection();
 
@@ -27,7 +27,5 @@ export async function createCard({
     owner: session.user.id,
   });
 
-  return {
-    data: docRef.id,
-  };
+  return docRef.id;
 }

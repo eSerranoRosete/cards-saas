@@ -11,6 +11,8 @@ type Props = {
 };
 
 export const CardCarousel = ({ items }: Props) => {
+  if (items.length === 0) return <></>;
+
   return (
     <div className="w-full h-80 relative gap-4 flex snap-x snap-mandatory overflow-auto">
       {items.map((item, i) => {

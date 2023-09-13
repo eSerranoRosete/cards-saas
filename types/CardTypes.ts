@@ -36,7 +36,7 @@ export type SocialItem = {
 export type FileRecord = {
   id: string;
   url: string;
-  path?: string;
+  path: string;
 };
 
 export type CarouselItem = {

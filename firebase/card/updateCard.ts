@@ -1,6 +1,6 @@
 "use server";
 
-import { CardType } from "@/types/CardTypes";
+import { EditableCard } from "@/types/CardTypes";
 import { getCardCollection } from "../helpers/getCardCollection";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { FirebaseResponse } from "../types";
@@ -8,7 +8,7 @@ import { revalidatePath } from "next/cache";
 
 type Props = {
   id: string;
-  data: Partial<CardType>;
+  data: EditableCard;
 };
 
 export async function updateCard({

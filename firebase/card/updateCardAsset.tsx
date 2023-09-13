@@ -8,19 +8,19 @@ import { ref, deleteObject } from "firebase/storage";
 import { storage } from "../firebaseApp";
 
 type Props = {
-  id: string;
+  cardID: string;
   fileRecord: FileRecord;
   destination: keyof Pick<CardType, "avatar" | "cover">;
 };
 
 export async function updateCardAsset({
-  id,
+  cardID,
   fileRecord,
   destination,
 }: Props): Promise<string | null> {
   const cardCollection = await getCardCollection();
 
-  const docRef = doc(cardCollection, id);
+  const docRef = doc(cardCollection, cardID);
   const docSnap = await getDoc(docRef);
 
   if (!docSnap.exists) return null;

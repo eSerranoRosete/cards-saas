@@ -16,10 +16,16 @@ type Actions = {
   setBio: (bio: EditableCard["bio"]) => void;
 
   //settings
-  setShowContact: (showContact: CardSettings["showContactButton"]) => void;
-  setShowShare: (showShare: CardSettings["showShareButton"]) => void;
+  setShowContact: (
+    showContact: EditableCard["settings"]["showContactButton"]
+  ) => void;
+  setShowShare: (
+    showShare: EditableCard["settings"]["showShareButton"]
+  ) => void;
+  setDominantColor: (color: string) => void;
 
   //modules
+  setCarousel: (carousel: EditableCard["modules"]["carousel"]) => void;
 
   //social
 
@@ -58,6 +64,20 @@ const createCardStore = (init?: State) => {
           state.settings.showShareButton = showShare;
         })
       ),
+    setDominantColor: (color) =>
+      set(
+        produce((state: State) => {
+          state.settings.dominantColor = color;
+        })
+      ),
+
+    setCarousel: (carousel) =>
+      set(
+        produce((state: State) => {
+          state.modules.carousel = carousel;
+        })
+      ),
+
     setAvatar: (avatar) => set({ avatar }),
     setCover: (cover) => set({ cover }),
     getState: () => {

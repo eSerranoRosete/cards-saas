@@ -8,12 +8,23 @@ import { Image } from "@nextui-org/react";
 import UploadAssetDialog from "@/components/application/UploadAssetDialog";
 import { useState } from "react";
 
-import { CarouselItem } from "@/types/CardTypes";
+import { CarouselItem, FileRecord } from "@/types/CardTypes";
+import { uploadAsset } from "@/firebase/card/uploadAsset";
+import { UUID } from "@/lib/utils";
+import {
+  addCarouselItem,
+  updateCarouselItem,
+} from "@/lib/array-mutations/carousel";
+import { useCardStore } from "@/context/card/CardStore";
+import { updateCardCarousel } from "@/firebase/card/carousel/updateCardCarousel";
+import { useToast } from "@/components/application/toast/useToast";
+import { useIsLoading } from "@/hooks/useIsLoading";
 
 type Props = {
   item?: CarouselItem;
+  cardID: string;
   onCancel: () => void;
-  onSuccess: () => void;
+  onSuccess?: () => void;
 };
 
 type FormValues = {
@@ -22,9 +33,22 @@ type FormValues = {
   img: string;
 };
 
-export const CarouselItemForm = ({ onCancel, item, onSuccess }: Props) => {
-  const [imgSrc, setImgSrc] = useState(item?.img);
-  const [loading, setLoading] = useState(false);
+export const CarouselItemForm = ({
+  item,
+  cardID,
+  onCancel,
+  onSuccess,
+}: Props) => {
+  const [imgSrc, setImgSrc] = useState<string | undefined>(item?.img.url);
+  const [file, setFile] = useState<File>();
+
+  const existing = item;
+
+  const loader = useIsLoading();
+
+  const toast = useToast();
+
+  const store = useCardStore();
 
   const form = useForm<FormValues>({
     defaultValues: {
@@ -34,10 +58,114 @@ export const CarouselItemForm = ({ onCancel, item, onSuccess }: Props) => {
     },
   });
 
-  const onSubmit = async () => {};
+  const onSubmit = async ({ title, description, img }: FormValues) => {
+    if (!imgSrc) {
+      form.setError("img", {
+        message: "Image is required",
+      });
+      return;
+    }
 
-  const onImgUpload = () => {};
+    loader.start();
 
+    try {
+      // If its a new item
+      if (!existing && file) {
+        const assetID = UUID();
+        const path = carouselAssetPath({ cardID, assetID });
+        const url = await uploadAsset({ file, path });
+
+        const record: FileRecord = {
+          id: assetID,
+          url,
+          path,
+        };
+
+        const newItem: CarouselItem = {
+          id: UUID(),
+          title,
+          description,
+          img: record,
+        };
+
+        const newItems = addCarouselItem({
+          items: store.modules.carousel,
+          newItem,
+        });
+
+        await updateCardCarousel({ cardID, carousel: newItems });
+        store.setCarousel(newItems);
+      }
+
+      // If its an existing item without a new file
+      if (existing && !file) {
+        const newItem: CarouselItem = {
+          id: existing.id,
+          title,
+          description,
+          img: existing.img,
+        };
+
+        const newItems = updateCarouselItem({
+          items: store.modules.carousel,
+          oldID: existing.id,
+          newItem,
+        });
+
+        await updateCardCarousel({ cardID, carousel: newItems });
+        store.setCarousel(newItems);
+      }
+
+      // If its an existing item with a new file
+      if (existing && file) {
+        const assetID = UUID();
+        const path = carouselAssetPath({ cardID, assetID });
+        const url = await uploadAsset({ file, path });
+
+        const record: FileRecord = {
+          id: assetID,
+          url,
+          path,
+        };
+
+        const newItem: CarouselItem = {
+          id: existing.id,
+          title,
+          description,
+          img: record,
+        };
+
+        const newItems = updateCarouselItem({
+          items: store.modules.carousel,
+          oldID: existing.id,
+          newItem,
+        });
+
+        await updateCardCarousel({ cardID, carousel: newItems });
+        store.setCarousel(newItems);
+      }
+
+      toast.success({ title: "Success!", message: "Carousel has been saved." });
+      onSuccess?.();
+      loader.stop();
+    } catch (error) {
+      toast.error({
+        title: "Error!",
+        message: "Something went wrong. Please try again.",
+      });
+      loader.stop();
+    }
+  };
+
+  const onBase64 = (base64: string) => {
+    setImgSrc(base64);
+    form.clearErrors("img");
+  };
+
+  const onUpload = (file: File, close?: () => void) => {
+    setFile(file);
+    close?.();
+  };
   return (
     <form>
       <ModalHeader />
@@ -61,12 +189,12 @@ export const CarouselItemForm = ({ onCancel, item, onSuccess }: Props) => {
             Upload an image
           </p>
           <div className="absolute z-20 right-2 top-2">
-            <UploadAssetDialog onUpload={onImgUpload} />
+            <UploadAssetDialog onBase64={onBase64} onUpload={onUpload} />
           </div>
           <Image
             removeWrapper
             className="w-full h-full object-cover"
-            src={imgSrc?.url}
+            src={imgSrc}
           />
 
           <p className="text-danger mt-2 text-sm">
@@ -82,11 +210,20 @@ export const CarouselItemForm = ({ onCancel, item, onSuccess }: Props) => {
           type="submit"
           color="primary"
           onClick={form.handleSubmit(onSubmit)}
-          isLoading={loading}
+          isLoading={loader.isLoading}
         >
           Save
         </AppButton>
       </ModalFooter>
     </form>
   );
+};
+
+type CarouselAssetProps = {
+  cardID: string;
+  assetID: string;
+};
+
+const carouselAssetPath = ({ cardID, assetID }: CarouselAssetProps) => {
+  return `/cards/${cardID}/assets/${assetID}.jpg`;
 };

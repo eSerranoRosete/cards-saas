@@ -39,7 +39,7 @@ export default async function EditorPage({ params: { id } }: Props) {
         }
       />
       <CardProvider initialState={card}>
-        <EditorWorkspace />
+        <EditorWorkspace cardID={card.id} />
       </CardProvider>
     </>
   );

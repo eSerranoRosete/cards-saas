@@ -38,7 +38,7 @@ export const CardTemplateModern = ({ view, cardID }: Props) => {
       <div className="relative rounded-large overflow-clip mb-3 bg-default-50 min-h-[300px]">
         {view === "edit" && cardID && (
           <div className="absolute top-2 right-2 z-20">
-            <UploadAvatar id={cardID} />
+            <UploadAvatar cardID={cardID} />
           </div>
         )}
         <Image

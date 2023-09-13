@@ -6,11 +6,12 @@ import { CarouselItemForm } from "./CarouselItemForm";
 import { CarouselItem } from "@/types/CardTypes";
 
 type Props = {
+  cardID: string;
   item?: CarouselItem;
   trigger: (onOpen: () => void) => JSX.Element;
 };
 
-export function EditItemDialog({ item, trigger }: Props) {
+export function EditItemDialog({ item, trigger, cardID }: Props) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -20,6 +21,7 @@ export function EditItemDialog({ item, trigger }: Props) {
         <ModalContent>
           {(onClose) => (
             <CarouselItemForm
+              cardID={cardID}
               onCancel={onClose}
               item={item}
               onSuccess={onClose}

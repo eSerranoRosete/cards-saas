@@ -31,6 +31,11 @@ import { TabSettings } from "./tabs/TabSettings";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import { Button } from "@nextui-org/button";
 import { CardTemplateModern } from "../application/card/CardTemplateModern";
+import { useCardStore } from "@/context/card/CardStore";
+import { createCard } from "@/firebase/card/createCard";
+import { useRouter } from "next/navigation";
+import { updateCard } from "@/firebase/card/updateCard";
+import { card } from "@nextui-org/react";
 
 export type EditorTabProps = {
   isActive?: boolean;
@@ -68,30 +73,56 @@ const toolbarItems: ToolbarItem<EditorTabs>[] = [
 
 export interface EditorFormValues extends EditableCard {}
 
-export const EditorWorkspace = () => {
+type Props = {
+  cardID?: string;
+};
+
+export const EditorWorkspace = ({ cardID }: Props) => {
   const { activeTab, setActiveTab } = useTabs({ items: toolbarItems });
+  const store = useCardStore();
+  const router = useRouter();
 
   const toast = useToast();
 
   const form = useForm<EditorFormValues>({
-    defaultValues: {},
+    defaultValues: {
+      ...store.getState(),
+    },
   });
 
   const { setAlert, items } = useWithAlerts(toolbarItems);
 
-  const onSubmit = async (values: EditorFormValues) => {};
+  const onSubmit = async (values: EditorFormValues) => {
+    const state = store.getState();
+
+    try {
+      if (!cardID) {
+        const cardID = await createCard({ data: state });
+        toast.success({
+          title: "Success!",
+          message: "Your card has been created.",
+        });
+        router.push(`/editor/${cardID}`);
+      } else {
+        await updateCard({ data: state, id: cardID });
+        toast.success({
+          title: "Success!",
+          message: "Your card has been updated.",
+        });
+      }
+    } catch (error) {
+      toast.error({
+        title: "Error!",
+        message: "Something went wrong.",
+      });
+    }
+  };
 
   const onClick = async () => {
     const isValid = await form.trigger();
 
     if (isValid) {
       form.handleSubmit(onSubmit)();
-    } else {
-      toast.set({
-        title: "Changes not saved",
-        message: "Check the form for errors.",
-        variant: "error",
-      });
     }
   };
 
@@ -119,6 +150,7 @@ export const EditorWorkspace = () => {
         />
 
         <TabModules
+          cardID={cardID}
           form={form}
           isActive={activeTab === "modules"}
           setAlert={setAlert}
@@ -134,6 +166,7 @@ export const EditorWorkspace = () => {
           form={form}
           isActive={activeTab === "settings"}
           setAlert={setAlert}
+          cardID={cardID}
         />
 
         <div className="bottom-0 flex items-center gap-2 right-0 absolute">
@@ -153,7 +186,7 @@ export const EditorWorkspace = () => {
       </div>
       <div className="w-full h-full bg-default-50 p-4 rounded-medium overflow-hidden">
         <ScrollShadow size={40} className="h-full">
-          <CardTemplateModern view="edit" />
+          <CardTemplateModern cardID={cardID} view="edit" />
         </ScrollShadow>
       </div>
     </div>

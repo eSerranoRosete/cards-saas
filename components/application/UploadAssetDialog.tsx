@@ -7,18 +7,21 @@ import ColorThief from "colorthief";
 import { Button } from "@nextui-org/button";
 import { UploadCloud } from "lucide-react";
 import { Spinner } from "@nextui-org/spinner";
+import { processBase64 } from "@/lib/processBase64";
 
 export type OnUploadProps = (file: File, onClose?: () => void) => void;
 
 type Props = {
   isLoading?: boolean;
   onUpload?: (file: File, onClose?: () => void) => void;
+  onBase64?: (base64: string) => void;
   onColor?: (color: string) => void;
 };
 
 export default function UploadAssetDialog({
   isLoading,
   onUpload,
+  onBase64,
   onColor,
 }: Props) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -62,21 +65,27 @@ export default function UploadAssetDialog({
                           if (file) {
                             onUpload && onUpload(file, onClose);
 
-                            if (onColor) {
+                            if (onBase64 || onColor) {
                               const reader = new FileReader();
                               reader.onload = (event) => {
-                                const img = new Image();
+                                const base64 = event.target?.result as string;
 
-                                img.onload = () => {
-                                  const colorThief = new ColorThief();
-                                  const c = colorThief.getColor(img);
+                                if (base64) onBase64?.(base64);
 
-                                  const rbgString = `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
+                                if (onColor) {
+                                  const img = new Image();
 
-                                  onColor && onColor(rbgString);
-                                };
+                                  img.onload = () => {
+                                    const colorThief = new ColorThief();
+                                    const c = colorThief.getColor(img);
 
-                                img.src = event.target?.result as string;
+                                    const rbgString = `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
+
+                                    onColor && onColor(rbgString);
+                                  };
+
+                                  img.src = event.target?.result as string;
+                                }
                               };
                               reader.readAsDataURL(file);
                             }

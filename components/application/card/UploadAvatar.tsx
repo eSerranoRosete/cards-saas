@@ -5,7 +5,7 @@ import { uploadAsset } from "@/firebase/card/uploadAsset";
 import { updateCardAsset } from "@/firebase/card/updateCardAsset";
 import { useToast } from "../toast/useToast";
 import { useCardStore } from "@/context/card/CardStore";
-import { updateCard } from "@/firebase/card/updateCard";
+import { buildCardAssetPath } from "@/components/editor/tabs/tab-modules/carousel/CarouselItemForm";
 
 type Props = {
   cardID: string;
@@ -21,7 +21,7 @@ export const UploadAvatar = ({ cardID }: Props) => {
     loader.start();
 
     const id = UUID();
-    const path = `/avatars/${id}.jpg`;
+    const path = buildCardAssetPath({ cardID, assetID: id });
     const url = await uploadAsset({ file, path });
 
     const fileRecord = { id, url, path };

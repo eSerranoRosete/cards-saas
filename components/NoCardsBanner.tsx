@@ -1,7 +1,7 @@
-import React from "react";
+"use client";
 
-import Link from "next/link";
 import { Card } from "@nextui-org/card";
+import InitCardDialog from "./InitCardDialog";
 
 export const NoCardsBanner = () => {
   return (
@@ -12,9 +12,13 @@ export const NoCardsBanner = () => {
         </h1>
         <h2>
           Get started by{" "}
-          <Link className="underline" href="/editor">
-            creating your first card
-          </Link>
+          <InitCardDialog
+            button={(onOpen) => (
+              <button onClick={onOpen} className="underline">
+                creating your first card
+              </button>
+            )}
+          />
         </h2>
       </div>
     </Card>

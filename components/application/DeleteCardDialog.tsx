@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AppButton } from "./AppButton";
 import { deleteCard } from "@/firebase/card/deleteCard";
+import { useIsLoading } from "@/hooks/useIsLoading";
 
 type Props = {
   cardID: string;
@@ -23,36 +24,34 @@ type Props = {
 
 export default function DeleteCardDialog({ cardID }: Props) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-  const [loading, setLoading] = useState(false);
+  const loader = useIsLoading();
   const router = useRouter();
 
   const toast = useToast();
 
   const onDelete = async () => {
-    setLoading(true);
+    loader.start();
 
     try {
       await deleteCard({ id: cardID });
 
-      toast.set({
+      toast.success({
         title: "Card deleted",
         message: "Your card has been deleted successfully",
-        variant: "success",
       });
 
+      loader.stop();
       router.push("/dashboard");
 
-      setLoading(false);
-
       onClose();
-    } catch (error) {
-      toast.set({
+    } catch (error: unknown) {
+      console.log(error);
+      toast.error({
         title: "Error",
-        message: "Your card could not be deleted",
-        variant: "error",
+        message: error as string,
       });
 
-      setLoading(false);
+      loader.stop();
     }
   };
 
@@ -83,7 +82,7 @@ export default function DeleteCardDialog({ cardID }: Props) {
                   Cancel
                 </Button>
                 <AppButton
-                  isLoading={loading}
+                  isLoading={loader.isLoading}
                   color="danger"
                   onPress={onDelete}
                 >

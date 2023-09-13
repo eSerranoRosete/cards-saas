@@ -74,7 +74,7 @@ export const CarouselItemForm = ({
       // If its a new item
       if (!existing && file) {
         const assetID = UUID();
-        const path = carouselAssetPath({ cardID, assetID });
+        const path = buildCardAssetPath({ cardID, assetID });
         const url = await uploadAsset({ file, path });
 
         const record: FileRecord = {
@@ -123,7 +123,7 @@ export const CarouselItemForm = ({
       // If its an existing item with a new file
       if (existing && file) {
         const assetID = UUID();
-        const path = carouselAssetPath({ cardID, assetID });
+        const path = buildCardAssetPath({ cardID, assetID });
         const url = await uploadAsset({ file, path });
 
         const record: FileRecord = {
@@ -241,6 +241,6 @@ type CarouselAssetProps = {
   assetID: string;
 };
 
-const carouselAssetPath = ({ cardID, assetID }: CarouselAssetProps) => {
+export const buildCardAssetPath = ({ cardID, assetID }: CarouselAssetProps) => {
   return `/cards/${cardID}/assets/${assetID}.jpg`;
 };

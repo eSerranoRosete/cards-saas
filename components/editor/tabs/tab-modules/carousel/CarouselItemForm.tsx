@@ -30,6 +30,7 @@ type Props = {
 type FormValues = {
   title: string;
   description: string;
+  url: string;
   img: string;
 };
 
@@ -55,10 +56,11 @@ export const CarouselItemForm = ({
       title: item?.title,
       description: item?.description,
       img: item?.img.url,
+      url: item?.url,
     },
   });
 
-  const onSubmit = async ({ title, description, img }: FormValues) => {
+  const onSubmit = async ({ title, description, url: itemURL }: FormValues) => {
     if (!imgSrc) {
       form.setError("img", {
         message: "Image is required",
@@ -86,6 +88,7 @@ export const CarouselItemForm = ({
           title,
           description,
           img: record,
+          url: itemURL,
         };
 
         const newItems = addCarouselItem({
@@ -104,6 +107,7 @@ export const CarouselItemForm = ({
           title,
           description,
           img: existing.img,
+          url: itemURL,
         };
 
         const newItems = updateCarouselItem({
@@ -133,6 +137,7 @@ export const CarouselItemForm = ({
           title,
           description,
           img: record,
+          url: itemURL,
         };
 
         const newItems = updateCarouselItem({
@@ -172,17 +177,29 @@ export const CarouselItemForm = ({
       <ModalBody className="grid gap-4">
         <Input
           size="sm"
-          label="Title"
+          label="Title (optional)"
           placeholder="Ex. My Product"
           errorMessage={form.formState.errors.title?.message}
           {...form.register("title")}
         />
         <Textarea
           size="sm"
-          label="Description"
+          label="Description (optional)"
           placeholder="Ex. This is my product."
           errorMessage={form.formState.errors.title?.message}
           {...form.register("description")}
+        />
+        <Input
+          size="sm"
+          label="Url (optional)"
+          placeholder="Ex. https://mystore.example"
+          errorMessage={form.formState.errors.url?.message}
+          {...form.register("url", {
+            pattern: {
+              value: /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/,
+              message: "Enter a valid url",
+            },
+          })}
         />
         <div className="w-full relative min-h-[60px] max-h-60 bg-default-100 rounded-medium">
           <p className="absolute w-full text-center top-1/2 -translate-y-1/2 text-sm text-default-500">

@@ -41,6 +41,7 @@ export type FileRecord = {
 
 export type CarouselItem = {
   id: string;
+  url?: string;
   title?: string;
   description?: string;
   img: FileRecord;

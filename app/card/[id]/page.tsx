@@ -18,7 +18,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <CardProvider initialState={card}>
-      <CardTemplateModern view="preview" />
+      <CardTemplateModern view="preview" cardID={card.id} />
     </CardProvider>
   );
 }

@@ -8,11 +8,19 @@ import {
 } from "@nextui-org/dropdown";
 import { User } from "@nextui-org/user";
 import { LogOut, UserIcon, Wallet } from "lucide-react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export default function UserDropdown() {
   const router = useRouter();
+
+  const session = useSession();
+
+  const user = session.data?.user;
+
+  if (!user) return <></>;
+
+  const initials = fallbackFromName(user.name || "");
 
   const iconClasses = "w-4 h-4 mr-2";
 
@@ -22,11 +30,11 @@ export default function UserDropdown() {
         <User
           as="button"
           avatarProps={{
-            fallback: "ES",
+            fallback: initials,
           }}
           className="transition-transform"
-          description="eserranor98@gmail.com  "
-          name="Eduardo Serrano"
+          description={user.email || ""}
+          name={user.name || ""}
         />
       </DropdownTrigger>
       <DropdownMenu
@@ -62,4 +70,12 @@ export default function UserDropdown() {
       </DropdownMenu>
     </Dropdown>
   );
+}
+
+function fallbackFromName(name: string) {
+  const [first, last] = name.split(" ");
+  const firstInitial = first.charAt(0);
+  const lastInitial = last.charAt(0);
+
+  return `${firstInitial}${lastInitial}`;
 }

@@ -32,8 +32,6 @@ export async function updateCardCarousel({
     if (oldCarousel) {
       const toDelete = compare(oldCarousel, carousel);
 
-      console.log("🩵", toDelete);
-
       for (let i = 0; i < toDelete.length; i++) {
         const path = toDelete[i];
         const oldFileRef = ref(storage, path);

@@ -23,7 +23,7 @@ export async function getCard({
   const docRef = doc(cardCollection, id);
   const docSnap = await getDoc(docRef);
 
-  if (!docSnap.exists) return { error: "Card does not exist" };
+  if (!docSnap.exists()) return { error: "Card does not exist" };
 
   const data = docSnap.data() as CardType;
 

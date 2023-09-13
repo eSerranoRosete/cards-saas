@@ -5,7 +5,8 @@ import { ExternalLink } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import NextLink from "next/link";
-import { getCard } from "@/server/firebase/card/getCard";
+import { getCard } from "@/firebase/card/getCard";
+import { CardProvider } from "@/context/card/CardStore";
 
 type Props = {
   params: {
@@ -37,7 +38,9 @@ export default async function EditorPage({ params: { id } }: Props) {
           </>
         }
       />
-      <EditorWorkspace initialState={card} />
+      <CardProvider initialState={card}>
+        <EditorWorkspace />
+      </CardProvider>
     </>
   );
 }

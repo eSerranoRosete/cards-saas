@@ -1,18 +1,19 @@
 import DeleteCardDialog from "@/components/application/DeleteCardDialog";
 import { PanelHeader } from "@/components/application/panel/PanelHeader";
 import { EditorTabProps } from "../EditorWorkspace";
-import { useCardStore } from "@/context/card/useCardStore";
 
-export const TabSettings = ({ isActive }: EditorTabProps) => {
-  const { state } = useCardStore();
+type Props = EditorTabProps & {
+  cardID?: string;
+};
 
+export const TabSettings = ({ isActive, cardID }: Props) => {
   return (
     <PanelHeader
       isActive={isActive}
       title="Settings"
       description="Change the settings of your card"
     >
-      {state.id && <DeleteCardDialog cardID={state.id} />}
+      {cardID && <DeleteCardDialog cardID={cardID} />}
     </PanelHeader>
   );
 };

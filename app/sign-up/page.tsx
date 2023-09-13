@@ -14,7 +14,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { PasswordButton } from "@/components/application/PasswordButton";
 import { AppLogo } from "@/components/application/AppLogo";
-import { createUser } from "@/server/firebase/user/createUser";
+import { createUser } from "@/firebase/user/createUser";
 import { signIn } from "next-auth/react";
 import { useToast } from "@/components/application/toast/useToast";
 

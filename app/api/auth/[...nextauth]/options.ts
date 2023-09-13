@@ -1,7 +1,7 @@
 import type { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcrypt";
-import { getUserByEmail } from "@/server/firebase/user/getUserByEmail";
+import { getUserByEmail } from "@/firebase/user/getUserByEmail";
 
 export const options: AuthOptions = {
   providers: [
@@ -39,7 +39,6 @@ export const options: AuthOptions = {
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
-        console.log("jwt", user.id);
         token.id = user.id;
       }
 
@@ -47,7 +46,6 @@ export const options: AuthOptions = {
     },
     session: async ({ session, token }) => {
       if (session.user) {
-        console.log("token", token.id);
         session.user.id = token.id;
       }
       return session;

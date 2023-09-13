@@ -1,3 +1,5 @@
+"use client";
+
 import { CardSettings, EditableCard } from "@/types/CardTypes";
 import { create, useStore } from "zustand";
 import { produce } from "immer";

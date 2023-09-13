@@ -14,8 +14,6 @@ import { Trash } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/components/application/toast/useToast";
 import { AppButton } from "@/components/application/AppButton";
-import { useCardStore } from "@/context/card/useCardStore";
-import { updateCardModules } from "@/server/card/updateCardModules";
 
 type Props = {
   itemID: string;
@@ -25,34 +23,10 @@ export default function DeleteItemDialog({ itemID }: Props) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const [loading, setLoading] = useState(false);
 
-  const { state, actions } = useCardStore();
-
   const toast = useToast();
 
   const onDelete = async () => {
-    if (!state.id) return;
-
-    setLoading(true);
-
     try {
-      let currItems = state.modules?.carousel;
-
-      const newItems = currItems?.filter((item) => item.id !== itemID);
-
-      actions.setState({
-        modules: {
-          carousel: newItems,
-        },
-      });
-
-      await updateCardModules({
-        id: state.id,
-        values: {
-          ...state.modules,
-          carousel: newItems,
-        },
-      });
-
       toast.set({
         title: "Item deleted",
         message: "The item has been deleted successfully",

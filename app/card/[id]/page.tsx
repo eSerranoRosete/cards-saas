@@ -1,6 +1,8 @@
 import { CardTemplateModern } from "@/components/application/card/CardTemplateModern";
-import { CardProvider } from "@/context/card/CardProvider";
-import { getPublicCard } from "@/server/card/getPublicCard";
+import { CardProvider } from "@/context/card/CardStore";
+
+import { getPublicCard } from "@/firebase/card/getPublicCard";
+
 import { notFound } from "next/navigation";
 
 type Props = {
@@ -10,12 +12,12 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
-  const card = await getPublicCard({ cardID: params.id });
+  const { data: card } = await getPublicCard({ id: params.id });
 
   if (!card) notFound();
 
   return (
-    <CardProvider state={card}>
+    <CardProvider initialState={card}>
       <CardTemplateModern view="preview" />
     </CardProvider>
   );

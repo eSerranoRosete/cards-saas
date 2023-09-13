@@ -1,7 +1,8 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { CarouselItem } from "@/types/EditorTypes";
+import { CarouselItem } from "@/types/CardTypes";
+
 import { Card } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 
@@ -27,7 +28,7 @@ export const CardCarousel = ({ items }: Props) => {
                 "w-full h-full object-cover",
                 !isImgOnly && "max-h-[70%]"
               )}
-              src={item.img}
+              src={item.img.url}
               alt={item.title || ""}
             />
 

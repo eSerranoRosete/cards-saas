@@ -2,8 +2,8 @@
 
 import { Modal, ModalContent, useDisclosure } from "@nextui-org/modal";
 
-import { CarouselItem } from "@/types/EditorTypes";
 import { CarouselItemForm } from "./CarouselItemForm";
+import { CarouselItem } from "@/types/CardTypes";
 
 type Props = {
   item?: CarouselItem;

@@ -23,8 +23,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 
 type Props = {
-  id: string;
-  imgSrc: string;
+  id?: string;
+  imgSrc?: string;
   title?: string;
   disableModal?: boolean;
 };

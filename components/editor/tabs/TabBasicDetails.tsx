@@ -1,19 +1,19 @@
 "use client";
 
 import { PanelHeader } from "@/components/application/panel/PanelHeader";
-import { Input } from "@nextui-org/input";
+import { Input, Textarea } from "@nextui-org/input";
 import { EditorTabProps } from "../EditorWorkspace";
 import { useWatchErrors } from "@/hooks/useWatchErrors";
-import { useCardStore } from "@/context/card/useCardStore";
+import { useCardStore } from "@/context/card/CardStore";
 
-const tabFields = ["title", "description", "organization"];
+const tabFields = ["title", "description", "organization", "bio"];
 
 export const TabBasicDetails = ({
   isActive,
   form,
   setAlert,
 }: EditorTabProps) => {
-  const { actions } = useCardStore();
+  const store = useCardStore();
 
   useWatchErrors({
     form,
@@ -37,7 +37,7 @@ export const TabBasicDetails = ({
             required: "Title is required",
           })}
           errorMessage={form.formState.errors.title?.message}
-          onValueChange={(value) => actions.setState({ title: value })}
+          onValueChange={(value) => store.setTitle(value)}
         />
         <Input
           size="sm"
@@ -45,7 +45,7 @@ export const TabBasicDetails = ({
           label="Display Description"
           placeholder="Ex. Software Engineer"
           {...form.register("description")}
-          onValueChange={(value) => actions.setState({ description: value })}
+          onValueChange={(value) => store.setDescription(value)}
         />
         <Input
           size="sm"
@@ -53,7 +53,15 @@ export const TabBasicDetails = ({
           label="Organization"
           placeholder="Ex. Google"
           {...form.register("organization")}
-          onValueChange={(value) => actions.setState({ organization: value })}
+          onValueChange={(value) => store.setOrganization(value)}
+        />
+        <Textarea
+          size="sm"
+          label="Bio:"
+          placeholder="Ex. I am a software engineer, I love to code and build things."
+          {...form.register("bio")}
+          errorMessage={form.formState.errors.bio?.message}
+          onValueChange={(value) => store.setBio(value)}
         />
       </form>
     </PanelHeader>

@@ -1,8 +1,5 @@
 import { PanelHeader } from "@/components/application/panel/PanelHeader";
 import { EditorTabProps } from "../../EditorWorkspace";
-import { Textarea } from "@nextui-org/input";
-import { useCardStore } from "@/context/card/useCardStore";
-import { useWatchErrors } from "@/hooks/useWatchErrors";
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
 
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
@@ -12,18 +9,10 @@ import { EditItemDialog } from "./carousel/EditItemDialog";
 import { Card } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import DeleteItemDialog from "./carousel/DeleteItemDialog";
+import { useCardStore } from "@/context/card/CardStore";
 
-const tabFields = ["modules.bio"];
-
-export const TabModules = ({ isActive, form, setAlert }: EditorTabProps) => {
-  const { state, actions } = useCardStore();
-
-  useWatchErrors({
-    form,
-    tabFields,
-    tab: "modules",
-    setAlert,
-  });
+export const TabModules = ({ isActive }: EditorTabProps) => {
+  const store = useCardStore();
 
   return (
     <PanelHeader
@@ -32,19 +21,6 @@ export const TabModules = ({ isActive, form, setAlert }: EditorTabProps) => {
       description="Add modules to your card"
     >
       <div className="grid gap-4">
-        <form className="grid gap-4">
-          <Textarea
-            size="sm"
-            label="Bio:"
-            placeholder="Ex. I am a software engineer, I love to code and build things."
-            {...form.register("modules.bio")}
-            errorMessage={form.formState.errors.title?.message}
-            onValueChange={(value) =>
-              actions.setState({ modules: { bio: value } })
-            }
-          />
-        </form>
-
         <Accordion className="p-0" variant="splitted">
           <AccordionItem
             key="carousel"
@@ -53,7 +29,7 @@ export const TabModules = ({ isActive, form, setAlert }: EditorTabProps) => {
             className="bg-transparent relative"
           >
             <ScrollShadow hideScrollBar className="w-full h-72 bg-transparent">
-              {state.modules?.carousel?.map((item, i) => (
+              {store.modules.carousel?.map((item, i) => (
                 <EditItemDialog
                   key={i}
                   item={item}
@@ -66,7 +42,7 @@ export const TabModules = ({ isActive, form, setAlert }: EditorTabProps) => {
                       <Image
                         removeWrapper
                         className="aspect-square w-24 object-cover"
-                        src={item.img}
+                        src={item.img.url}
                       />
                       <div className="text-left">
                         <p className="font-semibold w-full inline-block ">

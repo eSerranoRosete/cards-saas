@@ -53,7 +53,7 @@ export default function CarouselDialog({ onSuccess, onColor }: Props) {
               <ModalBody>
                 <h1>No items yet.</h1>
                 <div className="bg-default rounded-large p-4">
-                  <CardCarousel />
+                  {/* <CardCarousel /> */}
                 </div>
               </ModalBody>
               <ModalFooter>

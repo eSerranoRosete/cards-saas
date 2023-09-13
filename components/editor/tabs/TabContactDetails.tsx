@@ -3,7 +3,7 @@ import { PanelHeader } from "@/components/application/panel/PanelHeader";
 import { SwitchCard } from "@/components/application/SwitchCard";
 import { EditorTabProps } from "../EditorWorkspace";
 import { useWatchErrors } from "@/hooks/useWatchErrors";
-import { useCardStore } from "@/context/card/useCardStore";
+import { useCardStore } from "@/context/card/CardStore";
 
 const tabFields = ["email", "phone"];
 
@@ -12,7 +12,7 @@ export const TabContactDetails = ({
   form,
   setAlert,
 }: EditorTabProps) => {
-  const { actions } = useCardStore();
+  const store = useCardStore();
 
   useWatchErrors({
     form,
@@ -40,7 +40,7 @@ export const TabContactDetails = ({
             },
           })}
           errorMessage={form.formState.errors.email?.message}
-          onValueChange={(value) => actions.setState({ email: value })}
+          onValueChange={(value) => store.setEmail(value)}
         />
         <Input
           size="sm"
@@ -49,7 +49,7 @@ export const TabContactDetails = ({
           placeholder="Ex. +52 55 5555 5555"
           {...form.register("phone")}
           errorMessage={form.formState.errors.phone?.message}
-          onValueChange={(value) => actions.setState({ phone: value })}
+          onValueChange={(value) => store.setPhone(value)}
         />
         <SwitchCard
           title="Contact Button"
@@ -57,7 +57,7 @@ export const TabContactDetails = ({
           defaultSelected={form.getValues("settings.showContactButton")}
           onValueChange={(value) => {
             form.setValue("settings.showContactButton", value);
-            actions.setState({ settings: { showContactButton: value } });
+            store.setShowContact(value);
           }}
         />
         <SwitchCard
@@ -66,7 +66,7 @@ export const TabContactDetails = ({
           defaultSelected={form.getValues("settings.showShareButton")}
           onValueChange={(value) => {
             form.setValue("settings.showShareButton", value);
-            actions.setState({ settings: { showShareButton: value } });
+            store.setShowShare(value);
           }}
         />
       </form>

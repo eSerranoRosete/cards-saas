@@ -15,10 +15,9 @@ import { TabBasicDetails } from "./tabs/TabBasicDetails";
 import { TabContactDetails } from "./tabs/TabContactDetails";
 import { Toolbar, ToolbarItem } from "../application/toolbar/Toolbar";
 import { useTabs } from "@/hooks/useTabs";
-import { CardProvider } from "@/context/card/CardProvider";
-import { CardType } from "@/types/CardTypes";
+
+import { EditableCard } from "@/types/CardTypes";
 import { AppButton } from "../application/AppButton";
-import { useCardStore } from "@/context/card/useCardStore";
 
 import { UseFormReturn, useForm } from "react-hook-form";
 
@@ -28,14 +27,10 @@ import { useWithAlerts } from "@/hooks/useWithAlerts";
 import { TabModules } from "./tabs/tab-modules/TabModules";
 import { TabSocial } from "./tabs/TabSocial";
 import { TabSettings } from "./tabs/TabSettings";
-import { CardTemplate } from "./CardTemplate";
 
-import { useRouter } from "next/navigation";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import { Button } from "@nextui-org/button";
 import { CardTemplateModern } from "../application/card/CardTemplateModern";
-import { createCard } from "@/server/firebase/card/createCard";
-import { updateCard } from "@/server/firebase/card/updateCard";
 
 export type EditorTabProps = {
   isActive?: boolean;
@@ -71,51 +66,20 @@ const toolbarItems: ToolbarItem<EditorTabs>[] = [
   },
 ];
 
-export interface EditorFormValues extends CardType {}
+export interface EditorFormValues extends EditableCard {}
 
-export const EditorWorkspaceInner = () => {
+export const EditorWorkspace = () => {
   const { activeTab, setActiveTab } = useTabs({ items: toolbarItems });
-  const { state, actions } = useCardStore();
-
-  const router = useRouter();
 
   const toast = useToast();
 
   const form = useForm<EditorFormValues>({
-    defaultValues: {
-      ...state,
-    },
+    defaultValues: {},
   });
 
   const { setAlert, items } = useWithAlerts(toolbarItems);
 
-  const onSubmit = async (values: EditorFormValues) => {
-    actions.setState({
-      ...values,
-    });
-
-    try {
-      if (!values.id) {
-        const { data: id } = await createCard({ data: state });
-
-        router.push(`/editor/${id}`);
-      } else {
-        const id = await updateCard({ id: values.id, data: state });
-      }
-
-      toast.set({
-        title: "Success!",
-        message: "Changes to your card have been saved.",
-        variant: "success",
-      });
-    } catch (error) {
-      toast.set({
-        title: "Error",
-        message: "Changes to your card could not be saved.",
-        variant: "error",
-      });
-    }
-  };
+  const onSubmit = async (values: EditorFormValues) => {};
 
   const onClick = async () => {
     const isValid = await form.trigger();
@@ -176,6 +140,7 @@ export const EditorWorkspaceInner = () => {
           <Button variant="flat" as={NextLink} href="/dashboard">
             Cancel
           </Button>
+
           <AppButton
             startContent={<Save className="w-4" />}
             color="primary"
@@ -192,17 +157,5 @@ export const EditorWorkspaceInner = () => {
         </ScrollShadow>
       </div>
     </div>
-  );
-};
-
-type Props = {
-  initialState?: CardType;
-};
-
-export const EditorWorkspace = ({ initialState }: Props) => {
-  return (
-    <CardProvider state={initialState}>
-      <EditorWorkspaceInner />
-    </CardProvider>
   );
 };

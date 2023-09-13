@@ -10,11 +10,12 @@ import {
 } from "@nextui-org/modal";
 import { Button } from "@nextui-org/button";
 import { Trash } from "lucide-react";
-import { deleteCard } from "@/server/card/deleteCard";
+
 import { useToast } from "./toast/useToast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AppButton } from "./AppButton";
+import { deleteCard } from "@/firebase/card/deleteCard";
 
 type Props = {
   cardID: string;
@@ -31,7 +32,7 @@ export default function DeleteCardDialog({ cardID }: Props) {
     setLoading(true);
 
     try {
-      await deleteCard({ cardID });
+      await deleteCard({ id: cardID });
 
       toast.set({
         title: "Card deleted",

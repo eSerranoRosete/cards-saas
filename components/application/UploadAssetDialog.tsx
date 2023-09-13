@@ -6,18 +6,22 @@ import ColorThief from "colorthief";
 
 import { Button } from "@nextui-org/button";
 import { UploadCloud } from "lucide-react";
+import { Spinner } from "@nextui-org/spinner";
+
+export type OnUploadProps = (file: File, onClose?: () => void) => void;
 
 type Props = {
-  onSuccess?: (imageString: string) => void;
+  isLoading?: boolean;
+  onUpload?: (file: File, onClose?: () => void) => void;
   onColor?: (color: string) => void;
 };
 
 export default function UploadAssetDialog({
-  onSuccess,
+  isLoading,
+  onUpload,
   onColor,
-  ...rest
 }: Props) {
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <>
@@ -36,49 +40,51 @@ export default function UploadAssetDialog({
                   htmlFor="dropzone-file"
                   className="flex flex-col items-center justify-center w-full h-64 border-2 border-default border-dashed rounded-lg cursor-pointer"
                 >
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <UploadCloud className="w-10 h-10 mb-2" />
-                    <p className="mb-2 text-sm text-default-foreground">
-                      <span className="font-semibold">Click to upload</span> or
-                      drag and drop
-                    </p>
-                    <p className="text-xs text-default-500">
-                      SVG, PNG or JPG (MAX. 800x400px)
-                    </p>
-                  </div>
-                  <input
-                    id="dropzone-file"
-                    type="file"
-                    className="hidden"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0]; // Get the first selected file
-                      if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (event) => {
-                          const imageString = event.target?.result; // This is the data URL representing the image
+                  {isLoading && <Spinner label="Uploading Image" />}
+                  {!isLoading && (
+                    <>
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <UploadCloud className="w-10 h-10 mb-2" />
+                        <p className="mb-2 text-sm text-default-foreground">
+                          <span className="font-semibold">Click to upload</span>{" "}
+                          or drag and drop
+                        </p>
+                        <p className="text-xs text-default-500">
+                          SVG, PNG or JPG (MAX. 800x400px)
+                        </p>
+                      </div>
+                      <input
+                        id="dropzone-file"
+                        type="file"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0]; // Get the first selected file
+                          if (file) {
+                            onUpload && onUpload(file, onClose);
 
-                          const img = new Image();
+                            if (onColor) {
+                              const reader = new FileReader();
+                              reader.onload = (event) => {
+                                const img = new Image();
 
-                          img.onload = () => {
-                            const colorThief = new ColorThief();
-                            const c = colorThief.getColor(img);
+                                img.onload = () => {
+                                  const colorThief = new ColorThief();
+                                  const c = colorThief.getColor(img);
 
-                            const rbgString = `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
+                                  const rbgString = `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
 
-                            onColor && onColor(rbgString);
-                          };
+                                  onColor && onColor(rbgString);
+                                };
 
-                          img.src = event.target?.result as string;
-
-                          if (imageString) {
-                            onSuccess && onSuccess(imageString as any); // Pass the data URL to onSuccess
-                            onClose();
+                                img.src = event.target?.result as string;
+                              };
+                              reader.readAsDataURL(file);
+                            }
                           }
-                        };
-                        reader.readAsDataURL(file); // Read the file as a data URL
-                      }
-                    }}
-                  />
+                        }}
+                      />
+                    </>
+                  )}
                 </label>
               </div>
             </div>

@@ -1,28 +1,22 @@
-import { XataFile } from "@xata.io/client";
-import { CarouselItem } from "./EditorTypes";
-
-export interface CardType {
-  id?: string;
+export type CardType = {
+  id: string;
+  owner: string | null;
   title?: string;
   description?: string;
   organization?: string;
-
-  avatar?: MediaFile;
-  cover?: MediaFile;
-
+  bio?: string;
+  avatar?: FileRecord;
+  cover?: FileRecord;
   email?: string;
   phone?: string;
+  settings: CardSettings;
+  social?: CardSocial;
+  modules: CardModules;
+};
 
-  settings?: CardSettings;
+export interface EditableCard extends Omit<CardType, "id" | "owner"> {}
 
-  social: SocialItem[];
-
-  modules?: CardModules;
-
-  carouselImages?: MediaFile[];
-
-  owner: string;
-}
+export type CardSocial = SocialItem[];
 
 export type CardSettings = {
   showContactButton?: boolean;
@@ -31,7 +25,6 @@ export type CardSettings = {
 };
 
 export type CardModules = {
-  bio?: string;
   carousel?: CarouselItem[];
 };
 
@@ -40,9 +33,15 @@ export type SocialItem = {
   url: string;
 };
 
-export interface MediaFile
-  extends Partial<
-    Pick<XataFile, "id" | "base64Content" | "mediaType" | "name" | "url">
-  > {
-  url?: string;
-}
+export type FileRecord = {
+  id: string;
+  url: string;
+  path?: string;
+};
+
+export type CarouselItem = {
+  id: string;
+  title?: string;
+  description?: string;
+  img: FileRecord;
+};

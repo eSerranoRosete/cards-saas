@@ -7,7 +7,7 @@ import { CardList } from "./CardList";
 
 import PremiumProtected from "@/components/application/PremiumProtected";
 import { NoCardsBanner } from "@/components/NoCardsBanner";
-import { getUserCards } from "@/server/firebase/card/getUserCards";
+import { getUserCards } from "@/firebase/card/getUserCards";
 
 export default async function DashboardPage() {
   const { data } = await getUserCards();

@@ -2,19 +2,13 @@ import { AppButton } from "@/components/application/AppButton";
 import { ModalBody, ModalFooter, ModalHeader } from "@nextui-org/modal";
 import { Button } from "@nextui-org/button";
 import { useForm } from "react-hook-form";
-import { CarouselItem } from "@/types/EditorTypes";
+
 import { Input, Textarea } from "@nextui-org/input";
 import { Image } from "@nextui-org/react";
 import UploadAssetDialog from "@/components/application/UploadAssetDialog";
 import { useState } from "react";
-import { useCardStore } from "@/context/card/useCardStore";
-import { updateCard } from "@/server/card/updateCard";
-import { useToast } from "@/components/application/toast/useToast";
-import { UUID } from "@/lib/utils";
-import { updateCardModules } from "@/server/card/updateCardModules";
-import { MediaFile } from "@/types/CardTypes";
-import { processBase64 } from "@/lib/processBase64";
-import { uploadCardMedia } from "@/server/card/uploadCardMedia";
+
+import { CarouselItem } from "@/types/CardTypes";
 
 type Props = {
   item?: CarouselItem;
@@ -32,90 +26,17 @@ export const CarouselItemForm = ({ onCancel, item, onSuccess }: Props) => {
   const [imgSrc, setImgSrc] = useState(item?.img);
   const [loading, setLoading] = useState(false);
 
-  const { state, actions } = useCardStore();
-
-  const toast = useToast();
-
   const form = useForm<FormValues>({
     defaultValues: {
       title: item?.title,
       description: item?.description,
-      img: item?.img,
+      img: item?.img.url,
     },
   });
 
-  const onSubmit = async (values: FormValues) => {
-    if (!state.id) return;
+  const onSubmit = async () => {};
 
-    if (!imgSrc) {
-      form.setError("img", {
-        type: "manual",
-        message: "An image is required",
-      });
-    } else {
-      setLoading(true);
-
-      const fileID = UUID();
-
-      const file: MediaFile = {
-        id: fileID,
-        name: `${fileID}.jpg`,
-        base64Content: processBase64(imgSrc),
-      };
-
-      const createdFileID = await uploadCardMedia({
-        id: state.id,
-        file,
-        destination: "carouselImages",
-        destinationIsArray: true,
-      });
-
-      const newItem: CarouselItem = {
-        id: item?.id || UUID(),
-        ...values,
-      };
-      let items = state.modules?.carousel || [];
-      const exists = items.findIndex((i) => i.id === newItem.id);
-      if (exists !== -1) {
-        items[exists] = newItem;
-      } else {
-        items.push(newItem);
-      }
-      actions.setState({
-        modules: {
-          carousel: items,
-        },
-      });
-      try {
-        await updateCardModules({
-          id: state.id,
-          values: {
-            ...state.modules,
-            carousel: items,
-          },
-        });
-        toast.set({
-          variant: "success",
-          title: "Success!",
-          message: "Carousel item has been updated",
-        });
-        setLoading(false);
-        onSuccess();
-      } catch (error) {
-        toast.set({
-          variant: "error",
-          title: "Error!",
-          message: "Something went wrong, please try again",
-        });
-        setLoading(false);
-      }
-    }
-  };
-
-  const onImgUpload = (url: string) => {
-    setImgSrc(url);
-    form.clearErrors("img");
-  };
+  const onImgUpload = () => {};
 
   return (
     <form>
@@ -140,12 +61,12 @@ export const CarouselItemForm = ({ onCancel, item, onSuccess }: Props) => {
             Upload an image
           </p>
           <div className="absolute z-20 right-2 top-2">
-            <UploadAssetDialog onSuccess={onImgUpload} />
+            <UploadAssetDialog onUpload={onImgUpload} />
           </div>
           <Image
             removeWrapper
             className="w-full h-full object-cover"
-            src={imgSrc}
+            src={imgSrc?.url}
           />
 
           <p className="text-danger mt-2 text-sm">

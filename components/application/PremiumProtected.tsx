@@ -20,7 +20,7 @@ export default function PremiumProtected({ children }: Props) {
 
   const session = useSession();
 
-  const isPremium = session.data?.user.isPremium;
+  const isPremium = true;
 
   return (
     <div className="relative">

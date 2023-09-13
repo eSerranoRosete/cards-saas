@@ -4,6 +4,7 @@ import { CardType } from "@/types/CardTypes";
 import { Card, CardFooter } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import { useRouter } from "next/navigation";
+import { CardContainer } from "./CardContainer";
 
 type Props = {
   cards: CardType[];
@@ -13,7 +14,7 @@ export const CardList = ({ cards }: Props) => {
   const router = useRouter();
 
   return (
-    <section className="grid grid-cols-4 gap-4">
+    <CardContainer>
       {cards.map((card) => (
         <Card
           key={card.id}
@@ -36,6 +37,6 @@ export const CardList = ({ cards }: Props) => {
           </CardFooter>
         </Card>
       ))}
-    </section>
+    </CardContainer>
   );
 };

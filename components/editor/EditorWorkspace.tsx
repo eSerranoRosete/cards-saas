@@ -1,6 +1,6 @@
 "use client";
 
-import NextLink from "next/link";
+import { useTabs } from "@/hooks/useTabs";
 import { EditorTabs } from "@/types/EditorTypes";
 import { Divider } from "@nextui-org/divider";
 import {
@@ -12,10 +12,10 @@ import {
   Palette,
   Save,
 } from "lucide-react";
+import NextLink from "next/link";
+import { Toolbar, ToolbarItem } from "../application/toolbar/Toolbar";
 import { TabBasicDetails } from "./tabs/TabBasicDetails";
 import { TabContactDetails } from "./tabs/TabContactDetails";
-import { Toolbar, ToolbarItem } from "../application/toolbar/Toolbar";
-import { useTabs } from "@/hooks/useTabs";
 
 import { EditableCard } from "@/types/CardTypes";
 import { AppButton } from "../application/AppButton";
@@ -25,20 +25,18 @@ import { UseFormReturn, useForm } from "react-hook-form";
 import { useToast } from "../application/toast/useToast";
 
 import { useWithAlerts } from "@/hooks/useWithAlerts";
-import { TabModules } from "./tabs/tab-modules/TabModules";
-import { TabSocial } from "./tabs/TabSocial";
 import { TabSettings } from "./tabs/TabSettings";
+import { TabSocial } from "./tabs/TabSocial";
+import { TabModules } from "./tabs/tab-modules/TabModules";
 
-import { ScrollShadow } from "@nextui-org/scroll-shadow";
-import { Button } from "@nextui-org/button";
-import { CardTemplateModern } from "../application/card/CardTemplateModern";
 import { useCardStore } from "@/context/card/CardStore";
 import { createCard } from "@/firebase/card/createCard";
-import { useRouter } from "next/navigation";
 import { updateCard } from "@/firebase/card/updateCard";
-import { card } from "@nextui-org/react";
-import { TabAppearance } from "./tabs/TabAppearance";
 import { cn } from "@/lib/utils";
+import { Button } from "@nextui-org/button";
+import { useRouter } from "next/navigation";
+import { CardTemplateModern } from "../application/card/CardTemplateModern";
+import { TabAppearance } from "./tabs/TabAppearance";
 
 export type EditorTabProps = {
   isActive?: boolean;
@@ -201,7 +199,8 @@ export const EditorWorkspace = ({ cardID }: Props) => {
       <main
         className={cn(
           "w-full h-full bg-default-50 p-4 rounded-medium overflow-hidden",
-          store.settings.appearance === "dark" ? "dark" : "light"
+          store.settings.appearance === "dark" && "dark",
+          store.settings.appearance === "light" && "light"
         )}
       >
         <div className="h-full overflow-y-auto">

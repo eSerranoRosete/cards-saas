@@ -42,9 +42,9 @@ export const CardTemplateModern = ({ view, cardID }: Props) => {
         />
         <div
           style={{
-            color: colors?.foreground,
+            ...(colors && { color: colors?.foreground }),
           }}
-          className={`z-20 w-full bottom-3 absolute text-center`}
+          className={`z-20 w-full bottom-3 absolute text-center text-foreground`}
         >
           <h1 className="text-3xl font-bold ">{store.title}</h1>
           <p className="text-sm max-w-[200px] m-auto mb-2">

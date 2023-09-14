@@ -20,7 +20,8 @@ export default async function Page({ params }: Props) {
   return (
     <main
       className={cn(
-        card.settings.appearance === "dark" ? "dark bg-black" : "light bg-white"
+        card.settings.appearance === "dark" && "dark",
+        card.settings.appearance === "light" && "light"
       )}
     >
       <CardProvider initialState={card}>

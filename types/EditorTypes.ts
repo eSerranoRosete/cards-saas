@@ -3,4 +3,5 @@ export type EditorTabs =
   | "contact"
   | "modules"
   | "social"
-  | "settings";
+  | "settings"
+  | "appearance";

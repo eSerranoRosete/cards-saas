@@ -9,6 +9,7 @@ import {
   Contact,
   LayoutPanelLeft,
   List,
+  Palette,
   Save,
 } from "lucide-react";
 import { TabBasicDetails } from "./tabs/TabBasicDetails";
@@ -36,6 +37,8 @@ import { createCard } from "@/firebase/card/createCard";
 import { useRouter } from "next/navigation";
 import { updateCard } from "@/firebase/card/updateCard";
 import { card } from "@nextui-org/react";
+import { TabAppearance } from "./tabs/TabAppearance";
+import { cn } from "@/lib/utils";
 
 export type EditorTabProps = {
   isActive?: boolean;
@@ -63,6 +66,11 @@ const toolbarItems: ToolbarItem<EditorTabs>[] = [
     tab: "social",
     tooltip: "Social Links",
     icon: <AtSign />,
+  },
+  {
+    tab: "appearance",
+    tooltip: "Appearance",
+    icon: <Palette />,
   },
   {
     tab: "settings",
@@ -162,6 +170,12 @@ export const EditorWorkspace = ({ cardID }: Props) => {
           setAlert={setAlert}
         />
 
+        <TabAppearance
+          form={form}
+          isActive={activeTab === "appearance"}
+          setAlert={setAlert}
+        />
+
         <TabSettings
           form={form}
           isActive={activeTab === "settings"}
@@ -184,11 +198,16 @@ export const EditorWorkspace = ({ cardID }: Props) => {
           </AppButton>
         </div>
       </div>
-      <div className="w-full h-full bg-default-50 p-4 rounded-medium overflow-hidden">
-        <ScrollShadow size={40} className="h-full">
+      <main
+        className={cn(
+          "w-full h-full bg-default-50 p-4 rounded-medium overflow-hidden",
+          store.settings.appearance === "dark" ? "dark" : "light"
+        )}
+      >
+        <div className="h-full overflow-y-auto">
           <CardTemplateModern cardID={cardID} view="edit" />
-        </ScrollShadow>
-      </div>
+        </div>
+      </main>
     </div>
   );
 };

@@ -23,6 +23,7 @@ type Actions = {
     showShare: EditableCard["settings"]["showShareButton"]
   ) => void;
   setDominantColor: (color: string) => void;
+  setAppearance: (appearance: CardSettings["appearance"]) => void;
 
   //modules
   setCarousel: (carousel: EditableCard["modules"]["carousel"]) => void;
@@ -68,6 +69,12 @@ const createCardStore = (init?: State) => {
       set(
         produce((state: State) => {
           state.settings.dominantColor = color;
+        })
+      ),
+    setAppearance: (appearance) =>
+      set(
+        produce((state: State) => {
+          state.settings.appearance = appearance;
         })
       ),
 

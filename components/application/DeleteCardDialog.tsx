@@ -45,7 +45,6 @@ export default function DeleteCardDialog({ cardID }: Props) {
 
       onClose();
     } catch (error: unknown) {
-      console.log(error);
       toast.error({
         title: "Error",
         message: error as string,

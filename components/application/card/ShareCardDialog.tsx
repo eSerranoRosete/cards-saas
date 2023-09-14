@@ -53,7 +53,9 @@ export default function ShareCardDialog({
 
   return (
     <>
-      <Button onClick={openDialog}>Share this Card</Button>
+      <Button onClick={openDialog} variant="flat">
+        Share this Card
+      </Button>
 
       <Modal
         backdrop="transparent"

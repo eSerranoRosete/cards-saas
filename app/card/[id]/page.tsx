@@ -2,6 +2,7 @@ import { CardTemplateModern } from "@/components/application/card/CardTemplateMo
 import { CardProvider } from "@/context/card/CardStore";
 
 import { getPublicCard } from "@/firebase/card/getPublicCard";
+import { cn } from "@/lib/utils";
 
 import { notFound } from "next/navigation";
 
@@ -17,8 +18,14 @@ export default async function Page({ params }: Props) {
   if (!card) notFound();
 
   return (
-    <CardProvider initialState={card}>
-      <CardTemplateModern view="preview" cardID={card.id} />
-    </CardProvider>
+    <main
+      className={cn(
+        card.settings.appearance === "dark" ? "dark bg-black" : "light bg-white"
+      )}
+    >
+      <CardProvider initialState={card}>
+        <CardTemplateModern view="preview" cardID={card.id} />
+      </CardProvider>
+    </main>
   );
 }

@@ -22,6 +22,7 @@ export type CardSettings = {
   showContactButton?: boolean;
   showShareButton?: boolean;
   dominantColor?: string;
+  appearance?: "light" | "dark";
 };
 
 export type CardModules = {

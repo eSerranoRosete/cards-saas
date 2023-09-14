@@ -3,12 +3,12 @@
 import { Button } from "@nextui-org/button";
 
 import { Image } from "@nextui-org/image";
-import { useEffect, useState } from "react";
 
 import { CardCarousel } from "./CardCarousel";
 import ShareCardDialog from "./ShareCardDialog";
 import { useCardStore } from "@/context/card/CardStore";
 import { UploadAvatar } from "./UploadAvatar";
+import { Card } from "@nextui-org/card";
 
 type Props = {
   view: "edit" | "preview";
@@ -16,25 +16,12 @@ type Props = {
 };
 
 export const CardTemplateModern = ({ view, cardID }: Props) => {
-  const [scrollTop, setScrollTop] = useState(0);
   const store = useCardStore();
 
   const colors = getColors(store.settings.dominantColor);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollTop(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   return (
-    <div className="w-full max-w-sm grid gap-8 relative rounded-large p-3 m-auto bg-black">
+    <div className="w-full max-w-sm grid gap-8 relative rounded-large p-3 m-auto bg-background pb-10">
       <div className="relative rounded-large overflow-clip mb-3 bg-default-50 min-h-[300px]">
         {view === "edit" && cardID && (
           <div className="absolute top-2 right-2 z-20">
@@ -47,12 +34,17 @@ export const CardTemplateModern = ({ view, cardID }: Props) => {
           removeWrapper
           src={store.avatar?.url}
         />
-        <div className="w-full h-1/2 bg-gradient-to-t from-black to-transparent absolute bottom-0 z-10" />
         <div
           style={{
-            transform: `translateY(-${scrollTop / 8}px)`,
+            background: `linear-gradient(to top, ${colors?.foregroundInverted}, transparent)`,
           }}
-          className="z-20 w-full bottom-0 absolute text-center"
+          className={`w-full h-1/2 absolute bottom-0 z-10`}
+        />
+        <div
+          style={{
+            color: colors?.foreground,
+          }}
+          className={`z-20 w-full bottom-3 absolute text-center`}
         >
           <h1 className="text-3xl font-bold ">{store.title}</h1>
           <p className="text-sm max-w-[200px] m-auto mb-2">
@@ -61,7 +53,6 @@ export const CardTemplateModern = ({ view, cardID }: Props) => {
           <p className="text-xs font-bold">{store.organization}</p>
         </div>
       </div>
-
       <div className="grid gap-3">
         {store.settings?.showContactButton && (
           <Button
@@ -71,6 +62,7 @@ export const CardTemplateModern = ({ view, cardID }: Props) => {
                 color: colors.foreground,
               }),
             }}
+            color="primary"
           >
             Add to Contacts
           </Button>
@@ -84,13 +76,11 @@ export const CardTemplateModern = ({ view, cardID }: Props) => {
           />
         )}
       </div>
-
       {store.bio && (
-        <div className="rounded-large bg-default-50 p-4 text-center text-sm">
+        <Card className="rounded-large bg-default-50 text-foreground p-4 text-center text-sm">
           {store.bio}
-        </div>
+        </Card>
       )}
-
       {store.modules?.carousel && (
         <CardCarousel items={store.modules.carousel} />
       )}
@@ -109,7 +99,24 @@ function getColors(rbgString?: string) {
 
   const color = Math.round((rbg[0] * 299 + rbg[1] * 587 + rbg[2] * 114) / 1000);
   const foreground = color > 125 ? "black" : "white";
-  const background = "rgb(" + rbg[0] + ", " + rbg[1] + ", " + rbg[2] + ")";
+  const foregroundInverted = color > 125 ? "white" : "black";
+  const background = "rgb(" + rbg[0] + "," + rbg[1] + "," + rbg[2] + ")";
 
-  return { background, foreground };
+  function rgbToHex(red: number, green: number, blue: number): string {
+    // Ensure the input values are within the valid range (0-255)
+    red = Math.min(Math.max(red, 0), 255);
+    green = Math.min(Math.max(green, 0), 255);
+    blue = Math.min(Math.max(blue, 0), 255);
+
+    // Convert the RGB values to hexadecimal format
+    const hexColor = `#${red.toString(16).padStart(2, "0")}${green
+      .toString(16)
+      .padStart(2, "0")}${blue.toString(16).padStart(2, "0")}`;
+
+    return hexColor.toUpperCase(); // Convert to uppercase for consistency
+  }
+
+  const hex = rgbToHex(rbg[0], rbg[1], rbg[2]);
+
+  return { background: hex, foreground, foregroundInverted };
 }

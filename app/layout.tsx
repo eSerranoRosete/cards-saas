@@ -9,6 +9,12 @@ export const metadata: Metadata = {
   title: "Moduly",
   description:
     "Unlock the possibilities with Moduly – Your personalized gateway to seamless connections. Elevate your online presence effortlessly and showcase all that defines you in one click. #ModulyMagic ✨",
+  generator: "Next.js",
+  manifest: "/manifest.json",
+  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#fff" }],
+  authors: [{ name: "Eduardo Serrano" }],
+  viewport:
+    "minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover",
 };
 
 export default function RootLayout({

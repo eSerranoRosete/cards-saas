@@ -71,7 +71,7 @@ export const TabSocial = ({ isActive }: EditorTabProps) => {
       </form>
       <div className="mt-5 gap-2 grid">
         {store.social?.map((item) => (
-          <Card>
+          <Card key={item.id}>
             <CardBody className="p-3">
               <div className="flex items-center gap-4">
                 <SocialIcon size={45} url={item.url} />

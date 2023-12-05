@@ -97,7 +97,7 @@ export const CardTemplateModern = ({ view, cardID }: Props) => {
 
       <div className="w-full p-2 flex gap-3 flex-wrap justify-center">
         {store.social?.map((item) => (
-          <Link href={item.url} target="_blank">
+          <Link key={item.id} href={item.url} target="_blank">
             <SocialIcon size={55} url={item.url} />
           </Link>
         ))}

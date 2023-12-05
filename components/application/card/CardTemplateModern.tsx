@@ -9,6 +9,16 @@ import ShareCardDialog from "./ShareCardDialog";
 import { useCardStore } from "@/context/card/CardStore";
 import { UploadAvatar } from "./UploadAvatar";
 import { Card } from "@nextui-org/card";
+import { Facebook } from "@/components/social-icons/Facebook";
+import { Twitter } from "@/components/social-icons/Twitter";
+import { LinkedIn } from "@/components/social-icons/LinkedIn";
+import { YouTube } from "@/components/social-icons/YouTube";
+import { Instagram } from "@/components/social-icons/Instagram";
+import { Pinterest } from "@/components/social-icons/Pinterest";
+import { Whatsapp } from "@/components/social-icons/Whatsapp";
+import { TikTok } from "@/components/social-icons/TikTok";
+import { SocialIcon } from "@/components/social-icons/SocialIcon";
+import Link from "next/link";
 
 type Props = {
   view: "edit" | "preview";
@@ -84,6 +94,14 @@ export const CardTemplateModern = ({ view, cardID }: Props) => {
       {store.modules?.carousel && (
         <CardCarousel items={store.modules.carousel} />
       )}
+
+      <div className="w-full p-2 flex gap-3 flex-wrap justify-center">
+        {store.social?.map((item) => (
+          <Link href={item.url} target="_blank">
+            <SocialIcon size={55} url={item.url} />
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };

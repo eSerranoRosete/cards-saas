@@ -29,6 +29,7 @@ type Actions = {
   setCarousel: (carousel: EditableCard["modules"]["carousel"]) => void;
 
   //social
+  setSocial: (social: EditableCard["social"]) => void;
 
   setAvatar: (avatar: EditableCard["avatar"]) => void;
   setCover: (cover: EditableCard["cover"]) => void;
@@ -87,6 +88,14 @@ const createCardStore = (init?: State) => {
 
     setAvatar: (avatar) => set({ avatar }),
     setCover: (cover) => set({ cover }),
+
+    setSocial: (social) =>
+      set(
+        produce((state: State) => {
+          state.social = social;
+        })
+      ),
+
     getState: () => {
       const s = get();
       return {

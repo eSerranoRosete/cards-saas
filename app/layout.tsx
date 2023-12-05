@@ -1,5 +1,5 @@
 import "./globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Providers } from "./Providers";
 
@@ -11,10 +11,15 @@ export const metadata: Metadata = {
     "Unlock the possibilities with Moduly – Your personalized gateway to seamless connections. Elevate your online presence effortlessly and showcase all that defines you in one click. #ModulyMagic ✨",
   generator: "Next.js",
   manifest: "/manifest.json",
-  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#fff" }],
   authors: [{ name: "Eduardo Serrano" }],
-  viewport:
-    "minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover",
+};
+
+export const viewport: Viewport = {
+  minimumScale: 1,
+  initialScale: 1,
+  width: "device-width",
+  viewportFit: "cover",
+  userScalable: false,
 };
 
 export default function RootLayout({

@@ -1,5 +1,4 @@
-import { Button } from "@nextui-org/button";
-import { Tooltip } from "@nextui-org/tooltip";
+import { IconButton } from "@radix-ui/themes";
 
 export type ToolbarItem<T extends string> = {
   tab: T;
@@ -22,29 +21,19 @@ export function Toolbar<T extends string>({
   return (
     <div className="h-full flex flex-col gap-4">
       {toolbarItems.map((item) => (
-        <Tooltip
-          key={item.tab as any}
-          content={item.tooltip}
-          placement="right"
-          color="primary"
-          closeDelay={0}
-          delay={500}
-          hidden={!item.tooltip}
-        >
-          <div className="relative">
-            <Button
-              variant={activeTab === item.tab ? "solid" : "flat"}
-              color={activeTab === item.tab ? "primary" : "default"}
-              isIconOnly
-              onClick={() => setActiveTab(item.tab)}
-            >
-              {item.icon}
-            </Button>
-            {item.hasAlert && (
-              <div className="w-3 h-3 absolute -top-1 -right-1 rounded-full bg-danger" />
-            )}
-          </div>
-        </Tooltip>
+        <div className="relative">
+          <IconButton
+            variant={activeTab === item.tab ? "solid" : "soft"}
+            {...(activeTab !== item.tab && { color: "gray" })}
+            onClick={() => setActiveTab(item.tab)}
+            size="3"
+          >
+            {item.icon}
+          </IconButton>
+          {item.hasAlert && (
+            <div className="w-3 h-3 absolute -top-1 -right-1 rounded-full bg-danger" />
+          )}
+        </div>
       ))}
     </div>
   );

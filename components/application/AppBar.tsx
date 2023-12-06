@@ -1,10 +1,7 @@
-import { Button } from "@nextui-org/button";
-import { Divider } from "@nextui-org/divider";
-
-import NextLink from "next/link";
-import UserDropdown from "./ProfileDropdown";
-import { LockIcon } from "lucide-react";
+import { Button } from "@radix-ui/themes";
+import { default as Link, default as NextLink } from "next/link";
 import { AppLogo } from "./AppLogo";
+import { UserDropdown } from "./UserDropdown";
 
 export const AppBar = () => {
   return (
@@ -15,28 +12,12 @@ export const AppBar = () => {
           Inteminer
         </NextLink>
         <div className="grow flex gap-4">
-          <Button
-            href="/dashboard"
-            as={NextLink}
-            size="md"
-            className="bg-foreground text-background"
-          >
-            Dashboard
-          </Button>
-          <Button
-            href="/analytics"
-            isDisabled
-            as={NextLink}
-            variant="light"
-            size="md"
-            endContent={<LockIcon className="w-4" />}
-          >
-            Analytics
-          </Button>
+          <Link href="/dashboard">
+            <Button>Dashboard</Button>
+          </Link>
         </div>
         <UserDropdown />
       </nav>
-      <Divider />
     </header>
   );
 };

@@ -1,19 +1,19 @@
 "use client";
 
-import { Card, CardBody, CardHeader } from "@nextui-org/card";
-import { Input } from "@nextui-org/input";
-import { Link } from "@nextui-org/link";
 import { useForm } from "react-hook-form";
 
 import NextLink from "next/link";
 
 import { AppButton } from "@/components/application/AppButton";
+import { AppLogo } from "@/components/application/AppLogo";
 import { PasswordButton } from "@/components/application/PasswordButton";
+import { TextInput } from "@/components/application/form/TextInput";
 import { useToast } from "@/components/application/toast/useToast";
 import { createUser } from "@/firebase/user/createUser";
+import { Card, Flex } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { AppLogo } from "@/components/application/AppLogo";
+import Link from "next/link";
 
 type SignupValues = {
   name: string;
@@ -58,16 +58,16 @@ export default function SignUpPage() {
         </nav>
       </header>
       <Card className="w-full max-w-sm pb-4">
-        <CardHeader className="flex justify-center flex-col items-center gap-2 mt-5">
+        <div className="flex justify-center flex-col items-center gap-2 my-5">
           <h1 className="text-3xl mt-2 font-semibold">Welcome</h1>
           <p className="text-sm text-default-500">Create an account</p>
-        </CardHeader>
-        <CardBody className="overflow-hidden">
-          <form
-            className="flex flex-col gap-4"
-            onSubmit={form.handleSubmit(onSignUp)}
-          >
-            <Input
+        </div>
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={form.handleSubmit(onSignUp)}
+        >
+          <Flex direction="column" gap="5">
+            <TextInput
               label="Name"
               placeholder="Enter your name"
               {...form.register("name", {
@@ -75,7 +75,7 @@ export default function SignUpPage() {
               })}
               errorMessage={form.formState.errors.name?.message}
             />
-            <Input
+            <TextInput
               label="Email"
               placeholder="Enter your email"
               {...form.register("email", {
@@ -87,7 +87,7 @@ export default function SignUpPage() {
               })}
               errorMessage={form.formState.errors.email?.message}
             />
-            <Input
+            <TextInput
               label="Password"
               placeholder="Enter a password"
               type={isVisible ? "text" : "password"}
@@ -107,29 +107,23 @@ export default function SignUpPage() {
               }
             />
 
-            <div className="flex gap-2 justify-end">
-              <AppButton
-                isLoading={form.formState.isSubmitting}
-                type="submit"
-                fullWidth
-                color="primary"
-              >
-                Sign up
-              </AppButton>
-            </div>
+            <AppButton
+              className="w-full"
+              isLoading={form.formState.isSubmitting}
+              type="submit"
+              size="3"
+            >
+              Sign up
+            </AppButton>
+
             <p className="text-center text-small">
               Already have an account?{" "}
-              <Link
-                as={NextLink}
-                href="/sign-in"
-                className="cursor-pointer"
-                size="sm"
-              >
-                Login
+              <Link href="/sign-in" className="cursor-pointer underline">
+                Sign in
               </Link>
             </p>
-          </form>
-        </CardBody>
+          </Flex>
+        </form>
       </Card>
     </main>
   );

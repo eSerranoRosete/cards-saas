@@ -4,21 +4,13 @@ import { Button } from "@nextui-org/button";
 
 import { Image } from "@nextui-org/image";
 
+import { SocialIcon } from "@/components/social-icons/SocialIcon";
+import { useCardStore } from "@/context/card/CardStore";
+import { Card } from "@nextui-org/card";
+import Link from "next/link";
 import { CardCarousel } from "./CardCarousel";
 import ShareCardDialog from "./ShareCardDialog";
-import { useCardStore } from "@/context/card/CardStore";
 import { UploadAvatar } from "./UploadAvatar";
-import { Card } from "@nextui-org/card";
-import { Facebook } from "@/components/social-icons/Facebook";
-import { Twitter } from "@/components/social-icons/Twitter";
-import { LinkedIn } from "@/components/social-icons/LinkedIn";
-import { YouTube } from "@/components/social-icons/YouTube";
-import { Instagram } from "@/components/social-icons/Instagram";
-import { Pinterest } from "@/components/social-icons/Pinterest";
-import { Whatsapp } from "@/components/social-icons/Whatsapp";
-import { TikTok } from "@/components/social-icons/TikTok";
-import { SocialIcon } from "@/components/social-icons/SocialIcon";
-import Link from "next/link";
 
 type Props = {
   view: "edit" | "preview";

@@ -1,10 +1,9 @@
 import { AppLogo } from "@/components/application/AppLogo";
-import { Button } from "@nextui-org/button";
 
-import { Divider } from "@nextui-org/divider";
-import { Image } from "@nextui-org/image";
+import { Button, Separator } from "@radix-ui/themes";
 
 import { getServerSession } from "next-auth";
+import Link from "next/link";
 import NextLink from "next/link";
 
 export default async function Home() {
@@ -20,38 +19,35 @@ export default async function Home() {
           </NextLink>
           <div className="grow flex gap-4"></div>
           {session ? (
-            <Button as={NextLink} href="/dashboard" size="sm">
-              Go to Dashboard
-            </Button>
+            <Link href="/dashboard">
+              <Button>Go to Dashboard</Button>
+            </Link>
           ) : (
             <AuthButtons />
           )}
         </nav>
-        <Divider />
+        <Separator size="4" />
       </header>
       <main className="container mt-10 ">
         <div className="grid grid-cols-4 h-72  gap-5">
           <div className="col-span-2 relative rounded-3xl">
-            <Image
+            <img
               src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3276&q=80"
-              className="object-cover w-full h-full absolute top-0 left-0 object-center"
-              removeWrapper
+              className="object-cover rounded-lg w-full h-full absolute top-0 left-0 object-center"
               alt=""
             />
           </div>
           <div className="relative rounded-3xl">
-            <Image
+            <img
               src="https://images.unsplash.com/photo-1687360441023-286ce1b5da0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3327&q=80"
-              className="object-cover w-full h-full absolute top-0 left-0 object-center"
-              removeWrapper
+              className="object-cover rounded-lg w-full h-full absolute top-0 left-0 object-center"
               alt=""
             />
           </div>
           <div className="relative rounded-3xl">
-            <Image
+            <img
               src="https://images.unsplash.com/photo-1570158268183-d296b2892211?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3387&q=80"
-              className="object-cover w-full h-full absolute top-0 left-0 object-center"
-              removeWrapper
+              className="object-cover rounded-lg w-full h-full absolute top-0 left-0 object-center"
               alt=""
             />
           </div>
@@ -66,12 +62,12 @@ export default async function Home() {
           </span>
         </h1>
 
-        <Divider className="my-10" />
+        <Separator className="my-10" size="4" />
 
         <div className="m-auto text-center">
-          <Button as={NextLink} href="/sign-up" size="lg" color="primary">
-            Get started for free
-          </Button>
+          <Link href="/sign-up">
+            <Button size="3">Get started for free</Button>
+          </Link>
           <p className="text-sm text-default-500 mt-2">7 day free trial.</p>
         </div>
       </main>
@@ -82,12 +78,16 @@ export default async function Home() {
 const AuthButtons = () => {
   return (
     <div className="flex gap-2">
-      <Button as={NextLink} href="/sign-up" size="sm">
-        Sign Up
-      </Button>
-      <Button href="/sign-in" as={NextLink} size="sm">
-        Sign In
-      </Button>
+      <Link href="/sign-up">
+        <Button variant="solid" color="gray">
+          Sign Up
+        </Button>
+      </Link>
+      <Link href="/sign-in">
+        <Button variant="solid" color="gray">
+          Sign In
+        </Button>
+      </Link>
     </div>
   );
 };

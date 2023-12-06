@@ -1,26 +1,14 @@
-"use client";
-
-import { Button } from "@nextui-org/button";
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure,
-} from "@nextui-org/modal";
-import { Trash } from "lucide-react";
-
 import { useIsLoading } from "@/hooks/useIsLoading";
-import { AppButton } from "../application/AppButton";
-import { ButtonProps } from "@nextui-org/button";
+
+import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 import { ReactNode } from "react";
 
 type Props = {
   title: string;
   actionLabel?: string;
   children: React.ReactNode;
-  trigger: (onClick: () => void) => ReactNode;
+  trigger: ReactNode;
+  stopProppagation?: boolean;
   onSuccess: () => void;
 };
 
@@ -29,49 +17,56 @@ export default function DialogConfirm({
   actionLabel = "Confirm",
   children,
   trigger,
+  stopProppagation,
   onSuccess,
 }: Props) {
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const loader = useIsLoading();
 
-  const onSuccessCb = async () => {
+  const onSuccessCb = async (e: any) => {
     loader.start();
+
+    stopProppagation && e.stopPropagation();
 
     try {
       onSuccess();
 
       loader.stop();
-
-      onClose();
     } catch (error: unknown) {
       loader.stop();
     }
   };
   return (
-    <>
-      {trigger(onOpen)}
-      <Modal backdrop="blur" isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">{title}</ModalHeader>
-              <ModalBody>{children}</ModalBody>
-              <ModalFooter>
-                <Button variant="light" onPress={onClose}>
-                  Cancel
-                </Button>
-                <AppButton
-                  isLoading={loader.isLoading}
-                  color="danger"
-                  onPress={onSuccessCb}
-                >
-                  {actionLabel}
-                </AppButton>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-    </>
+    <AlertDialog.Root>
+      <AlertDialog.Trigger
+        onClick={(e) => {
+          stopProppagation && e.stopPropagation();
+        }}
+      >
+        {trigger}
+      </AlertDialog.Trigger>
+      <AlertDialog.Content style={{ maxWidth: 450 }}>
+        <AlertDialog.Title>{title}</AlertDialog.Title>
+        <AlertDialog.Description size="2">{children}</AlertDialog.Description>
+
+        <Flex gap="3" mt="4" justify="end">
+          <AlertDialog.Cancel>
+            <Button
+              onClick={(e) => {
+                stopProppagation && e.stopPropagation();
+              }}
+              variant="soft"
+              color="gray"
+            >
+              Cancel
+            </Button>
+          </AlertDialog.Cancel>
+          <AlertDialog.Action>
+            <Button variant="solid" color="red" onClick={onSuccessCb}>
+              {actionLabel}
+            </Button>
+          </AlertDialog.Action>
+        </Flex>
+      </AlertDialog.Content>
+    </AlertDialog.Root>
   );
 }

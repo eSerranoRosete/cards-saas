@@ -1,34 +1,27 @@
-"use client";
+import { Dialog } from "@radix-ui/themes";
 
-import { Modal, ModalContent, useDisclosure } from "@nextui-org/modal";
-
-import { CarouselItemForm } from "./CarouselItemForm";
 import { CarouselItem } from "@/types/CardTypes";
+import { CarouselItemForm } from "./CarouselItemForm";
+import { useIsOpen } from "@/hooks/useIsOpen";
 
 type Props = {
   cardID: string;
   item?: CarouselItem;
-  trigger: (onOpen: () => void) => JSX.Element;
+  trigger: JSX.Element;
 };
 
 export function EditItemDialog({ item, trigger, cardID }: Props) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpenChange, onClose } = useIsOpen();
 
   return (
-    <>
-      {trigger(onOpen)}
-      <Modal backdrop="blur" isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <CarouselItemForm
-              cardID={cardID}
-              onCancel={onClose}
-              item={item}
-              onSuccess={onClose}
-            />
-          )}
-        </ModalContent>
-      </Modal>
-    </>
+    <Dialog.Root onOpenChange={onOpenChange} open={isOpen}>
+      <Dialog.Trigger>{trigger}</Dialog.Trigger>
+      <Dialog.Content>
+        <Dialog.Title></Dialog.Title>
+        <Dialog.Description>
+          <CarouselItemForm cardID={cardID} item={item} onSuccess={onClose} />
+        </Dialog.Description>
+      </Dialog.Content>
+    </Dialog.Root>
   );
 }

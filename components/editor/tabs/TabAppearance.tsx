@@ -1,12 +1,11 @@
 "use client";
 
+import { SwitchCard } from "@/components/application/SwitchCard";
 import { PanelHeader } from "@/components/application/panel/PanelHeader";
 import { useCardStore } from "@/context/card/CardStore";
 import { useWatchErrors } from "@/hooks/useWatchErrors";
-import { Switch } from "@nextui-org/switch";
-import { EditorTabProps } from "../EditorWorkspace";
 import { useTheme } from "next-themes";
-import { SwitchCard } from "@/components/application/SwitchCard";
+import { EditorTabProps } from "../EditorWorkspace";
 
 const tabFields = ["title", "description", "organization", "bio"];
 
@@ -45,8 +44,8 @@ export const TabAppearance = ({ isActive, form, setAlert }: EditorTabProps) => {
       <SwitchCard
         title="Dark Mode"
         description="Enable dark mode for your card"
-        defaultSelected={getDefaultSelected()}
-        onValueChange={(value) => {
+        defaultChecked={getDefaultSelected()}
+        onCheckedChange={(value) => {
           form.setValue("settings.showContactButton", value);
           store.setAppearance(value ? "dark" : "light");
         }}

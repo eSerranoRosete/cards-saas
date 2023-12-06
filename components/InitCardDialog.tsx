@@ -1,27 +1,17 @@
 "use client";
 
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-} from "@nextui-org/modal";
-import { Button } from "@nextui-org/button";
-
 import { useRouter } from "next/navigation";
 
 import { useIsLoading } from "@/hooks/useIsLoading";
 import { useToast } from "./application/toast/useToast";
-import { AppButton } from "./application/AppButton";
 
-import { useForm } from "react-hook-form";
-import { Input } from "@nextui-org/input";
 import { createCard } from "@/firebase/card/createCard";
+import { Button, Dialog, Flex, Text, TextField } from "@radix-ui/themes";
+import { useForm } from "react-hook-form";
+import { TextInput } from "./application/form/TextInput";
 
 type Props = {
-  button: (onOpen: () => void) => JSX.Element;
+  button: JSX.Element;
 };
 
 type FormValues = {
@@ -29,7 +19,6 @@ type FormValues = {
 };
 
 export default function InitCardDialog({ button }: Props) {
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const loader = useIsLoading();
   const router = useRouter();
 
@@ -50,7 +39,7 @@ export default function InitCardDialog({ button }: Props) {
       });
 
       loader.stop();
-      onClose();
+
       router.push(`/editor/${cardID}`);
     } catch (error: unknown) {
       toast.error({
@@ -61,50 +50,37 @@ export default function InitCardDialog({ button }: Props) {
     }
   };
 
-  const onCancel = () => {
-    form.reset();
-    onClose();
-  };
-
   return (
-    <>
-      {button(onOpen)}
+    <Dialog.Root>
+      <Dialog.Trigger>{button}</Dialog.Trigger>
 
-      <Modal backdrop="blur" isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <ModalHeader className="flex flex-col gap-1">
-                Give your card a title
-              </ModalHeader>
-              <ModalBody>
-                <Input
-                  size="sm"
-                  label="Title"
-                  placeholder="Ex. Jhon Doe's Card"
-                  description="Don't worry, you can change this later"
-                  errorMessage={form.formState.errors.title?.message}
-                  {...form.register("title", {
-                    required: "A title is required",
-                  })}
-                />
-              </ModalBody>
-              <ModalFooter>
-                <Button variant="light" onPress={onCancel}>
-                  Cancel
-                </Button>
-                <AppButton
-                  isLoading={loader.isLoading}
-                  color="primary"
-                  type="submit"
-                >
-                  Go to Editor
-                </AppButton>
-              </ModalFooter>
-            </form>
-          )}
-        </ModalContent>
-      </Modal>
-    </>
+      <Dialog.Content style={{ maxWidth: 450 }}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <Dialog.Title>Give your card a title</Dialog.Title>
+          <Dialog.Description size="2" mb="4">
+            Don't worry, you can change this later!
+          </Dialog.Description>
+
+          <TextInput
+            label="Name"
+            placeholder="Ex. Jhon Doe"
+            {...form.register("title", {
+              required: "A title is required",
+            })}
+            errorMessage={form.formState.errors.title?.message}
+          />
+
+          <Flex gap="3" mt="4" justify="end">
+            <Dialog.Close>
+              <Button onClick={() => form.reset()} variant="soft" color="gray">
+                Cancel
+              </Button>
+            </Dialog.Close>
+
+            <Button type="submit">Go to Editor</Button>
+          </Flex>
+        </form>
+      </Dialog.Content>
+    </Dialog.Root>
   );
 }

@@ -3,10 +3,11 @@
 import InitCardDialog from "@/components/InitCardDialog";
 import { NoCardsBanner } from "@/components/NoCardsBanner";
 import { PageHeader } from "@/components/application/PageHeader";
-import { Button } from "@nextui-org/button";
+
 import { PlusCircle } from "lucide-react";
 import { CardList } from "./CardList";
 import { CardType } from "@/types/CardTypes";
+import { Button } from "@radix-ui/themes";
 
 type Props = {
   cards: CardType[];
@@ -19,16 +20,12 @@ export const Inner = ({ cards }: Props) => {
         title="Your Active Cards"
         actions={
           <InitCardDialog
-            button={(onOpen) => (
-              <Button
-                onClick={onOpen}
-                startContent={<PlusCircle className="w-4" />}
-                size="md"
-                color="primary"
-              >
+            button={
+              <Button className="gap-2">
+                <PlusCircle className="w-4" />
                 Create Card
               </Button>
-            )}
+            }
           />
         }
       />

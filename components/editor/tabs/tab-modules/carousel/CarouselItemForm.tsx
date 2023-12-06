@@ -1,29 +1,28 @@
 import { AppButton } from "@/components/application/AppButton";
-import { ModalBody, ModalFooter, ModalHeader } from "@nextui-org/modal";
-import { Button } from "@nextui-org/button";
+
 import { useForm } from "react-hook-form";
 
-import { Input, Textarea } from "@nextui-org/input";
-import { Image } from "@nextui-org/react";
 import UploadAssetDialog from "@/components/application/UploadAssetDialog";
 import { useState } from "react";
 
-import { CarouselItem, FileRecord } from "@/types/CardTypes";
+import { TextAreaInput } from "@/components/application/form/TextAreaInput";
+import { TextInput } from "@/components/application/form/TextInput";
+import { useToast } from "@/components/application/toast/useToast";
+import { useCardStore } from "@/context/card/CardStore";
+import { updateCardCarousel } from "@/firebase/card/carousel/updateCardCarousel";
 import { uploadAsset } from "@/firebase/card/uploadAsset";
-import { UUID } from "@/lib/utils";
+import { useIsLoading } from "@/hooks/useIsLoading";
 import {
   addCarouselItem,
   updateCarouselItem,
 } from "@/lib/array-mutations/carousel";
-import { useCardStore } from "@/context/card/CardStore";
-import { updateCardCarousel } from "@/firebase/card/carousel/updateCardCarousel";
-import { useToast } from "@/components/application/toast/useToast";
-import { useIsLoading } from "@/hooks/useIsLoading";
+import { UUID } from "@/lib/utils";
+import { CarouselItem, FileRecord } from "@/types/CardTypes";
+import { Button, Dialog, Flex } from "@radix-ui/themes";
 
 type Props = {
   item?: CarouselItem;
   cardID: string;
-  onCancel: () => void;
   onSuccess?: () => void;
 };
 
@@ -34,12 +33,7 @@ type FormValues = {
   img: string;
 };
 
-export const CarouselItemForm = ({
-  item,
-  cardID,
-  onCancel,
-  onSuccess,
-}: Props) => {
+export const CarouselItemForm = ({ item, cardID, onSuccess }: Props) => {
   const [imgSrc, setImgSrc] = useState<string | undefined>(item?.img.url);
   const [file, setFile] = useState<File>();
 
@@ -171,26 +165,23 @@ export const CarouselItemForm = ({
     setFile(file);
     close?.();
   };
+
   return (
-    <form>
-      <ModalHeader />
-      <ModalBody className="grid gap-4">
-        <Input
-          size="sm"
+    <form onSubmit={form.handleSubmit(onSubmit)}>
+      <Flex direction="column" gap="3" className="h-full" mb="4">
+        <TextInput
           label="Title (optional)"
           placeholder="Ex. My Product"
           errorMessage={form.formState.errors.title?.message}
           {...form.register("title")}
         />
-        <Textarea
-          size="sm"
+        <TextAreaInput
           label="Description (optional)"
           placeholder="Ex. This is my product."
           errorMessage={form.formState.errors.title?.message}
           {...form.register("description")}
         />
-        <Input
-          size="sm"
+        <TextInput
           label="Url (optional)"
           placeholder="Ex. https://mystore.example"
           errorMessage={form.formState.errors.url?.message}
@@ -201,16 +192,16 @@ export const CarouselItemForm = ({
             },
           })}
         />
-        <div className="w-full relative min-h-[60px] max-h-60 bg-default-100 rounded-medium">
-          <p className="absolute w-full text-center top-1/2 -translate-y-1/2 text-sm text-default-500">
+        <div className="w-full relative min-h-[60px] max-h-60 rounded-md">
+          <p className="absolute w-full -z-10 text-center top-1/2 -translate-y-1/2 text-sm text-default-500">
             Upload an image
           </p>
           <div className="absolute z-20 right-2 top-2">
             <UploadAssetDialog onBase64={onBase64} onUpload={onUpload} />
           </div>
-          <Image
-            removeWrapper
-            className="w-full h-full object-cover"
+
+          <img
+            className="w-full h-60 aspect-square object-cover rounded-md"
             src={imgSrc}
           />
 
@@ -218,20 +209,16 @@ export const CarouselItemForm = ({
             {form.formState.errors.img?.message}
           </p>
         </div>
-      </ModalBody>
-      <ModalFooter>
-        <Button variant="light" onPress={onCancel}>
-          Cancel
-        </Button>
-        <AppButton
-          type="submit"
-          color="primary"
-          onClick={form.handleSubmit(onSubmit)}
-          isLoading={loader.isLoading}
-        >
+      </Flex>
+
+      <Flex align="center" gap="4" justify="end">
+        <Dialog.Close>
+          <Button variant="ghost">Cancel</Button>
+        </Dialog.Close>
+        <AppButton type="submit" isLoading={loader.isLoading}>
           Save
         </AppButton>
-      </ModalFooter>
+      </Flex>
     </form>
   );
 };

@@ -1,6 +1,8 @@
-import { Card, CardBody } from "@nextui-org/card";
-import { Switch, SwitchProps } from "@nextui-org/switch";
+import { Card, Switch, Text } from "@radix-ui/themes";
 import { forwardRef } from "react";
+
+// Extract the prop types of the Switch component
+type SwitchProps = React.ComponentProps<typeof Switch>;
 
 interface Props extends SwitchProps {
   title?: string;
@@ -11,15 +13,17 @@ export const SwitchCard = forwardRef(
   ({ description, title, ...rest }: Props, ref) => {
     return (
       <Card>
-        <CardBody className="flex flex-row items-center justify-between">
+        <div className="flex flex-row items-center justify-between">
           <div className="flex justify-between items-center">
             <div>
-              <h4 className="font-medium">{title}</h4>
-              <p className="text-xs text-default-500">{description}</p>
+              <Text className="font-medium">{title}</Text>
+              <Text className="text-sm block  mb-5 text-default-400">
+                {description}
+              </Text>
             </div>
           </div>
           <Switch ref={ref as any} {...rest} />
-        </CardBody>
+        </div>
       </Card>
     );
   }

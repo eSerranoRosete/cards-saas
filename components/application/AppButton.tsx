@@ -1,10 +1,29 @@
-import { Button, ButtonProps } from "@nextui-org/button";
-import React from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@radix-ui/themes";
+import { Loader2 } from "lucide-react";
+
+type ButtonProps = React.ComponentProps<typeof Button>;
+
+interface Props extends ButtonProps {
+  icon?: React.ReactNode;
+  isLoading?: boolean;
+}
 
 interface Props extends ButtonProps {}
 
-export const AppButton = ({ ...rest }: Props) => {
+export const AppButton = ({
+  icon,
+  isLoading,
+  children,
+  className,
+  ...rest
+}: Props) => {
+  const Icon = icon;
+
   return (
-    <Button {...rest} startContent={!rest.isLoading && rest.startContent} />
+    <Button {...rest} className={cn("gap-2", className)} disabled={isLoading}>
+      {isLoading ? <Loader2 className="w-4 animate-spin" /> : Icon}
+      {children}
+    </Button>
   );
 };

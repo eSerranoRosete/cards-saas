@@ -1,9 +1,8 @@
-import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
 import { Providers } from "./Providers";
 
-const inter = Inter({ subsets: ["latin"] });
+import "./globals.css";
+import "@radix-ui/themes/styles.css";
 
 export const metadata: Metadata = {
   title: "Moduly",
@@ -28,8 +27,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+    <html lang="en">
+      <body>
         <Providers>{children}</Providers>
       </body>
     </html>

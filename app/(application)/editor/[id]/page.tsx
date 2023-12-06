@@ -1,12 +1,13 @@
 import { PageHeader } from "@/components/application/PageHeader";
 import { EditorWorkspace } from "@/components/editor/EditorWorkspace";
-import { Button } from "@nextui-org/button";
+
 import { ExternalLink } from "lucide-react";
 import { notFound } from "next/navigation";
 
-import NextLink from "next/link";
-import { getCard } from "@/firebase/card/getCard";
 import { CardProvider } from "@/context/card/CardStore";
+import { getCard } from "@/firebase/card/getCard";
+import { Button } from "@radix-ui/themes";
+import Link from "next/link";
 
 type Props = {
   params: {
@@ -26,15 +27,12 @@ export default async function EditorPage({ params: { id } }: Props) {
         title="Editor"
         actions={
           <>
-            <Button
-              as={NextLink}
-              href={`/card/${id}`}
-              target="_blank"
-              size="md"
-              endContent={<ExternalLink className="w-4" />}
-            >
-              View Live Card
-            </Button>
+            <Link href={`/card/${id}`} target="_blank">
+              <Button className="gap-2">
+                View Live Card
+                <ExternalLink className="w-4" />
+              </Button>
+            </Link>
           </>
         }
       />

@@ -1,13 +1,13 @@
 "use client";
 
+import { AppButton } from "@/components/application/AppButton";
 import { AppLogo } from "@/components/application/AppLogo";
 import { PasswordButton } from "@/components/application/PasswordButton";
-import { Button } from "@nextui-org/button";
-import { Card, CardBody, CardHeader } from "@nextui-org/card";
-import { Input } from "@nextui-org/input";
-import { Link } from "@nextui-org/link";
+import { TextInput } from "@/components/application/form/TextInput";
+import { Card, Flex, Text } from "@radix-ui/themes";
+
 import { signIn } from "next-auth/react";
-import NextLink from "next/link";
+import { default as Link, default as NextLink } from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -54,16 +54,16 @@ export default function SignInPage() {
       </header>
 
       <Card className="w-full max-w-sm pb-4">
-        <CardHeader className="flex justify-center flex-col items-center gap-2 mt-5">
+        <div className="flex justify-center flex-col items-center gap-2 my-5">
           <h1 className="text-3xl mt-2 font-semibold">Welcome</h1>
           <p className="text-sm text-default-500">Login to your account</p>
-        </CardHeader>
-        <CardBody>
-          <form
-            className="flex flex-col gap-4"
-            onSubmit={signInForm.handleSubmit(onLogin)}
-          >
-            <Input
+        </div>
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={signInForm.handleSubmit(onLogin)}
+        >
+          <Flex className="w-full" direction="column" gap="5">
+            <TextInput
               label="Email"
               placeholder="Enter your email"
               errorMessage={signInForm.formState.errors.email?.message}
@@ -75,7 +75,7 @@ export default function SignInPage() {
                 },
               })}
             />
-            <Input
+            <TextInput
               label="Password"
               placeholder="Enter your password"
               type={isVisible ? "text" : "password"}
@@ -91,29 +91,23 @@ export default function SignInPage() {
               }
             />
 
-            <div className="flex gap-2 justify-end">
-              <Button
-                isLoading={signInForm.formState.isSubmitting}
-                type="submit"
-                fullWidth
-                color="primary"
-              >
-                Login
-              </Button>
-            </div>
-            <p className="text-center text-small">
+            <AppButton
+              className="w-full"
+              isLoading={signInForm.formState.isSubmitting}
+              type="submit"
+              size="3"
+            >
+              Login
+            </AppButton>
+
+            <Text className="text-center text-small">
               Need to create an account?{" "}
-              <Link
-                href="/sign-up"
-                as={NextLink}
-                size="sm"
-                className="cursor-pointer"
-              >
+              <Link href="/sign-up" className="cursor-pointer underline">
                 Sign up
               </Link>
-            </p>
-          </form>
-        </CardBody>
+            </Text>
+          </Flex>
+        </form>
       </Card>
     </main>
   );

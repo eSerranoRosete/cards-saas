@@ -2,13 +2,14 @@
 
 import { PageHeader } from "@/components/application/PageHeader";
 import { Toolbar, ToolbarItem } from "@/components/application/toolbar/Toolbar";
-import { Divider } from "@nextui-org/divider";
+
 import { Lock, User, Wallet } from "lucide-react";
 
 import { useTabs } from "@/hooks/useTabs";
 import { TabAccountInfo } from "./(tabs)/TabAccountInfo";
 import { TabAccountSecurity } from "./(tabs)/TabAccountSecurity";
 import { TabBillingInfo } from "./(tabs)/TabBillingInfo";
+import { Separator } from "@radix-ui/themes";
 
 export type ProfileTab = "personal" | "billing" | "security";
 
@@ -46,7 +47,7 @@ export default function ProfilePage() {
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
-        <Divider orientation="vertical" />
+        <Separator size="4" orientation="vertical" />
         <div className="w-full max-w-lg relative">
           <TabAccountInfo isActive={activeTab === "personal"} />
 

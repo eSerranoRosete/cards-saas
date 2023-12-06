@@ -1,10 +1,11 @@
 "use client";
 
+import { TextAreaInput } from "@/components/application/form/TextAreaInput";
+import { TextInput } from "@/components/application/form/TextInput";
 import { PanelHeader } from "@/components/application/panel/PanelHeader";
-import { Input, Textarea } from "@nextui-org/input";
-import { EditorTabProps } from "../EditorWorkspace";
-import { useWatchErrors } from "@/hooks/useWatchErrors";
 import { useCardStore } from "@/context/card/CardStore";
+import { useWatchErrors } from "@/hooks/useWatchErrors";
+import { EditorTabProps } from "../EditorWorkspace";
 
 const tabFields = ["title", "description", "organization", "bio"];
 
@@ -29,39 +30,38 @@ export const TabBasicDetails = ({
       description="Fill in the basic details of your card"
     >
       <form className="grid gap-4">
-        <Input
-          size="sm"
+        <TextInput
           label="Display Title"
           placeholder="Ex. Jhon Doe"
           {...form.register("title", {
             required: "Title is required",
           })}
+          onChange={(e) => store.setTitle(e.target.value)}
           errorMessage={form.formState.errors.title?.message}
-          onValueChange={(value) => store.setTitle(value)}
         />
-        <Input
-          size="sm"
-          type="text"
-          label="Display Description"
+
+        <TextInput
+          label="Description"
           placeholder="Ex. Software Engineer"
           {...form.register("description")}
-          onValueChange={(value) => store.setDescription(value)}
+          onChange={(e) => store.setDescription(e.target.value)}
+          errorMessage={form.formState.errors.description?.message}
         />
-        <Input
-          size="sm"
-          type="text"
+
+        <TextInput
           label="Organization"
           placeholder="Ex. Google"
           {...form.register("organization")}
-          onValueChange={(value) => store.setOrganization(value)}
+          onChange={(e) => store.setOrganization(e.target.value)}
+          errorMessage={form.formState.errors.organization?.message}
         />
-        <Textarea
-          size="sm"
-          label="Bio:"
+
+        <TextAreaInput
+          label="Bio"
           placeholder="Ex. I am a software engineer, I love to code and build things."
           {...form.register("bio")}
+          onChange={(e) => store.setBio(e.target.value)}
           errorMessage={form.formState.errors.bio?.message}
-          onValueChange={(value) => store.setBio(value)}
         />
       </form>
     </PanelHeader>

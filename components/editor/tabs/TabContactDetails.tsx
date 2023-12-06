@@ -1,9 +1,9 @@
-import { Input } from "@nextui-org/input";
-import { PanelHeader } from "@/components/application/panel/PanelHeader";
 import { SwitchCard } from "@/components/application/SwitchCard";
-import { EditorTabProps } from "../EditorWorkspace";
-import { useWatchErrors } from "@/hooks/useWatchErrors";
+import { TextInput } from "@/components/application/form/TextInput";
+import { PanelHeader } from "@/components/application/panel/PanelHeader";
 import { useCardStore } from "@/context/card/CardStore";
+import { useWatchErrors } from "@/hooks/useWatchErrors";
+import { EditorTabProps } from "../EditorWorkspace";
 
 const tabFields = ["email", "phone"];
 
@@ -28,9 +28,7 @@ export const TabContactDetails = ({
       description="Fill in the contact details of your card"
     >
       <form className="grid gap-4">
-        <Input
-          size="sm"
-          type="email"
+        <TextInput
           label="Contact Email"
           placeholder="Ex. example@example.com"
           {...form.register("email", {
@@ -40,22 +38,22 @@ export const TabContactDetails = ({
             },
           })}
           errorMessage={form.formState.errors.email?.message}
-          onValueChange={(value) => store.setEmail(value)}
+          onChange={(e) => store.setEmail(e.target.value)}
         />
-        <Input
-          size="sm"
-          type="tel"
+
+        <TextInput
           label="Contact Phone"
           placeholder="Ex. +52 55 5555 5555"
           {...form.register("phone")}
           errorMessage={form.formState.errors.phone?.message}
-          onValueChange={(value) => store.setPhone(value)}
+          onChange={(e) => store.setPhone(e.target.value)}
         />
+
         <SwitchCard
           title="Contact Button"
           description="Show a button to allow users to contact you"
-          defaultSelected={form.getValues("settings.showContactButton")}
-          onValueChange={(value) => {
+          defaultChecked={form.getValues("settings.showContactButton")}
+          onCheckedChange={(value) => {
             form.setValue("settings.showContactButton", value);
             store.setShowContact(value);
           }}
@@ -63,8 +61,8 @@ export const TabContactDetails = ({
         <SwitchCard
           title="Share Button"
           description="Show a button to allow users to share your card"
-          defaultSelected={form.getValues("settings.showShareButton")}
-          onValueChange={(value) => {
+          defaultChecked={form.getValues("settings.showShareButton")}
+          onCheckedChange={(value) => {
             form.setValue("settings.showShareButton", value);
             store.setShowShare(value);
           }}

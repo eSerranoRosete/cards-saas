@@ -2,7 +2,7 @@
 
 import { useTabs } from "@/hooks/useTabs";
 import { EditorTabs } from "@/types/EditorTypes";
-import { Divider } from "@nextui-org/divider";
+
 import {
   AtSign,
   Cog,
@@ -12,6 +12,7 @@ import {
   Palette,
   Save,
 } from "lucide-react";
+
 import NextLink from "next/link";
 import { Toolbar, ToolbarItem } from "../application/toolbar/Toolbar";
 import { TabBasicDetails } from "./tabs/TabBasicDetails";
@@ -33,10 +34,12 @@ import { useCardStore } from "@/context/card/CardStore";
 import { createCard } from "@/firebase/card/createCard";
 import { updateCard } from "@/firebase/card/updateCard";
 import { cn } from "@/lib/utils";
-import { Button } from "@nextui-org/button";
+
 import { useRouter } from "next/navigation";
 import { CardTemplateModern } from "../application/card/CardTemplateModern";
 import { TabAppearance } from "./tabs/TabAppearance";
+import { Button, Flex, Separator } from "@radix-ui/themes";
+import Link from "next/link";
 
 export type EditorTabProps = {
   isActive?: boolean;
@@ -140,7 +143,7 @@ export const EditorWorkspace = ({ cardID }: Props) => {
         setActiveTab={setActiveTab}
       />
 
-      <Divider orientation="vertical" />
+      <Separator size="4" orientation="vertical" />
 
       <div className="w-full max-w-lg relative">
         <TabBasicDetails
@@ -181,20 +184,21 @@ export const EditorWorkspace = ({ cardID }: Props) => {
           cardID={cardID}
         />
 
-        <div className="bottom-0 flex items-center gap-2 right-0 absolute">
-          <Button variant="flat" as={NextLink} href="/dashboard">
-            Cancel
-          </Button>
+        <Flex align="center" gap="2" className="bottom-0 right-0 absolute">
+          <Link href="/dashboard">
+            <Button variant="soft" color="gray">
+              Cancel
+            </Button>
+          </Link>
 
           <AppButton
-            startContent={<Save className="w-4" />}
-            color="primary"
+            icon={<Save className="w-4" />}
             onClick={onClick}
             isLoading={form.formState.isSubmitting}
           >
             Save
           </AppButton>
-        </div>
+        </Flex>
       </div>
       <main
         className={cn(

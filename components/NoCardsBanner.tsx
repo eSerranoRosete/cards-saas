@@ -1,7 +1,5 @@
-"use client";
-
-import { Card } from "@nextui-org/card";
 import InitCardDialog from "./InitCardDialog";
+import { Button, Card } from "@radix-ui/themes";
 
 export const NoCardsBanner = () => {
   return (
@@ -13,11 +11,9 @@ export const NoCardsBanner = () => {
         <h2>
           Get started by{" "}
           <InitCardDialog
-            button={(onOpen) => (
-              <button onClick={onOpen} className="underline">
-                creating your first card
-              </button>
-            )}
+            button={
+              <Button className="underline">creating your first card</Button>
+            }
           />
         </h2>
       </div>

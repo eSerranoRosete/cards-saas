@@ -1,29 +1,18 @@
 "use client";
 
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-} from "@nextui-org/modal";
-import { Button } from "@nextui-org/button";
-import { Trash } from "lucide-react";
-
-import { useToast } from "./toast/useToast";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { AppButton } from "./AppButton";
 import { deleteCard } from "@/firebase/card/deleteCard";
 import { useIsLoading } from "@/hooks/useIsLoading";
+import { useRouter } from "next/navigation";
+import DialogConfirm from "../Dialogs/DialogConfirm";
+import { useToast } from "./toast/useToast";
+import { Button } from "@radix-ui/themes";
+import { Trash } from "lucide-react";
 
 type Props = {
   cardID: string;
 };
 
 export default function DeleteCardDialog({ cardID }: Props) {
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const loader = useIsLoading();
   const router = useRouter();
 
@@ -42,8 +31,6 @@ export default function DeleteCardDialog({ cardID }: Props) {
 
       loader.stop();
       router.push("/dashboard");
-
-      onClose();
     } catch (error: unknown) {
       toast.error({
         title: "Error",
@@ -55,43 +42,18 @@ export default function DeleteCardDialog({ cardID }: Props) {
   };
 
   return (
-    <>
-      <Button
-        onPress={onOpen}
-        startContent={<Trash className="w-4" />}
-        size="sm"
-        variant="bordered"
-        color="danger"
-      >
-        Delete Card
-      </Button>
-      <Modal backdrop="blur" isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Are you absolutely sure?
-              </ModalHeader>
-              <ModalBody>
-                This action cannot be undone. This will permanently delete the
-                card and all of its data.
-              </ModalBody>
-              <ModalFooter>
-                <Button variant="light" onPress={onClose}>
-                  Cancel
-                </Button>
-                <AppButton
-                  isLoading={loader.isLoading}
-                  color="danger"
-                  onPress={onDelete}
-                >
-                  Delete
-                </AppButton>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-    </>
+    <DialogConfirm
+      onSuccess={onDelete}
+      title="Are you absolutelty sure?"
+      trigger={
+        <Button color="red" className="gap-2">
+          <Trash className="w-4" />
+          Delete Card
+        </Button>
+      }
+    >
+      This action cannot be undone. This will permanently delete the card and
+      all of its data.
+    </DialogConfirm>
   );
 }

@@ -58,7 +58,7 @@ export default function InitCardDialog({ button }: Props) {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Dialog.Title>Give your card a title</Dialog.Title>
           <Dialog.Description size="2" mb="4">
-            Don't worry, you can change this later!
+            Don&apos;t worry, you can change this later!
           </Dialog.Description>
 
           <TextInput

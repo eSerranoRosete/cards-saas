@@ -21,7 +21,7 @@ export function Toolbar<T extends string>({
   return (
     <div className="h-full flex flex-col gap-4">
       {toolbarItems.map((item) => (
-        <div className="relative">
+        <div key={item.tab} className="relative">
           <IconButton
             variant={activeTab === item.tab ? "solid" : "soft"}
             {...(activeTab !== item.tab && { color: "gray" })}

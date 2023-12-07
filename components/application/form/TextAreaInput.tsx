@@ -35,3 +35,5 @@ export const TextAreaInput = forwardRef(
     );
   }
 );
+
+TextAreaInput.displayName = "TextAreaInput";

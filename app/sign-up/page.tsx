@@ -61,7 +61,9 @@ export default function SignUpPage() {
       </Link>
       <div className="w-full max-w-sm pb-4">
         <div className="flex justify-center flex-col items-center gap-2 my-5">
-          <h1 className="text-3xl mt-2 font-semibold">Let's get started</h1>
+          <h1 className="text-3xl mt-2 font-semibold">
+            Let&apos;s get started
+          </h1>
           <p className="text-sm text-default-500">
             Fill in your info to create an account
           </p>

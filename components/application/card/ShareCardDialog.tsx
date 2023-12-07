@@ -2,8 +2,6 @@
 
 import QrCode from "qrcode";
 
-import { Image } from "@nextui-org/image";
-
 import { useState } from "react";
 import { Button, Dialog } from "@radix-ui/themes";
 import { useIsOpen } from "@/hooks/useIsOpen";
@@ -54,7 +52,7 @@ export default function ShareCardDialog({
           />
           <p className="text-xl font-bold mt-5">{title}</p>
 
-          <Image className="m-auto mt-5" removeWrapper src={qrCode} />
+          <img className="m-auto mt-5" src={qrCode} />
         </div>
       </Dialog.Content>
     </Dialog.Root>

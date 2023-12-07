@@ -1,11 +1,8 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { CarouselItem } from "@/types/CardTypes";
-import { Button } from "@nextui-org/button";
 
-import { Card } from "@nextui-org/card";
-import { Image } from "@nextui-org/image";
+import { IconButton } from "@radix-ui/themes";
 import { ExternalLink } from "lucide-react";
 
 type Props = {
@@ -26,28 +23,24 @@ export const CardCarousel = ({ items }: Props) => {
         };
 
         return (
-          <Card
+          <a
+            {...(linkProps.href && { ...linkProps })}
             key={i}
-            as="a"
-            {...(item.url ? linkProps : {})}
-            isPressable={!!item.url}
-            className="w-11/12 snap-always relative gap-2 first:ml-8 max-w-xs h-80 p-2 flex flex-col rounded-large snap-center shrink-0"
+            className="w-11/12 snap-always bg-zinc-900 rounded-lg relative gap-2 first:ml-8 max-w-xs h-80 p-2 flex flex-col rounded-large snap-center shrink-0"
           >
             {item.url && (
-              <Button
+              <IconButton
                 className="absolute top-3 right-3 z-20"
-                isIconOnly
-                size="sm"
-                variant="flat"
+                color="gray"
+                variant="soft"
               >
                 <ExternalLink className="w-3" />
-              </Button>
+              </IconButton>
             )}
 
             <div className="w-full h-full relative grow">
-              <Image
-                removeWrapper
-                className={cn("w-full object-cover absolute h-full")}
+              <img
+                className={"w-full object-cover absolute h-full rounded-lg"}
                 src={item.img.url}
                 alt={item.title}
               />
@@ -68,7 +61,7 @@ export const CardCarousel = ({ items }: Props) => {
                 </div>
               </div>
             )}
-          </Card>
+          </a>
         );
       })}
     </div>

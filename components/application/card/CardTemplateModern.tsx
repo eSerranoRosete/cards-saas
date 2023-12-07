@@ -1,15 +1,11 @@
 "use client";
 
-import { Button } from "@nextui-org/button";
-
-import { Image } from "@nextui-org/image";
-
 import { SocialIcon } from "@/components/social-icons/SocialIcon";
 import { useCardStore } from "@/context/card/CardStore";
-import { Card } from "@nextui-org/card";
+
+import { Button, Card, Text } from "@radix-ui/themes";
 import Link from "next/link";
 import { CardCarousel } from "./CardCarousel";
-import ShareCardDialog from "./ShareCardDialog";
 import { UploadAvatar } from "./UploadAvatar";
 
 type Props = {
@@ -23,24 +19,23 @@ export const CardTemplateModern = ({ view, cardID }: Props) => {
   const colors = getColors(store.settings.dominantColor);
 
   return (
-    <div className="w-full max-w-sm grid gap-8 relative rounded-large p-3 m-auto bg-background pb-10">
+    <div className="w-full max-w-sm grid gap-8 relative rounded-large p-3 m-auto bg-zinc-950 pb-10">
       <div className="relative rounded-large overflow-clip mb-3 bg-default-50 min-h-[300px]">
         {view === "edit" && cardID && (
           <div className="absolute top-2 right-2 z-20">
             <UploadAvatar cardID={cardID} />
           </div>
         )}
-        <Image
+        <img
           alt={store.title}
-          className="w-full"
-          removeWrapper
+          className="w-full rounded-lg"
           src={store.avatar?.url}
         />
         <div
           style={{
             background: `linear-gradient(to top, ${colors?.foregroundInverted}, transparent)`,
           }}
-          className={`w-full h-1/2 absolute bottom-0 z-10`}
+          className={`w-full h-1/2 absolute bottom-0 z-10 rounded-b-lg`}
         />
         <div
           style={{
@@ -64,23 +59,20 @@ export const CardTemplateModern = ({ view, cardID }: Props) => {
                 color: colors.foreground,
               }),
             }}
-            color="primary"
+            size="3"
           >
             Add to Contacts
           </Button>
         )}
         {store.settings?.showShareButton && (
-          <ShareCardDialog
-            id={cardID}
-            imgSrc={store.avatar?.url}
-            title={store.title}
-            disableModal={view === "edit"}
-          />
+          <Button variant="soft" size="3" color="gray">
+            Share this Card
+          </Button>
         )}
       </div>
       {store.bio && (
-        <Card className="rounded-large bg-default-50 text-foreground p-4 text-center text-sm">
-          {store.bio}
+        <Card className="p-2 !text-center">
+          <Text>{store.bio}</Text>
         </Card>
       )}
       {store.modules?.carousel && (

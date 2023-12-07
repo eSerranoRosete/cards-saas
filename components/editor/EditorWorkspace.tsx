@@ -202,9 +202,7 @@ export const EditorWorkspace = ({ cardID }: Props) => {
       </div>
       <main
         className={cn(
-          "w-full h-full bg-default-50 p-4 rounded-medium overflow-hidden",
-          store.settings.appearance === "dark" && "dark",
-          store.settings.appearance === "light" && "light"
+          "w-full h-full bg-default-50 p-4 rounded-medium overflow-hidden bg-zinc-900/20 rouded-large"
         )}
       >
         <div className="h-full overflow-y-auto">

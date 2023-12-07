@@ -1,13 +1,13 @@
-import { Box } from "@radix-ui/themes";
+import { Skeleton } from "@/components/Skeleton";
 import { CardContainer } from "./CardContainer";
 
 export default function Loading() {
   return (
     <CardContainer className="mt-20">
-      <Box className="w-full bg-stone-800 h-72 rounded-large opacity-50" />
-      <Box className="w-full bg-stone-800 h-72 rounded-large opacity-50" />
-      <Box className="w-full bg-stone-800 h-72 rounded-large opacity-50" />
-      <Box className="w-full bg-stone-800 h-72 rounded-large opacity-50" />
+      <Skeleton className="w-fullh-72" />
+      <Skeleton className="w-fullh-72" />
+      <Skeleton className="w-fullh-72" />
+      <Skeleton className="w-fullh-72" />
     </CardContainer>
   );
 }

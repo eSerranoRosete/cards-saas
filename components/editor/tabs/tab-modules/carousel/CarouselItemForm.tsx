@@ -213,7 +213,9 @@ export const CarouselItemForm = ({ item, cardID, onSuccess }: Props) => {
 
       <Flex align="center" gap="4" justify="end">
         <Dialog.Close>
-          <Button variant="ghost">Cancel</Button>
+          <Button variant="ghost" color="gray">
+            Cancel
+          </Button>
         </Dialog.Close>
         <AppButton type="submit" isLoading={loader.isLoading}>
           Save

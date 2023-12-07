@@ -9,11 +9,12 @@ export const AppBar = () => {
       <nav className="container flex items-center m-auto py-4">
         <NextLink href="/dashboard" className="font-semibold mr-10 flex gap-2">
           <AppLogo />
-          Inteminer
         </NextLink>
         <div className="grow flex gap-4">
           <Link href="/dashboard">
-            <Button>Dashboard</Button>
+            <Button variant="soft" color="gray">
+              Dashboard
+            </Button>
           </Link>
         </div>
         <UserDropdown />

@@ -10,7 +10,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <Theme
       className="min-h-screen dark:bg-zinc-950"
       appearance="dark"
-      grayColor="sand"
+      grayColor="slate"
       radius="large"
     >
       <SessionProvider>

@@ -10,10 +10,11 @@ import { PasswordButton } from "@/components/application/PasswordButton";
 import { TextInput } from "@/components/application/form/TextInput";
 import { useToast } from "@/components/application/toast/useToast";
 import { createUser } from "@/firebase/user/createUser";
-import { Card, Flex } from "@radix-ui/themes";
+import { Card, Flex, IconButton } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 type SignupValues = {
   name: string;
@@ -49,18 +50,21 @@ export default function SignUpPage() {
 
   return (
     <main className="  w-full min-h-screen flex items-center justify-center">
-      <header className="w-full absolute top-0 left-0">
-        <nav className="container flex items-center m-auto py-4">
-          <NextLink href="/" className="font-semibold flex gap-2">
-            <AppLogo />
-            Inteminer
-          </NextLink>
-        </nav>
-      </header>
-      <Card className="w-full max-w-sm pb-4">
+      <Link href="/">
+        <IconButton
+          variant="soft"
+          color="gray"
+          className="absolute top-5 left-5"
+        >
+          <ArrowLeft />
+        </IconButton>
+      </Link>
+      <div className="w-full max-w-sm pb-4">
         <div className="flex justify-center flex-col items-center gap-2 my-5">
-          <h1 className="text-3xl mt-2 font-semibold">Welcome</h1>
-          <p className="text-sm text-default-500">Create an account</p>
+          <h1 className="text-3xl mt-2 font-semibold">Let's get started</h1>
+          <p className="text-sm text-default-500">
+            Fill in your info to create an account
+          </p>
         </div>
         <form
           className="flex flex-col gap-4"
@@ -116,7 +120,7 @@ export default function SignUpPage() {
               Sign up
             </AppButton>
 
-            <p className="text-center text-small">
+            <p className="text-center text-sm">
               Already have an account?{" "}
               <Link href="/sign-in" className="cursor-pointer underline">
                 Sign in
@@ -124,7 +128,7 @@ export default function SignUpPage() {
             </p>
           </Flex>
         </form>
-      </Card>
+      </div>
     </main>
   );
 }

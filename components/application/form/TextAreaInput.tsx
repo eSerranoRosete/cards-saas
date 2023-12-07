@@ -28,6 +28,7 @@ export const TextAreaInput = forwardRef(
           variant="soft"
           color="gray"
           className="pt-5"
+          rows={5}
         />
         <ErrorMessage message={errorMessage} />
       </Flex>

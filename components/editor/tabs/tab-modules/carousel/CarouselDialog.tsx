@@ -4,6 +4,7 @@ import { ChevronRight, Plus } from "lucide-react";
 import React from "react";
 import { EditItemDialog } from "./EditItemDialog";
 import DeleteItemDialog from "./DeleteItemDialog";
+import { AppButton } from "@/components/application/AppButton";
 
 type Props = {
   cardID: string;
@@ -81,10 +82,7 @@ export const CarouselDialog = ({ cardID }: Props) => {
           <EditItemDialog
             cardID={cardID}
             trigger={
-              <Button className="gap-2">
-                <Plus className="w-5" />
-                Add Item
-              </Button>
+              <AppButton icon={<Plus className="w-4" />}>Add Item</AppButton>
             }
           />
         </Flex>

@@ -36,11 +36,9 @@ export const Toaster = () => {
           animate="animate"
           exit="exit"
           className={cn(
-            "w-full max-w-xs bg-default text-default-foreground absolute right-5 h-20 rounded-medium p-4 bottom-5",
-            store.toast.variant === "success" &&
-              "bg-success-500 text-success-foreground",
-            store.toast.variant === "error" &&
-              "bg-danger text-danger-foreground"
+            "w-full max-w-xs bg-default text-default-foreground absolute right-5 h-20 rounded-md p-4 bottom-5",
+            store.toast.variant === "success" && "bg-green-500 text-zinc-900",
+            store.toast.variant === "error" && "bg-red-500 text-zinc-100"
           )}
         >
           <button

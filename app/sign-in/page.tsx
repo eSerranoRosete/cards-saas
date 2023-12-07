@@ -4,7 +4,8 @@ import { AppButton } from "@/components/application/AppButton";
 import { AppLogo } from "@/components/application/AppLogo";
 import { PasswordButton } from "@/components/application/PasswordButton";
 import { TextInput } from "@/components/application/form/TextInput";
-import { Card, Flex, Text } from "@radix-ui/themes";
+import { Card, Flex, IconButton, Text } from "@radix-ui/themes";
+import { ArrowLeft } from "lucide-react";
 
 import { signIn } from "next-auth/react";
 import { default as Link, default as NextLink } from "next/link";
@@ -44,18 +45,19 @@ export default function SignInPage() {
 
   return (
     <main className="w-full min-h-screen flex items-center relative justify-center">
-      <header className="w-full absolute top-0 left-0">
-        <nav className="container flex items-center m-auto py-4">
-          <NextLink href="/" className="font-semibold flex gap-2">
-            <AppLogo />
-            Inteminer
-          </NextLink>
-        </nav>
-      </header>
+      <Link href="/">
+        <IconButton
+          variant="soft"
+          color="gray"
+          className="absolute top-5 left-5"
+        >
+          <ArrowLeft />
+        </IconButton>
+      </Link>
 
-      <Card className="w-full max-w-sm pb-4">
+      <div className="w-full max-w-sm pb-4">
         <div className="flex justify-center flex-col items-center gap-2 my-5">
-          <h1 className="text-3xl mt-2 font-semibold">Welcome</h1>
+          <h1 className="text-3xl mt-2 font-semibold">Welcome Back</h1>
           <p className="text-sm text-default-500">Login to your account</p>
         </div>
         <form
@@ -100,7 +102,7 @@ export default function SignInPage() {
               Login
             </AppButton>
 
-            <Text className="text-center text-small">
+            <Text className="text-center text-sm">
               Need to create an account?{" "}
               <Link href="/sign-up" className="cursor-pointer underline">
                 Sign up
@@ -108,7 +110,7 @@ export default function SignInPage() {
             </Text>
           </Flex>
         </form>
-      </Card>
+      </div>
     </main>
   );
 }

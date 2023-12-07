@@ -1,16 +1,14 @@
-import React, { SVGProps } from "react";
+import React from "react";
 
-const defaultProps = {
-  width: "40",
-  height: "40",
-  viewBox: "0 0 32 21",
-  fill: "currentColor",
-  xmlns: "http://www.w3.org/2000/svg",
-};
-
-export const AppLogo = (props: SVGProps<SVGSVGElement>) => {
+export const Logo = () => {
   return (
-    <svg {...defaultProps} {...props}>
+    <svg
+      width="31"
+      height="21"
+      viewBox="0 0 31 21"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M0.5625 0.272639H3.51136L5.53977 5.21582H5.64205L7.67045 0.272639H10.6193V8.99991H8.30114V3.95446H8.23295L6.28977 8.93173H4.89205L2.94886 3.92037H2.88068V8.99991H0.5625V0.272639Z"
         fill="currentColor"

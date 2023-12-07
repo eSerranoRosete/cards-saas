@@ -1,3 +1,5 @@
+"use client";
+
 import { useToastStore } from "../useToastStore";
 import { cn } from "@/lib/utils";
 import { XIcon } from "lucide-react";

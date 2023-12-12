@@ -15,11 +15,6 @@ const config: Config = {
       },
     },
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
       animation: {
         "slide-from-right": "slide-from-right 0.1s ease-in-out",
         "slide-to-right": "slide-to-right 0.1s ease-in-out",

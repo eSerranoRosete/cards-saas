@@ -49,7 +49,7 @@ export default function SignUpPage() {
   };
 
   return (
-    <main className="  w-full min-h-screen flex items-center justify-center">
+    <main className="w-full min-h-screen flex items-center justify-center">
       <Link href="/">
         <IconButton
           variant="soft"
@@ -59,7 +59,15 @@ export default function SignUpPage() {
           <ArrowLeft />
         </IconButton>
       </Link>
-      <div className="w-full max-w-sm pb-4">
+      <div className="w-full max-w-sm pb-4 relative">
+        <div className="absolute -top-24 w-full flex justify-center z-10">
+          <AppLogo />
+        </div>
+        <div className="absolute w-full h-32 blur-xl -top-32 overflow-hidden rounded-t-full bg-gradient-to-r from-indigo-600 via-cyan-500 to-indigo-600">
+          <div className="absolute top-1/4 w-[700px] left-1/2 -translate-x-1/2 aspect-square bg-zinc-950 rounded-full" />
+          <div className="absolute top-1/4 w-[700px] left-1/2 -translate-x-1/2 aspect-square blur-none bg-blue-500 opacity-5 rounded-full" />
+        </div>
+
         <div className="flex justify-center flex-col items-center gap-2 my-5">
           <h1 className="text-3xl mt-2 font-semibold">
             Let&apos;s get started
@@ -124,7 +132,10 @@ export default function SignUpPage() {
 
             <p className="text-center text-sm">
               Already have an account?{" "}
-              <Link href="/sign-in" className="cursor-pointer underline">
+              <Link
+                href="/sign-in"
+                className="cursor-pointer underline text-blue-500"
+              >
                 Sign in
               </Link>
             </p>

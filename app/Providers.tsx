@@ -7,12 +7,7 @@ import { Theme } from "@radix-ui/themes";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <Theme
-      className="min-h-screen dark:bg-zinc-950"
-      appearance="dark"
-      grayColor="slate"
-      radius="large"
-    >
+    <Theme appearance="dark" grayColor="slate" radius="large">
       <SessionProvider>
         {children}
         <Toaster />

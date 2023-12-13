@@ -6,11 +6,9 @@ import { SessionProvider } from "next-auth/react";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <Theme>
-      <SessionProvider>
-        {children}
-        <Toaster />
-      </SessionProvider>
-    </Theme>
+    <SessionProvider>
+      <Theme appearance="dark">{children}</Theme>
+      <Toaster />
+    </SessionProvider>
   );
 }

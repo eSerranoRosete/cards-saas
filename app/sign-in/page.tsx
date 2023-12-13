@@ -4,11 +4,11 @@ import { AppButton } from "@/components/application/AppButton";
 import { AppLogo } from "@/components/application/AppLogo";
 import { PasswordButton } from "@/components/application/PasswordButton";
 import { TextInput } from "@/components/application/form/TextInput";
-import { Card, Flex, IconButton, Text } from "@radix-ui/themes";
+import { Flex, IconButton, Text } from "@radix-ui/themes";
 import { ArrowLeft } from "lucide-react";
 
 import { signIn } from "next-auth/react";
-import { default as Link, default as NextLink } from "next/link";
+import { default as Link } from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";

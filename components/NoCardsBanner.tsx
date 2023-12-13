@@ -9,12 +9,7 @@ export const NoCardsBanner = () => {
           You don&apos;t have any cards yet!
         </h1>
         <h2>
-          Get started by{" "}
-          <InitCardDialog
-            button={
-              <Button className="underline">creating your first card</Button>
-            }
-          />
+          Get started by <InitCardDialog />
         </h2>
       </div>
     </Card>

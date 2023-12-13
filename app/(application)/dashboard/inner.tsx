@@ -8,6 +8,7 @@ import { PlusCircle } from "lucide-react";
 import { CardList } from "./CardList";
 import { CardType } from "@/types/CardTypes";
 import { Button } from "@radix-ui/themes";
+import { AppButton } from "@/components/application/AppButton";
 
 type Props = {
   cards: CardType[];
@@ -21,10 +22,9 @@ export const Inner = ({ cards }: Props) => {
         actions={
           <InitCardDialog
             button={
-              <Button className="gap-2">
-                <PlusCircle className="w-4" />
+              <AppButton icon={<PlusCircle className="w-4" />}>
                 Create Card
-              </Button>
+              </AppButton>
             }
           />
         }

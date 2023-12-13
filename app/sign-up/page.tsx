@@ -76,10 +76,7 @@ export default function SignUpPage() {
             Fill in your info to create an account
           </p>
         </div>
-        <form
-          className="flex flex-col gap-4"
-          onSubmit={form.handleSubmit(onSignUp)}
-        >
+        <form className="flex flex-col gap-4">
           <Flex direction="column" gap="5">
             <TextInput
               label="Name"
@@ -124,7 +121,7 @@ export default function SignUpPage() {
             <AppButton
               className="w-full"
               isLoading={form.formState.isSubmitting}
-              type="submit"
+              onClick={form.handleSubmit(onSignUp)}
             >
               Register
             </AppButton>

@@ -2,19 +2,17 @@
 
 import { useForm } from "react-hook-form";
 
-import NextLink from "next/link";
-
 import { AppButton } from "@/components/application/AppButton";
 import { AppLogo } from "@/components/application/AppLogo";
 import { PasswordButton } from "@/components/application/PasswordButton";
 import { TextInput } from "@/components/application/form/TextInput";
 import { useToast } from "@/components/application/toast/useToast";
 import { createUser } from "@/firebase/user/createUser";
-import { Card, Flex, IconButton } from "@radix-ui/themes";
+import { Flex, IconButton } from "@radix-ui/themes";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 
 type SignupValues = {
   name: string;

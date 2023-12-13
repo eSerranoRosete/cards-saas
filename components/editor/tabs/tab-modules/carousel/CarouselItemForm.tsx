@@ -167,7 +167,7 @@ export const CarouselItemForm = ({ item, cardID, onSuccess }: Props) => {
   };
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)}>
+    <form>
       <Flex direction="column" gap="3" className="h-full" mb="4">
         <TextInput
           label="Title (optional)"
@@ -217,7 +217,10 @@ export const CarouselItemForm = ({ item, cardID, onSuccess }: Props) => {
             Cancel
           </Button>
         </Dialog.Close>
-        <AppButton type="submit" isLoading={loader.isLoading}>
+        <AppButton
+          onClick={form.handleSubmit(onSubmit)}
+          isLoading={loader.isLoading}
+        >
           Save
         </AppButton>
       </Flex>

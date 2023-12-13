@@ -46,10 +46,7 @@ export const TabSocial = ({ isActive }: EditorTabProps) => {
       title="Social"
       description="Add social links to your card"
     >
-      <form
-        className="flex items-start gap-2"
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
+      <form className="flex items-start gap-2">
         <Flex direction="column" gap="3" className="w-full">
           <label>
             <Text as="div" size="1" mb="1" weight="bold">
@@ -66,7 +63,10 @@ export const TabSocial = ({ isActive }: EditorTabProps) => {
                 })}
               />
               <TextField.Slot>
-                <IconButton type="submit" variant="soft">
+                <IconButton
+                  onClick={form.handleSubmit(onSubmit)}
+                  variant="soft"
+                >
                   <Plus />
                 </IconButton>
               </TextField.Slot>

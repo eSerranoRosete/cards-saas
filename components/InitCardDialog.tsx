@@ -55,7 +55,7 @@ export default function InitCardDialog({ button }: Props) {
       <Dialog.Trigger>{button}</Dialog.Trigger>
 
       <Dialog.Content style={{ maxWidth: 450 }}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form>
           <Dialog.Title>Give your card a title</Dialog.Title>
           <Dialog.Description size="2" mb="4">
             Don&apos;t worry, you can change this later!
@@ -77,7 +77,7 @@ export default function InitCardDialog({ button }: Props) {
               </Button>
             </Dialog.Close>
 
-            <Button type="submit">Go to Editor</Button>
+            <Button onClick={form.handleSubmit(onSubmit)}>Go to Editor</Button>
           </Flex>
         </form>
       </Dialog.Content>

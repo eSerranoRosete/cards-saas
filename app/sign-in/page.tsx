@@ -4,7 +4,7 @@ import { AppButton } from "@/components/application/AppButton";
 import { AppLogo } from "@/components/application/AppLogo";
 import { PasswordButton } from "@/components/application/PasswordButton";
 import { TextInput } from "@/components/application/form/TextInput";
-import { Flex, IconButton, Text } from "@radix-ui/themes";
+import { Button, Flex, IconButton, Text } from "@radix-ui/themes";
 import { ArrowLeft } from "lucide-react";
 
 import { signIn } from "next-auth/react";
@@ -101,13 +101,9 @@ export default function SignInPage() {
               }
             />
 
-            <AppButton
-              className="w-full"
-              isLoading={signInForm.formState.isSubmitting}
-              type="submit"
-            >
+            <Button className="w-full" type="submit">
               Login
-            </AppButton>
+            </Button>
 
             <Text className="text-center text-sm">
               Need to create an account?{" "}

@@ -68,7 +68,10 @@ export default function SignInPage() {
           <h1 className="text-3xl mt-2 font-semibold">Welcome Back</h1>
           <p className="text-sm text-default-500">Login to your account</p>
         </div>
-        <form className="flex flex-col gap-4">
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={signInForm.handleSubmit(onLogin)}
+        >
           <Flex className="w-full" direction="column" gap="5">
             <TextInput
               label="Email"
@@ -100,8 +103,8 @@ export default function SignInPage() {
 
             <AppButton
               className="w-full"
-              onClick={signInForm.handleSubmit(onLogin)}
               isLoading={signInForm.formState.isSubmitting}
+              type="submit"
             >
               Login
             </AppButton>

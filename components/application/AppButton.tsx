@@ -23,7 +23,11 @@ export const AppButton = ({
   return (
     <Button
       {...rest}
-      className={cn("gap-2 !cursor-pointer", className)}
+      className={cn(
+        "gap-2 !cursor-pointer",
+        className,
+        rest.type === "submit" && "!bg-inherit"
+      )}
       disabled={isLoading}
     >
       {isLoading ? <Loader2 className="w-4 animate-spin" /> : Icon}

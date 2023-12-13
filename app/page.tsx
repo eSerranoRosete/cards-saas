@@ -1,3 +1,4 @@
+import { AppButton } from "@/components/application/AppButton";
 import { AppLogo } from "@/components/application/AppLogo";
 
 import { Button, Separator } from "@radix-ui/themes";
@@ -78,14 +79,14 @@ const AuthButtons = () => {
   return (
     <div className="flex gap-2">
       <Link href="/sign-up">
-        <Button variant="soft" color="gray">
+        <AppButton variant="soft" color="gray">
           Sign Up
-        </Button>
+        </AppButton>
       </Link>
       <Link href="/sign-in">
-        <Button variant="soft" color="gray">
+        <AppButton variant="soft" color="gray">
           Sign In
-        </Button>
+        </AppButton>
       </Link>
     </div>
   );

@@ -125,9 +125,8 @@ export default function SignUpPage() {
               className="w-full"
               isLoading={form.formState.isSubmitting}
               type="submit"
-              size="3"
             >
-              Sign up
+              Register
             </AppButton>
 
             <p className="text-center text-sm">
@@ -136,7 +135,7 @@ export default function SignUpPage() {
                 href="/sign-in"
                 className="cursor-pointer underline text-blue-500"
               >
-                Sign in
+                Login
               </Link>
             </p>
           </Flex>

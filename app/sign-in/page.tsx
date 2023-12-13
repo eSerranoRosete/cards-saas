@@ -105,7 +105,6 @@ export default function SignInPage() {
               className="w-full"
               isLoading={signInForm.formState.isSubmitting}
               type="submit"
-              size="3"
             >
               Login
             </AppButton>
@@ -116,7 +115,7 @@ export default function SignInPage() {
                 href="/sign-up"
                 className="cursor-pointer underline text-blue-500"
               >
-                Sign up
+                Register
               </Link>
             </Text>
           </Flex>

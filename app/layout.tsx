@@ -3,7 +3,6 @@ import { Providers } from "./Providers";
 
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
-import { Theme } from "@radix-ui/themes";
 
 export const metadata: Metadata = {
   title: "Moduly",
@@ -30,9 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Theme appearance="dark" grayColor="slate" radius="large">
-          <Providers>{children}</Providers>
-        </Theme>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

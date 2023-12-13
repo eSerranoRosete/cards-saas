@@ -21,7 +21,11 @@ export const AppButton = ({
   const Icon = icon;
 
   return (
-    <Button {...rest} className={cn("gap-2", className)} disabled={isLoading}>
+    <Button
+      {...rest}
+      className={cn("gap-2 !cursor-pointer", className)}
+      disabled={isLoading}
+    >
       {isLoading ? <Loader2 className="w-4 animate-spin" /> : Icon}
       {children}
     </Button>

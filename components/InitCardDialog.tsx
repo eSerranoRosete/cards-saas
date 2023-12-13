@@ -6,19 +6,19 @@ import { useIsLoading } from "@/hooks/useIsLoading";
 import { useToast } from "./application/toast/useToast";
 
 import { createCard } from "@/firebase/card/createCard";
-import { Button, Dialog, Flex, Text, TextField } from "@radix-ui/themes";
+import { Dialog, Flex } from "@radix-ui/themes";
 import { useForm } from "react-hook-form";
+import { AppButton } from "./application/AppButton";
 import { TextInput } from "./application/form/TextInput";
+import { PlusCircle } from "lucide-react";
 
-type Props = {
-  button: JSX.Element;
-};
+type Props = {};
 
 type FormValues = {
   title: string;
 };
 
-export default function InitCardDialog({ button }: Props) {
+export default function InitCardDialog({}: Props) {
   const loader = useIsLoading();
   const router = useRouter();
 
@@ -52,7 +52,9 @@ export default function InitCardDialog({ button }: Props) {
 
   return (
     <Dialog.Root>
-      <Dialog.Trigger>{button}</Dialog.Trigger>
+      <Dialog.Trigger>
+        <AppButton icon={<PlusCircle className="w-4" />}>Create Card</AppButton>
+      </Dialog.Trigger>
 
       <Dialog.Content style={{ maxWidth: 450 }}>
         <form>
@@ -72,12 +74,18 @@ export default function InitCardDialog({ button }: Props) {
 
           <Flex gap="3" mt="4" justify="end">
             <Dialog.Close>
-              <Button onClick={() => form.reset()} variant="soft" color="gray">
+              <AppButton
+                onClick={() => form.reset()}
+                variant="soft"
+                color="gray"
+              >
                 Cancel
-              </Button>
+              </AppButton>
             </Dialog.Close>
 
-            <Button onClick={form.handleSubmit(onSubmit)}>Go to Editor</Button>
+            <AppButton onClick={form.handleSubmit(onSubmit)}>
+              Go to Editor
+            </AppButton>
           </Flex>
         </form>
       </Dialog.Content>

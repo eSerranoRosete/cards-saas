@@ -17,18 +17,7 @@ type Props = {
 export const Inner = ({ cards }: Props) => {
   return (
     <div>
-      <PageHeader
-        title="Your Active Cards"
-        actions={
-          <InitCardDialog
-            button={
-              <AppButton icon={<PlusCircle className="w-4" />}>
-                Create Card
-              </AppButton>
-            }
-          />
-        }
-      />
+      <PageHeader title="Your Active Cards" actions={<InitCardDialog />} />
       {cards.length === 0 && <NoCardsBanner />}
       <CardList cards={cards} />
     </div>

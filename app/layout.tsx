@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Providers } from "./Providers";
 
-import "@radix-ui/themes/styles.css";
 import "./globals.css";
+import "@radix-ui/themes/styles.css";
 
 export const metadata: Metadata = {
   title: "Moduly",

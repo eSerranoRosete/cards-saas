@@ -3,6 +3,7 @@
 import { AppButton } from "@/components/application/AppButton";
 import { AppLogo } from "@/components/application/AppLogo";
 import { PasswordButton } from "@/components/application/PasswordButton";
+import { SignatureGradient } from "@/components/application/SignatureGradient";
 import { TextInput } from "@/components/application/form/TextInput";
 import { Button, Flex, IconButton, Text } from "@radix-ui/themes";
 import { ArrowLeft } from "lucide-react";
@@ -55,68 +56,67 @@ export default function SignInPage() {
         </IconButton>
       </Link>
 
-      <div className="w-full max-w-sm pb-4 relative">
-        <div className="absolute -top-24 w-full flex justify-center z-10">
-          <AppLogo />
-        </div>
-        <div className="absolute w-full h-32 blur-xl -top-32 overflow-hidden rounded-t-full bg-gradient-to-r from-indigo-600 via-cyan-500 to-indigo-600">
-          <div className="absolute top-1/4 w-[700px] left-1/2 -translate-x-1/2 aspect-square bg-zinc-950 rounded-full" />
-          <div className="absolute top-1/4 w-[700px] left-1/2 -translate-x-1/2 aspect-square blur-none bg-blue-500 opacity-5 rounded-full" />
+      <div className="w-full max-w-lg pb-4 relative">
+        <div className="w-full flex absolute -translate-y-3/4 items-center justify-center">
+          <SignatureGradient className="m-auto w-full" />
+          <AppLogo className="absolute translate-y-1/2" />
         </div>
 
-        <div className="flex justify-center flex-col items-center gap-2 my-5">
-          <h1 className="text-3xl mt-2 font-semibold">Welcome Back</h1>
-          <p className="text-sm text-default-500">Login to your account</p>
-        </div>
-        <form className="flex flex-col gap-4">
-          <Flex className="w-full" direction="column" gap="5">
-            <TextInput
-              label="Email"
-              placeholder="Enter your email"
-              errorMessage={signInForm.formState.errors.email?.message}
-              {...signInForm.register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                  message: "Enter a valid email",
-                },
-              })}
-            />
-            <TextInput
-              label="Password"
-              placeholder="Enter your password"
-              type={isVisible ? "text" : "password"}
-              errorMessage={signInForm.formState.errors.password?.message}
-              {...signInForm.register("password", {
-                required: "Password is required",
-              })}
-              endContent={
-                <PasswordButton
-                  isVisible={isVisible}
-                  toggleVisibility={toggleVisibility}
-                />
-              }
-            />
+        <div className="w-full max-w-sm m-auto">
+          <div className="flex justify-center flex-col items-center gap-2 my-5">
+            <h1 className="text-3xl mt-2 font-semibold">Welcome Back</h1>
+            <p className="text-sm text-default-500">Login to your account</p>
+          </div>
+          <form className="flex flex-col gap-4">
+            <Flex className="w-full" direction="column" gap="5">
+              <TextInput
+                label="Email"
+                placeholder="Enter your email"
+                errorMessage={signInForm.formState.errors.email?.message}
+                {...signInForm.register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                    message: "Enter a valid email",
+                  },
+                })}
+              />
+              <TextInput
+                label="Password"
+                placeholder="Enter your password"
+                type={isVisible ? "text" : "password"}
+                errorMessage={signInForm.formState.errors.password?.message}
+                {...signInForm.register("password", {
+                  required: "Password is required",
+                })}
+                endContent={
+                  <PasswordButton
+                    isVisible={isVisible}
+                    toggleVisibility={toggleVisibility}
+                  />
+                }
+              />
 
-            <AppButton
-              className="w-full"
-              isLoading={signInForm.formState.isSubmitting}
-              onClick={signInForm.handleSubmit(onLogin)}
-            >
-              Login
-            </AppButton>
-
-            <Text className="text-center text-sm">
-              Need to create an account?{" "}
-              <Link
-                href="/sign-up"
-                className="cursor-pointer underline text-blue-500"
+              <AppButton
+                className="w-full"
+                isLoading={signInForm.formState.isSubmitting}
+                onClick={signInForm.handleSubmit(onLogin)}
               >
-                Register
-              </Link>
-            </Text>
-          </Flex>
-        </form>
+                Login
+              </AppButton>
+
+              <Text className="text-center text-sm">
+                Need to create an account?{" "}
+                <Link
+                  href="/sign-up"
+                  className="cursor-pointer underline text-blue-500"
+                >
+                  Register
+                </Link>
+              </Text>
+            </Flex>
+          </form>
+        </div>
       </div>
     </main>
   );

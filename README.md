@@ -1,6 +1,3 @@
-Certainly! Here's the Markdown code for the README.md:
-
-````markdown
 # Next.js Digital Business Cards Platform
 
 This project was bootstrapped with [Create Next App](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) using the latest version. It is a versatile platform written in TypeScript and incorporates Tailwind CSS for styling and Radix for UI components. The platform provides authentication, database connection, and file storage capabilities, allowing users to create and configure shareable digital business cards.
@@ -71,6 +68,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - The TypeScript team.
 - The Tailwind CSS team.
 - The Radix team.
-
-Happy coding! 🚀
-````
